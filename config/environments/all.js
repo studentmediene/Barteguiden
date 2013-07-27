@@ -19,11 +19,11 @@ module.exports = function () {
 //    this.use(express.favicon());
     this.use(express.bodyParser());
     this.use(express.methodOverride());
-    this.use("/v1", this.router);
+    this.use(this.router);
     
     // Error handling
     this.use(function(err, req, res, next) {
-        console.error(err);
+//        console.error("Error: " + err.code + " " + err.msg + " (" + err.error + ")");
         res.json(err.code, {error: err.msg});
     });
 };
