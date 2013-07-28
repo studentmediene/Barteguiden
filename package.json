@@ -7,10 +7,10 @@
         "express": "3.x.x",
         "connect-powered-by": "0.1.x",
         "async": "~0.2.9",
-        "sequelize": "~1.6.0",
+        "sequelize": "~2.0.0",
         "sqlite3": "~2.1.14"
     },
     "scripts": {
-        "start": "supervisor --watch app/controllers,config,config/environments,config/initializers -- node_modules/locomotive/bin/lcm.js server"
+        "start": "supervisor --watch app,config -- node_modules/locomotive/bin/lcm.js server"
     }
 }

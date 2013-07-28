@@ -1,7 +1,7 @@
 /*global require, module*/
 
-var locomotive = require("locomotive");
-var Controller = locomotive.Controller;
+var app = require("locomotive");
+var Controller = app.Controller;
 
 var RootController = new Controller();
 

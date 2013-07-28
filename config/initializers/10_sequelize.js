@@ -1,48 +1,37 @@
 /*global require, module, __dirname*/
 
-var fs = require("fs");
 var path = require("path");
-var async = require("async");
 var Sequelize = require("sequelize");
 
 // setup sequelize
-module.exports = function(done) {
-    // store reference to sequelize in app instance
-    this.sequelize = new Sequelize(null, null, null, {
+module.exports = function() {
+    // Set up database
+    var sequelize = new Sequelize(null, null, null, {
         dialect : "sqlite",
         storage : "data/barteguiden.db",
         logging : (this.env == "development" ? console.log : false)
     });
     
-    // keep track of all models in a "model registry"
-    var registry  = require(__dirname + "/../../app/models");
-    
-    // find models and load them
     var modelsdir = __dirname + "/../../app/models";
-    var this_     = this;
-    async.forEachSeries(fs.readdirSync(modelsdir).sort(), function(file, next) {
-        /* match .js files only (for now) */
-        if (/\.js$/.test(file))
-        {
-            // let Sequelize import model
-            var model = this_.sequelize.import(path.join(modelsdir, file));
-            
-            // registry model with registry
-            registry.registerModel(model);
-            
-            // sync model (creates tables if they don't yet exist)
-            model.sync()
-            .success(function() {
-                next();
-            })
-            .error(function(error) {
-                next(error);
-            });
-        }
-        else {
-            next();
-        }
-    }, function() {
-        done();
+    var modelNames = ["User", "Event"];
+    
+    var models = {};
+    modelNames.forEach(function (modelName) {
+        var model = sequelize.import(path.join(modelsdir, modelName));
+        model.sync({force: true}); // TODO: Remove force-flag
+        
+        models[modelName] = model;
     });
+    
+    // Describe relationships
+//    (function(m) {
+//        m.PhoneNumber.belongsTo(m.User);
+//        m.Task.belongsTo(m.User);
+//        m.User.hasMany(m.Task);
+//        m.User.hasMany(m.PhoneNumber);
+//    })(models);
+
+    // Store references in app instance
+    this.sequelize = sequelize;
+    this.models = models;
 };

@@ -1,22 +1,19 @@
 /*global require, module*/
 
-var locomotive = require("locomotive");
-var Controller = locomotive.Controller;
+var app = require("locomotive");
+var Controller = app.Controller;
 
 var EventsController = new Controller();
 
-var User = require("../models").User;
+var Event = app.models.Event;
 
 EventsController.index = function () {
 //    this.res.json(events);
     var self = this;
     
-    var path = this.eventsPath();
-    this.res.json(path);
-    console.log("stopped?");
-    User.findAll()
+    Event.findAll()
         .success(function(users) {
-            self.res.json({users : users});
+            self.res.json({users: users});
         })
         .error(function(error) {
             self.next(error);
@@ -26,15 +23,17 @@ EventsController.index = function () {
 EventsController.show = function () {
     var self = this;
 //    var params  = this.req.body;
-    var path = this.eventsPath();
+//    var path = this.eventsPath();
     
-    this.res.json("test");
-    User.create({username: 32, password: "hemmelig"})
-        .success(function(user) {
+    Event.create({
+        title: "b",
+        startAt: Date.parse("2013-07-28T16:00:00Z"),
+    })
+        .success(function(event) {
             self.success();
         })
         .error(function(error) {
-            self.failure(403, "test", error);
+            self.failure(404, "TODO" + error, error);
         });
 };
 
@@ -46,5 +45,40 @@ EventsController.show = function () {
 //EventsController.before(["index", "show"], function(next) {
 //    this.failure(404, "Not found");
 //});
+
+EventsController.create = function() {
+    var self = this;
+    var params = this.req.body;
+//    var path = this.eventsPath();
+    
+    Event.create(params)
+        .success(function(event) {
+            self.success();
+        })
+        .error(function(error) {
+            self.failure(404, "TODO", error);
+        });
+};
+
+EventsController.update = function() {
+    var self   = this;
+    var params  = this.req.body;
+//    var path    = this.eventsPath();
+    
+    Event.find(this.param('id'))
+        .success(function(event) {
+            event.updateAttributes(params)
+                .success(function() {
+                    self.success();
+                })
+                .error(function(error) {
+                    self.failure(404, "TODO", error);
+                });
+        })
+        .error(function(error) {
+            self.failure(404, "TODO", error);
+        });
+};
+
 
 module.exports = EventsController;
