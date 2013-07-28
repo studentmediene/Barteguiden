@@ -6,7 +6,6 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                notNull: true,
                 notEmpty: true
             }
         },

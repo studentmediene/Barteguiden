@@ -1,6 +1,7 @@
 /*global require, module*/
 
 var app = require("locomotive");
+
 var Controller = app.Controller;
 
 var EventsController = new Controller();
@@ -12,8 +13,8 @@ EventsController.index = function () {
     var self = this;
     
     Event.findAll()
-        .success(function(users) {
-            self.res.json({users: users});
+        .success(function(events) {
+            self.res.json({events: events});
         })
         .error(function(error) {
             self.next(error);
@@ -21,20 +22,9 @@ EventsController.index = function () {
 };
 
 EventsController.show = function () {
-    var self = this;
 //    var params  = this.req.body;
 //    var path = this.eventsPath();
-    
-    Event.create({
-        title: "b",
-        startAt: Date.parse("2013-07-28T16:00:00Z"),
-    })
-        .success(function(event) {
-            self.success();
-        })
-        .error(function(error) {
-            self.failure(404, "TODO" + error, error);
-        });
+    this.res.json("Show");
 };
 
 //EventsController.before("*", function(next) {
@@ -65,7 +55,7 @@ EventsController.update = function() {
     var params  = this.req.body;
 //    var path    = this.eventsPath();
     
-    Event.find(this.param('id'))
+    Event.find(this.param("id"))
         .success(function(event) {
             event.updateAttributes(params)
                 .success(function() {

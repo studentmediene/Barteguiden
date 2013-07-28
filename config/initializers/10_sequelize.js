@@ -3,7 +3,6 @@
 var path = require("path");
 var Sequelize = require("sequelize");
 
-// setup sequelize
 module.exports = function() {
     // Set up database
     var sequelize = new Sequelize(null, null, null, {
@@ -12,14 +11,13 @@ module.exports = function() {
         logging : (this.env == "development" ? console.log : false)
     });
     
+    // Import models
     var modelsdir = __dirname + "/../../app/models";
     var modelNames = ["User", "Event"];
     
     var models = {};
     modelNames.forEach(function (modelName) {
         var model = sequelize.import(path.join(modelsdir, modelName));
-        model.sync({force: true}); // TODO: Remove force-flag
-        
         models[modelName] = model;
     });
     
