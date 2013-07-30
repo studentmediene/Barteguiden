@@ -63,5 +63,11 @@ module.exports = function(sequelize, Sequelize) {
 //                isUrl: false
 //            }
 //        }
+    }, {
+        instanceMethods: {
+//            toJSON: function () {
+//                return {"test": "abc"};
+//            }
+        }
     });
 };

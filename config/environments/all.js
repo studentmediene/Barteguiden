@@ -3,6 +3,7 @@
 var express = require("express");
 var poweredBy = require("connect-powered-by");
 var util = require("util");
+var passport = require("passport");
 
 module.exports = function () {
     // Warn of version mismatch between global "lcm" binary and local installation
@@ -17,13 +18,17 @@ module.exports = function () {
     this.use(poweredBy(null));
     this.use(express.logger());
 //    this.use(express.favicon());
+    this.use(express.cookieParser());
     this.use(express.bodyParser());
     this.use(express.methodOverride());
+    this.use(express.session({secret: "keyboard cat"})); // TODO: Set a better password
+    this.use(passport.initialize());
+    this.use(passport.session());
     this.use(this.router);
     
     // Error handling
     this.use(function(err, req, res, next) {
-//        console.error("Error: " + err.code + " " + err.msg + " (" + err.error + ")");
-        res.json(err.code, {error: err.msg});
+        console.log(err);
+        res.json(500, { error: "Internal server error" });
     });
 };
