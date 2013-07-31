@@ -7,15 +7,15 @@ module.exports = function() {
     this.logIn = function(req, res, next) {
         passport.authenticate("local", function(err, user, info) {
             if (err) {
-                return next(Error.http(401, "Authentication failed", err));
+                return next(Error.http(401, null, err));
             }
             if (!user) {
-                return next(Error.http(401, "Authentication failed"));
+                return next(Error.http(401));
             }
             
             req.logIn(user, function(err) {
                 if (err) {
-                    return next(Error.http(401, "Authentication failed", err));
+                    return next(Error.http(401, null, err));
                 }
                 
                 return res.json({ ok: true });
@@ -33,7 +33,7 @@ module.exports = function() {
             return next();
         }
         else {
-            next(Error.http(401, "Authorization failed"));
+            next(Error.http(403));
         }
     };
 };

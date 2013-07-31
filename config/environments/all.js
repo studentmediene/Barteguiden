@@ -39,6 +39,7 @@ module.exports = function () {
     
     // Error handling
     this.use(function(err, req, res, next) {
+        console.log(err);
         if (err) {
             var statusCode = parseInt(err.status, 10);
             if (typeof(err.message) === "string" && isNaN(statusCode) === false) {
