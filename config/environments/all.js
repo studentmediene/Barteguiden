@@ -24,7 +24,18 @@ module.exports = function () {
     this.use(express.session({secret: "keyboard cat"})); // TODO: Set a better password
     this.use(passport.initialize());
     this.use(passport.session());
+    
+    // TODO: Temp fix
+    // Set default response charset
+    this.use(function (req, res, next) {
+        res.charset = "utf-8";
+        next();
+    });
+    
     this.use(this.router);
+    
+    
+    
     
     // Error handling
     this.use(function(err, req, res, next) {

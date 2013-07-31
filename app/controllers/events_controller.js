@@ -11,11 +11,6 @@ var Event = app.models.Event;
 
 EventsController.before("show", app.ensureAuthenticated);
 
-//EventsController.before("*", function(next) {
-//    this.res.charset = "UTF-8";
-//    next();
-//});
-
 EventsController.index = function () {
 //    this.res.json(events);
     var self = this;
