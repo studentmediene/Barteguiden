@@ -1,4 +1,6 @@
-/*global module*/
+/*global require, module*/
+
+var util = require("util");
 
 module.exports = function(sequelize, Sequelize) {
     var createLanguageObject = function (lang) {
@@ -8,6 +10,12 @@ module.exports = function(sequelize, Sequelize) {
                 text: text
             };
         };
+    };
+    
+    var baseURL = "http://localhost:3000";
+//    var baseURL = "http://barteguiden.no/v1";
+    var createImageURL = function (id) {
+        return util.format("%s/events/%s.jpg", baseURL, id);
     };
     
     return sequelize.define("Event", {
@@ -88,7 +96,7 @@ module.exports = function(sequelize, Sequelize) {
                     { source: "categoryID", target: "categoryID" },
                     { source: "description_en", target: "description", transform: createLanguageObject("en"), type: "add" },
                     { source: "description_no", target: "description", transform: createLanguageObject("no"), type: "add" },
-                    { source: "imageURL", target: "imageURL" },
+                    { source: "id", target: "imageURL", transform: createImageURL },
                     { source: "eventURL", target: "eventURL" }
                 ];
                 

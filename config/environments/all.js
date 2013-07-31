@@ -1,4 +1,4 @@
-/*global require, module, console*/
+/*global require, module, __dirname*/
 
 var express = require("express");
 var poweredBy = require("connect-powered-by");
@@ -18,24 +18,22 @@ module.exports = function () {
     this.use(poweredBy(null));
     this.use(express.logger());
 //    this.use(express.favicon());
+    this.use("/events", express.static(__dirname + "/../../data/images"));
     this.use(express.cookieParser());
     this.use(express.bodyParser());
     this.use(express.methodOverride());
-    this.use(express.session({secret: "keyboard cat"})); // TODO: Set a better password
+    this.use(express.session({ secret: "keyboard cat" })); // TODO: Set a better password
     this.use(passport.initialize());
     this.use(passport.session());
     
     // TODO: Temp fix
     // Set default response charset
-    this.use(function (req, res, next) {
-        res.charset = "utf-8";
-        next();
-    });
+//    this.use(function (req, res, next) {
+//        res.charset = "utf-8";
+//        next();
+//    });
     
     this.use(this.router);
-    
-    
-    
     
     // Error handling
     this.use(function(err, req, res, next) {
