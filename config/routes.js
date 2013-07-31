@@ -1,7 +1,6 @@
 /*global require, module*/
 
 var app = require("locomotive");
-var passport = require("passport");
 
 // Draw routes.  Locomotive's router provides expressive syntax for drawing
 // routes, including support for resourceful routes, namespaces, and nesting.
@@ -11,17 +10,13 @@ var passport = require("passport");
 // Guide on [routing](http://locomotivejs.org/guide/routing.html) for additional
 // information.
 module.exports = function routes() {
-//    this.post("/login2", passport.authenticate("local"), function(req, res) {
-//        res.json(req.user);
-//    });
-    
     this.post("/login", app.logIn);
     
     this.post('/logout', app.logOut);
     
     this.get("/isloggedin", app.ensureAuthenticated, function (req, res) {
         console.log(req.user);
-        res.json({ok: true});
+        res.json({ ok: true });
     });
     
     this.resources("events", {except: ["new", "edit"]});

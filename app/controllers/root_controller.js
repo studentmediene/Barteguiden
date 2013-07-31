@@ -7,7 +7,7 @@ var RootController = new Controller();
 
 RootController.main = function () {
     this.res.charset = "UTF-8";
-    this.res.json({"welcome": "1.0.0"});
+    this.res.json({"welcome": "1.0.1"});
 };
 
 module.exports = RootController;

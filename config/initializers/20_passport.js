@@ -18,8 +18,8 @@ module.exports = function() {
                 return done(null, false);
             }
             return done(null, user);
-        }).error(function (error) {
-            return done(error, false);
+        }).error(function (err) {
+            return done(err, false);
         });
     }));
     
@@ -30,8 +30,8 @@ module.exports = function() {
     passport.deserializeUser(function(id, done) {
         User.find(id).success(function (user) {
             done(null, user);
-        }).error(function (error) {
-            done(error);
+        }).error(function (err) {
+            done(err);
         });
     });
 };

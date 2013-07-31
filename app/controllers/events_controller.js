@@ -24,8 +24,8 @@ EventsController.index = function () {
         .success(function(events) {
             self.res.json({events: events});
         })
-        .error(function(error) {
-            self.next(error);
+        .error(function(err) {
+            self.next(err);
         });
 };
 
@@ -43,8 +43,8 @@ EventsController.show = function () {
 //        .success(function(event) {
 //            self.success();
 //        })
-//        .error(function(error) {
-//            self.failure(404, "TODO", error);
+//        .error(function(err) {
+//            self.failure(404, "TODO", err);
 //        });
 //};
 //
@@ -58,12 +58,12 @@ EventsController.show = function () {
 //                .success(function() {
 //                    self.success();
 //                })
-//                .error(function(error) {
-//                    self.failure(404, "TODO", error);
+//                .error(function(err) {
+//                    self.failure(404, "TODO", err);
 //                });
 //        })
-//        .error(function(error) {
-//            self.failure(404, "TODO", error);
+//        .error(function(err) {
+//            self.failure(404, "TODO", err);
 //        });
 //};
 

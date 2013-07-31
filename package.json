@@ -6,14 +6,14 @@
         "locomotive": "0.3.x",
         "express": "3.x.x",
         "connect-powered-by": "0.1.x",
-        "async": "~0.2.9",
         "sequelize": "~2.0.0",
         "sqlite3": "~2.1.14",
         "passport": "~0.1.17",
-        "passport-local": "~0.1.6"
+        "passport-local": "~0.1.6",
+        "simple-errors": "~0.0.4"
     },
     "scripts": {
         "start": "supervisor --ignore . -- node_modules/locomotive/bin/lcm.js server",
-        "debug": "supervisor --debug --watch app,config -- node_modules/locomotive/bin/lcm.js server"
+        "debug": "supervisor --watch app,config --exec node-theseus -- node_modules/locomotive/bin/lcm.js server"
     }
 }

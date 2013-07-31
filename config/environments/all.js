@@ -28,7 +28,14 @@ module.exports = function () {
     
     // Error handling
     this.use(function(err, req, res, next) {
-        console.log(err);
-        res.json(500, { error: "Internal server error" });
+        if (err) {
+            var statusCode = parseInt(err.status, 10);
+            if (typeof(err.message) === "string" && isNaN(statusCode) === false) {
+                res.json(statusCode, { error: err.message });
+            }
+        }
+        else {
+            res.json(500, { error: "Internal Server Error" });
+        }
     });
 };

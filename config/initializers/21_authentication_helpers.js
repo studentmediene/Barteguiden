@@ -1,17 +1,24 @@
 /*global require, module*/
 
+require("simple-errors");
 var passport = require("passport");
 
 module.exports = function() {
     this.logIn = function(req, res, next) {
         passport.authenticate("local", function(err, user, info) {
-            if (err) { res.json(403, { error: "Authentication failed" }); }
-            if (!user) { res.json(403, { error: "Authentication failed" }); }
+            if (err) {
+                return next(Error.http(403, "Authentication failed", err));
+            }
+            if (!user) {
+                return next(Error.http(403, "Authentication failed"));
+            }
             
             req.logIn(user, function(err) {
-                if (err) { res.json(403, { error: "Authentication failed" }); }
+                if (err) {
+                    return next(Error.http(403, "Authentication failed", err));
+                }
                 
-                res.json({ ok: true });
+                return res.json({ ok: true });
             });
         })(req, res, next);
     };
@@ -26,7 +33,7 @@ module.exports = function() {
             return next();
         }
         else {
-            res.send(403, "Authorization failed");
+            next(Error.http(403, "Authentication failed"));
         }
     };
 };
