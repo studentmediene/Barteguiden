@@ -1,6 +1,15 @@
 /*global module*/
 
 module.exports = function(sequelize, Sequelize) {
+    var createLanguageObject = function (lang) {
+        return function (text) {
+            return {
+                lang: lang,
+                text: text
+            };
+        };
+    };
+    
     return sequelize.define("Event", {
         title: {
             type: Sequelize.STRING,
@@ -65,9 +74,50 @@ module.exports = function(sequelize, Sequelize) {
 //        }
     }, {
         instanceMethods: {
-//            toJSON: function () {
-//                return {"test": "abc"};
-//            }
+            toJSON: function () {
+                var fields = [
+                    { source: "id", target: "eventID" },
+                    { source: "title", target: "title" },
+                    { source: "startAt", target: "startAt" },
+                    { source: "placeName", target: "placeName" },
+                    { source: "address", target: "address" },
+                    { source: "latitude", target: "latitude" },
+                    { source: "longitude", target: "longitude" },
+                    { source: "ageLimit", target: "ageLimit" },
+                    { source: "price", target: "price" },
+                    { source: "categoryID", target: "categoryID" },
+                    { source: "description_en", target: "description", transform: createLanguageObject("en"), type: "add" },
+                    { source: "description_no", target: "description", transform: createLanguageObject("no"), type: "add" },
+                    { source: "imageURL", target: "imageURL" },
+                    { source: "eventURL", target: "eventURL" }
+                ];
+                
+                var self = this;
+                var output = {};
+                fields.forEach(function (field) {
+                    var value = self[field.source];
+                    
+                    if (value) {
+                        if (field.transform) {
+                            value = field.transform(value);
+                        }
+                        
+                        if (field.type === "add") {
+                            if (typeof(output[field.target]) !== "array") {
+                                output[field.target] = [];
+                            }
+                            
+                            output[field.target].push(value);
+                        }
+                        // Default to: set
+                        else {
+                            output[field.target] = value;
+                        }
+                    }
+                });
+                
+                return output;
+            }
         }
-    });
+    }); 
 };
