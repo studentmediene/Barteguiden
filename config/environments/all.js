@@ -32,10 +32,10 @@ module.exports = function () {
             var statusCode = parseInt(err.status, 10);
             if (typeof(err.message) === "string" && isNaN(statusCode) === false) {
                 res.json(statusCode, { error: err.message });
+                return;
             }
         }
-        else {
-            res.json(500, { error: "Internal Server Error" });
-        }
+        
+        res.json(500, { error: "Internal server error" });
     });
 };
