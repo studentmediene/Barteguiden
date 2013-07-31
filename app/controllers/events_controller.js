@@ -1,5 +1,6 @@
 /*global require, module*/
 
+require("simple-errors");
 var app = require("locomotive");
 
 var Controller = app.Controller;
@@ -9,7 +10,7 @@ var EventsController = new Controller();
 var Event = app.models.Event;
 
 
-EventsController.before("show", app.ensureAuthenticated);
+//EventsController.before("show", app.ensureAuthenticated);
 
 EventsController.index = function () {
 //    this.res.json(events);
@@ -17,10 +18,10 @@ EventsController.index = function () {
     
     Event.findAll()
         .success(function(events) {
-            self.res.json({events: events});
+            self.res.json({ events: events });
         })
         .error(function(err) {
-            self.next(err);
+            self.next(Error.http(500, null, err));
         });
 };
 
