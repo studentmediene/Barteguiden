@@ -1,5 +1,6 @@
 /*global require, module, __dirname*/
 
+var locomotive = require("locomotive");
 var path = require("path");
 var Sequelize = require("sequelize");
 
@@ -15,9 +16,10 @@ module.exports = function() {
     var modelsdir = __dirname + "/../../app/models";
     var modelNames = ["User", "Event"];
     
+    console.log(locomotive._helpers.underscore);
     var models = {};
     modelNames.forEach(function (modelName) {
-        var model = sequelize.import(path.join(modelsdir, modelName));
+        var model = sequelize.import(path.join(modelsdir, modelName.toLowerCase()));
         models[modelName] = model;
     });
     
