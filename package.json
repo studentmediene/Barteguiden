@@ -6,7 +6,7 @@
         "locomotive": "0.3.x",
         "express": "3.x.x",
         "connect-powered-by": "0.1.x",
-        "sequelize": "~2.0.0",
+        "sequelize": "~1.7.0",
         "sqlite3": "~2.1.14",
         "passport": "~0.1.17",
         "passport-local": "~0.1.6",

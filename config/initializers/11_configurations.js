@@ -15,6 +15,8 @@ module.exports = function (done) {
             title: "Semesterstart",
             startAt: new Date(Date.parse("2013-08-13 20:00")),
             placeName: "Studentersamfundet",
+            latitude: 63.422634,
+            longitude: 10.394697,
         });
         Event.create({
             title: "CV- og jobbsøkerkurs med Effect Bemanning",
@@ -36,6 +38,8 @@ module.exports = function (done) {
             title: "Dagen etter semesterstart",
             startAt: new Date(Date.parse("2013-08-14 20:00")),
             placeName: "Studentersamfundet",
+            latitude: 63.422634,
+            longitude: 10.394697,
         }).error(function (err) {
             console.log(err);
         });

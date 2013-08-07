@@ -50,7 +50,7 @@ EventsController.create = function() {
     var self = this;
     var params = this.req.body;
     
-    Event.create(params)
+    Event.create(Event.fromJSON(params))
         .success(function(event) {
             self.res.charset = "utf8"; // TODO: Move to a more central place?
             self.res.json(event);
