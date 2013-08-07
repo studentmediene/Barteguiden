@@ -26,11 +26,7 @@ EventsController.index = function () {
 
 EventsController.show = function () {
     var self = this;
-    var id  = parseInt(this.req.param("id"), 10);
-    if (isNaN(id)) {
-        this.next(Error.http(400));
-        return;
-    }
+    var id = this.req.param("id");
     
     Event.find(id)
         .success(function (event) {
@@ -60,24 +56,30 @@ EventsController.create = function() {
         });
 };
 
-//EventsController.update = function() {
-//    var self   = this;
-//    var params  = this.req.body;
-//    
-//    Event.find(this.param("id"))
-//        .success(function(event) {
-//            event.updateAttributes(params)
-//                .success(function() {
-//                    self.success();
-//                })
-//                .error(function(err) {
-//                    self.failure(404, "TODO", err);
-//                });
-//        })
-//        .error(function(err) {
-//            self.failure(404, "TODO", err);
-//        });
-//};
-
+EventsController.update = function() {
+    var self = this;
+    var params = this.req.body;
+    var id = this.req.param("id");
+    
+    Event.find(id)
+        .success(function(event) {
+            if (event === null) {
+                self.next(Error.http(404));
+                return;
+            }
+            
+            event.updateAttributes(Event.fromJSON(params))
+                .success(function(updatedEvent) {
+                    self.res.charset = "utf8"; // TODO: Move to a more central place?
+                    self.res.json(updatedEvent);
+                })
+                .error(function(err) {
+                    self.next(500, null, err);
+                });
+        })
+        .error(function(err) {
+            self.next(500, null, err);
+        });
+};
 
 module.exports = EventsController;

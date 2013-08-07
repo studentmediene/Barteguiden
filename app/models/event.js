@@ -130,7 +130,6 @@ module.exports = function(sequelize, Sequelize) {
                 };
                 
                 var mapping = [
-                    { fromKey: "eventID", toKey: "id" },
                     { fromKey: "title", toKey: "title" },
                     { fromKey: "startAt", toKey: "startAt", transform: convertToDate },
                     { fromKey: "placeName", toKey: "placeName" },
