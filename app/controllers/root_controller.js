@@ -6,7 +6,7 @@ var Controller = app.Controller;
 var RootController = new Controller();
 
 RootController.main = function () {
-    this.res.json({"welcome": "1.0.1"});
+    this.res.json({ welcome: "1.0.2" });
 };
 
 module.exports = RootController;
