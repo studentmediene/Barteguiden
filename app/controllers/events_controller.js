@@ -10,15 +10,20 @@ var EventsController = new Controller();
 var Event = app.models.Event;
 
 
-//EventsController.before(["create", "update", "destroy"], app.ensureAuthenticated);
+EventsController.before(["create", "update", "destroy"], app.ensureAuthenticated);
 
 EventsController.index = function () {
     var controller = this;
     
-    Event.findAll()
+    var publicQuery = { where: ["startAt > ? and isPublished = 1", new Date()] };
+    var query = (controller.req.isAuthenticated()) ? undefined : publicQuery;
+    
+    Event.findAll(query)
         .success(function(events) {
+            var eventViewModelTransform = (controller.req.isAuthenticated()) ? eventViewModel.fromDatabaseToAdmin : eventViewModel.fromDatabaseToPublic;
+            
             controller.res.charset = "utf8"; // TODO: Move to a more central place?
-            controller.res.json({ events: events.map(eventViewModel.fromDatabaseToPublic) });
+            controller.res.json({ events: events.map(eventViewModelTransform) });
         })
         .error(function(err) {
             controller.next(Error.http(500, null, err));
@@ -29,9 +34,11 @@ EventsController.show = function () {
     var controller = this;
     var id = controller.req.param("id");
     
-    findEvent(id, controller, function (event) {
+    findEvent(controller, id, function (event) {
+        var eventViewModelTransform = (controller.req.isAuthenticated()) ? eventViewModel.fromDatabaseToAdmin : eventViewModel.fromDatabaseToPublic;
+        
         controller.res.charset = "utf8"; // TODO: Move to a more central place?
-        controller.res.json(eventViewModel.fromDatabaseToPublic(event));
+        controller.res.json(eventViewModelTransform(event));
     });
 };
 
@@ -49,13 +56,12 @@ EventsController.create = function() {
         });
 };
 
-// TODO: Fix that an update removes fields that are not filled in...
 EventsController.update = function() {
     var controller = this;
     var params = controller.req.body;
     var id = controller.req.param("id");
     
-    findEvent(id, controller, function (event) {
+    findEvent(controller, id, function (event) {
         event.updateAttributes(eventViewModel.fromAdminToDatabase(params))
             .success(function(updatedEvent) {
                 controller.res.charset = "utf8"; // TODO: Move to a more central place?
@@ -71,7 +77,7 @@ EventsController.destroy = function() {
     var controller = this;
     var id = controller.req.param("id");
     
-    findEvent(id, controller, function (event) {
+    findEvent(controller, id, function (event) {
         event.destroy()
             .success(function() {
                 controller.res.charset = "utf8"; // TODO: Move to a more central place?
@@ -83,13 +89,17 @@ EventsController.destroy = function() {
     });
 };
 
-var findEvent = function (id, controller, callback) {
-    Event.find(id)
+var findEvent = function (controller, id, callback) {
+    var adminQuery = { where: ["id = ?", id] };
+    var publicQuery = { where: ["id = ? and startAt > ? and isPublished = 1", id, new Date()] };
+    var query = (controller.req.isAuthenticated()) ? adminQuery : publicQuery;
+    
+    Event.find(query)
         .success(function(event) {
             if (event === null) {
                 controller.next(Error.http(404));
                 return;
-            }
+            } 
             
             callback(event);
         })

@@ -76,16 +76,31 @@ var fromAdminToDatabaseMapping = {
         { key: "description_en", transform: getDescription("en") },
         { key: "description_nb", transform: getDescription("nb") }
     ],
-    isRecommended: { key: "isRecommended" },
+    isRecommended: {
+        key: "isRecommended",
+        transform: function (value) { return value || false; }
+    },
     imageURL: { key: "imageURL" },
     eventURL: { key: "eventURL" },
+    isPublished: { key: "isPublished" },
     externalURL: { key: "externalURL" },
     externalID: { key: "externalID" }
 };
 
+var cleanUpOutput = function (output) { // TODO: Fix iOS-version to support null-values
+    for (var key in output) {
+        if(output[key] === null) {
+            delete output[key];
+        }
+    }
+    
+    return output;
+};
+
 module.exports = {
     fromDatabaseToPublic: function (event) {
-        return mapper.merge(event, {}, fromDatabaseToPublicMapping);
+        var output = mapper.merge(event, {}, fromDatabaseToPublicMapping);
+        return cleanUpOutput(output);
     },
     
     fromDatabaseToAdmin: function (event) {
