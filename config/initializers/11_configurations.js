@@ -13,8 +13,9 @@ module.exports = function (done) {
         });
         Event.bulkCreate([{
             title: "Semesterstart",
-            startAt: new Date(Date.parse("2013-08-13 20:00")),
+            startAt: new Date(Date.parse("2013-08-10 20:00")),
             placeName: "Studentersamfundet",
+            address: "Elgeseter gate 1",
             latitude: 63.422634,
             longitude: 10.394697,
         }, {
@@ -30,12 +31,14 @@ module.exports = function (done) {
             description_en: "Wish to get the dream job quicker?",
             description_nb: "Ønsker du å gjøre veien til drømmejobben kortere?",
             isRecommended: true,
+            imageURL: "http://barteguiden.no/v1/events/2.jpg",
             eventURL: "http://www.samfundet.no/arrangement/vis/3611",
             externalID: null,
         }, {
             title: "Dagen etter semesterstart",
             startAt: new Date(Date.parse("2013-08-14 20:00")),
             placeName: "Studentersamfundet",
+            address: "Elgeseter gate 1",
             latitude: 63.422634,
             longitude: 10.394697,
         }]).error(function (err) {

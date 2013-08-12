@@ -1,8 +1,5 @@
 /*global require, module*/
 
-var util = require("util");
-var mapper = require("../libs/mapper.js");
-
 module.exports = function(sequelize, Sequelize) {
     return sequelize.define("Event", {
         title: {
@@ -71,7 +68,7 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.STRING,
             allowNull: true,
             validate: {
-                isIn: [["MUSIC", "NIGHTLIFE", "SPORT", "PERFORMANCES", "PRESENTATIONS", "EXHIBITIONS", "DEBATE", "OTHER"]]
+                isIn: [["SPORT", "PERFORMANCES", "MUSIC", "EXHIBITIONS", "NIGHTLIFE", "PRESENTATIONS", "DEBATE", "OTHER"]]
             }
         },
         description_en: {
@@ -87,7 +84,26 @@ module.exports = function(sequelize, Sequelize) {
             allowNull: false,
             defaultValue: false
         },
+        imageURL: {
+            type: Sequelize.STRING,
+            allowNull: true,
+            validate: {
+                isUrl: true
+            }
+        },
         eventURL: {
+            type: Sequelize.STRING,
+            allowNull: true,
+            validate: {
+                isUrl: true
+            }
+        },
+        isPublished: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        externalURL: {
             type: Sequelize.STRING,
             allowNull: true,
             validate: {
@@ -107,88 +123,6 @@ module.exports = function(sequelize, Sequelize) {
                     throw new Error("Require either both latitude and longitude or neither");
                 }
             }
-        },
-        classMethods: {
-            fromJSON: function (event) {
-                var convertToDate = function (dateString) {
-                    return new Date(Date.parse(dateString));
-                };
-                
-                var getDescription = function (language) {
-                    return function (descriptions) {
-                        if (Object.prototype.toString.call(descriptions) !== "[object Array]") {
-                            return null;
-                        }
-                        
-                        for (var i = 0; i < descriptions.length; i++) {
-                            var description = descriptions[i];
-                            if (description.language === language) {
-                                return description.text;
-                            }
-                        }
-                    };
-                };
-                
-                var mapping = [
-                    { fromKey: "title", toKey: "title" },
-                    { fromKey: "startAt", toKey: "startAt", transform: convertToDate },
-                    { fromKey: "placeName", toKey: "placeName" },
-                    { fromKey: "address", toKey: "address" },
-                    { fromKey: "latitude", toKey: "latitude" },
-                    { fromKey: "longitude", toKey: "longitude" },
-                    { fromKey: "ageLimit", toKey: "ageLimit" },
-                    { fromKey: "price", toKey: "price" },
-                    { fromKey: "categoryID", toKey: "categoryID" },
-                    { fromKey: "descriptions", toKey: "description_en", transform: getDescription("en") },
-                    { fromKey: "descriptions", toKey: "description_nb", transform: getDescription("nb") },
-                    { fromKey: "isRecommended", toKey: "isRecommended" },
-//                    { fromKey: "imageURL", toKey: "imageURL", transform: createImageURL },
-                    { fromKey: "eventURL", toKey: "eventURL" }
-                ];
-                
-                return mapper.createObjectForMapping(event, mapping);
-            }
-        },
-        instanceMethods: {
-            toJSON: function () {
-                var createDescription = function (language) {
-                    return function (text) {
-                        if (!text) {
-                            return null;
-                        }
-                        
-                        return {
-                            language: language,
-                            text: text
-                        };
-                    };
-                };
-                
-                var baseURL = "http://barteguiden.no/v1";
-                var createImageURL = function (id) {
-                    return util.format("%s/events/%s.jpg", baseURL, id);
-                };
-                
-                var mapping = [
-                    { fromKey: "id", toKey: "eventID", transform: function (value) { return value.toString(); } },
-                    { fromKey: "title", toKey: "title" },
-                    { fromKey: "startAt", toKey: "startAt" },
-                    { fromKey: "placeName", toKey: "placeName" },
-                    { fromKey: "address", toKey: "address" },
-                    { fromKey: "latitude", toKey: "latitude" },
-                    { fromKey: "longitude", toKey: "longitude" },
-                    { fromKey: "ageLimit", toKey: "ageLimit" },
-                    { fromKey: "price", toKey: "price" },
-                    { fromKey: "categoryID", toKey: "categoryID" },
-                    { fromKey: "description_en", toKey: "descriptions", transform: createDescription("en"), type: "add" },
-                    { fromKey: "description_nb", toKey: "descriptions", transform: createDescription("nb"), type: "add" },
-                    { fromKey: "isRecommended", toKey: "isRecommended" },
-                    { fromKey: "id", toKey: "imageURL", transform: createImageURL },
-                    { fromKey: "eventURL", toKey: "eventURL" }
-                ];
-                
-                return mapper.createObjectForMapping(this, mapping);
-            }
         }
-    }); 
+    });
 };

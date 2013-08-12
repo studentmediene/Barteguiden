@@ -10,7 +10,9 @@
         "sqlite3": "~2.1.14",
         "passport": "~0.1.17",
         "passport-local": "~0.1.6",
-        "simple-errors": "~0.0.4"
+        "simple-errors": "~0.0.4",
+        "object-mapper": "~0.0.7",
+        "xtend": "~2.0.6"
     },
     "scripts": {
         "start": "supervisor --ignore . -- node_modules/locomotive/bin/lcm.js server",
