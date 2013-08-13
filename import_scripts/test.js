@@ -1,12 +1,11 @@
 /*global require, __dirname*/
 
 var fs = require("fs");
-var eyes = require("eyes");
 //var mapper = require("object-mapper");
 var jsdom = require("jsdom");
 var jquery = fs.readFileSync("./libs/jquery-1.7.min.js", "utf-8");
 
-//fs.readFile(__dirname + "/data/3673.html", function(err, data) {
+//fs.readFile(__dirname + "/data/examples/3673.html", function(err, data) {
 //
 //});
 

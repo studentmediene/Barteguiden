@@ -1,53 +1,67 @@
 /*global require, __dirname*/
 
 var fs = require("fs");
-var eyes = require("eyes");
 var xml2js = require("xml2js");
 var mapper = require("object-mapper");
+var serverSync = require("../server_sync");
+
+
+var sourceFile = __dirname + "/../data/examples/rss3.rss";
 
 var parser = new xml2js.Parser();
 
-parser.on("end", function(result) {
-//    eyes.inspect(result);
-    
-    var eventsSource = mapper.getKeyValue(result, "rss.channel.0.item");
-
-    var events = [];
-    for (var i = 0; i < eventsSource.length; i++) {
-        var eventSource = eventsSource[i];
-        var event = mapper.merge(eventSource, {
-//            "placeName": "Studentersamfundet",
-//            "address": "Elgeseter gate 1",
-//            "latitude": 63.422634,
-//            "longitude": 10.394697,
-            "descriptions": [],
-//            "externalURL": "http://samfundet.no/rss"
-        }, mapping);
-        events.push(event);
-    }
-    eyes.inspect(events);
-});
-
-fs.readFile(__dirname + "/data/rss.rss", function(err, data) {
+fs.readFile(sourceFile, function(err, data) {
     parser.parseString(data);
 });
 
-var categoryMapping = {
-    "Konsert": "MUSIC"
+parser.on("end", function(result) {
+    var eventsSource = mapper.getKeyValue(result, "rss.channel.0.item");
+    var externalEvents = getEventsFromEventsSource(eventsSource);
+    
+//    fs.writeFile(__dirname + "/data/sync/samfundet.json", JSON.stringify(samfundetEvents));
+    serverSync.sync(externalEvents, "http://samfundet.no/rss");
+});
+
+var getEventsFromEventsSource = function (eventsSource) {
+    var samfundetEvents = [];
+    for (var i = 0; i < eventsSource.length; i++) {
+        var eventSource = eventsSource[i];
+        var event = mapper.merge(eventSource, {
+            placeName: "Studentersamfundet",
+            address: "Elgeseter gate 1",
+            latitude: 63.422634,
+            longitude: 10.394697,
+            externalURL: "http://samfundet.no/rss",
+            isPublished: true
+        }, mapping);
+        samfundetEvents.push(event);
+    }
+    
+    return samfundetEvents;
 };
 
-var createDescription = function (language) {
+var categoryMapping = {
+    "Konsert": "MUSIC",
+    "Film": "PRESENTATIONS",
+    "Møte": "DEBATE",
+    "Happening": "NIGHTLIFE",
+    "Samfundsmøte": "DEBATE",
+    "Excenteraften": "DEBATE",
+    "Temafest": "NIGHTLIFE",
+    "Bokstavelig talt": "DEBATE",
+    "Quiz": "NIGHTLIFE",
+    "Show": "PERFORMANCES"
+};
+
+var addDescription = function (language) {
     return function (value, fromObject, toObject) {
-        if (!value) {
-            return undefined;
-        }
-        
         var output = mapper.getKeyValue(toObject, "descriptions") || [];
-        
-        output.push({
-            language: language,
-            text: value
-        });
+        if (value) {
+            output.push({
+                language: language,
+                text: value
+            });
+        }
         
         return output;
     };
@@ -61,14 +75,21 @@ var mapping = {
         }
     },
     "pubDate.0": {
-        key: "startAt"
+        key: "startAt",
+        transform: function (value) {
+            var currentTime = new Date();
+            var timezoneOffset = currentTime.getTimezoneOffset();
+            var date = new Date(Date.parse(value) + timezoneOffset * 60 * 1000);
+            return date.toISOString();
+        }
     },
     "agelimit.0": {
         key: "ageLimit",
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
-            return (!isNaN(ageLimit)) ? ageLimit : null;
-        }
+            return (!isNaN(ageLimit)) ? ageLimit : undefined;
+        },
+        default: function () { return 0; } // TODO: Remove when iOS-application supports null-values
     },
     "prices.0.price": {
         key: "price",
@@ -89,7 +110,8 @@ var mapping = {
             }
             
             return undefined;
-        }
+        },
+        default: function () { return 0; } // TODO: Remove when iOS-application supports null-values
     },
     "category.0": {
         key: "categoryID",
@@ -99,7 +121,7 @@ var mapping = {
     },
     "description.0": {
         key: "descriptions",
-        transform: createDescription("nb")
+        transform: addDescription("nb")
     },
     "link.0": {
         key: "eventURL"

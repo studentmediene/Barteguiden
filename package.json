@@ -4,8 +4,13 @@
     "private": true,
     "dependencies": {
         "xml2js": "~0.2.8",
-        "eyes": "~0.1.8",
+        "csv": "~0.3.5",
         "object-mapper": "~0.0.7",
-        "jsdom": "~0.8.3"
+        "objectdiff": "~1.1.0",
+        "jsdom": "~0.8.3",
+        "request": "~2.26.0",
+        "underscore": "~1.5.1",
+        "xtend": "~2.0.6",
+        "jsonschema": "~0.4.0"
     }
 }
