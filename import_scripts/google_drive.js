@@ -2,139 +2,174 @@
 
 //var fs = require("fs");
 var csv = require("csv");
-//var mapper = require("object-mapper");
-//var serverSync = require("../server_sync");
+var mapper = require("object-mapper");
+var request = require("request");
+var serverSync = require("../server_sync");
 
+//var sourceFile = __dirname + "/../data/examples/Events.csv";
+var externalURL = "https://docs.google.com/spreadsheet/pub?key=0As_yy93hIfpddFRwc2hhMnpoOXpMWFQyOC1WUFN1TkE&output=csv";
 
-var sourceFile = __dirname + "/../data/examples/Events.csv";
-
-csv().from('#Welcome\n"1","2","3","4"\n"a","b","c","d"')
-    .to(function (data) {
-        console.log(data);
+var getEventsFromExternalSource = function (callback) {
+    request({
+        method: "GET",
+        uri: externalURL,
+        encoding: "utf8"
+    }, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            callback(body);
+        }
     });
+};
 
-//var parser = new xml2js.Parser();
-//
-//fs.readFile(sourceFile, function(err, data) {
-//    parser.parseString(data);
-//});
-//
-//parser.on("end", function(result) {
-//    var eventsSource = mapper.getKeyValue(result, "rss.channel.0.item");
-//    var externalEvents = getEventsFromEventsSource(eventsSource);
-//    
-////    fs.writeFile(__dirname + "/data/sync/samfundet.json", JSON.stringify(samfundetEvents));
-//    serverSync.sync(externalEvents, "http://samfundet.no/rss");
-//});
-//
-//var getEventsFromEventsSource = function (eventsSource) {
-//    var samfundetEvents = [];
-//    for (var i = 0; i < eventsSource.length; i++) {
-//        var eventSource = eventsSource[i];
-//        var event = mapper.merge(eventSource, {
-//            placeName: "Studentersamfundet",
-//            address: "Elgeseter gate 1",
-//            latitude: 63.422634,
-//            longitude: 10.394697,
-//            externalURL: "http://samfundet.no/rss",
-//            isPublished: true
-//        }, mapping);
-//        samfundetEvents.push(event);
-//    }
-//    
-//    return samfundetEvents;
-//};
-//
-//var categoryMapping = {
-//    "Konsert": "MUSIC",
-//    "Film": "PRESENTATIONS",
-//    "Møte": "DEBATE",
-//    "Happening": "NIGHTLIFE",
-//    "Samfundsmøte": "DEBATE",
-//    "Excenteraften": "DEBATE",
-//    "Temafest": "NIGHTLIFE",
-//    "Bokstavelig talt": "DEBATE",
-//    "Quiz": "NIGHTLIFE",
-//    "Show": "PERFORMANCES"
-//};
-//
-//var addDescription = function (language) {
-//    return function (value, fromObject, toObject) {
-//        var output = mapper.getKeyValue(toObject, "descriptions") || [];
-//        if (value) {
-//            output.push({
-//                language: language,
-//                text: value
-//            });
-//        }
-//        
-//        return output;
-//    };
-//};
-//
-//var mapping = {
-//    "title.0": {
-//        key: "title",
-//        transform: function (value) {
-//            return value.replace(/^.*?-/, "").trim();
-//        }
-//    },
-//    "pubDate.0": {
-//        key: "startAt",
-//        transform: function (value) {
-//            var currentTime = new Date();
-//            var timezoneOffset = currentTime.getTimezoneOffset();
-//            var date = new Date(Date.parse(value) + timezoneOffset * 60 * 1000);
-//            return date.toISOString();
-//        }
-//    },
-//    "agelimit.0": {
-//        key: "ageLimit",
-//        transform: function (value) {
-//            var ageLimit = parseInt(value, 10);
-//            return (!isNaN(ageLimit)) ? ageLimit : undefined;
-//        },
-//        default: function () { return 0; } // TODO: Remove when iOS-application supports null-values
-//    },
-//    "prices.0.price": {
-//        key: "price",
-//        transform: function (value) {
-//            if (!value) {
-//                return undefined;
-//            }
-//            
-//            for (var i = 0; i < value.length; i++) {
-//                var priceSource = value[i];
-//                var priceType = mapper.getKeyValue(priceSource, "$.rel");
-//                if (priceType === "For envher pris") {
-//                    var price = parseInt(mapper.getKeyValue(priceSource, "_"), 10);
-//                    if (!isNaN(price)) {
-//                        return price;
-//                    }
-//                }
-//            }
-//            
-//            return undefined;
-//        },
-//        default: function () { return 0; } // TODO: Remove when iOS-application supports null-values
-//    },
-//    "category.0": {
-//        key: "categoryID",
-//        transform: function (value) {
-//            return categoryMapping[value];
-//        }
-//    },
-//    "description.0": {
-//        key: "descriptions",
-//        transform: addDescription("nb")
-//    },
-//    "link.0": {
-//        key: "eventURL"
-//    },
-//    "link.1.$.href": {
-//        key: "imageURL"
-//    },
-//    "guid.0": {
-//        key: "externalID"
-//    },
-//};
+var parseEvents = function (eventData, callback) {
+    var events = [];
+    csv()
+        .from(eventData)
+        .transform(function(row) {
+            var dateString = row[1] + " " + row[2];
+            row.splice(1, 2, dateString);
+            return row;
+        })
+        .on("record", function(row, index) {
+            // Skip header row
+            if (index === 0) {
+                return;
+            }
+            
+            var externalID = (index + 1).toString();
+            var imageURL = "http://barteguiden.no/v1/images/" + externalID + ".jpg";
+            
+            var event = mapper.merge(row, {
+                imageURL: imageURL,
+                externalURL: externalURL,
+                externalID: externalID
+            }, mapping);
+            events.push(event);
+        })
+        .on("end", function() {
+            callback(events);
+        })
+        .on("error", function(error) {
+            console.log(error.message);
+        });
+};
+
+//var data = fs.createReadStream(sourceFile);
+getEventsFromExternalSource(function (data) {
+    parseEvents(data, function (events) {
+//        console.log(events);
+        
+        serverSync.sync(events, externalURL);
+    });
+});
+
+
+var addDescription = function (language) {
+    return function (value, fromObject, toObject) {
+        var output = mapper.getKeyValue(toObject, "descriptions") || [];
+        if (value) {
+            output.push({
+                language: language,
+                text: value
+            });
+        }
+        
+        return output;
+    };
+};
+
+var mapping = {
+    "0": {
+        key: "title"
+    },
+    "1": {
+        key: "startAt",
+        transform: function (value) {
+            var date = new Date(Date.parse(value));
+            return date.toISOString();
+        }
+    },
+    "2": {
+        key: "placeName"
+    },
+    "3": {
+        key: "address"
+    },
+    "4": {
+        key: "latitude",
+        transform: function (value) {
+            var latitude = parseFloat(value);
+            if (!isNaN(latitude)) {
+                return latitude;
+            }
+            
+            return undefined;
+        },
+        "default": function () { return null; } // TODO: Remove when iOS-application supports null-values
+    },
+    "5": {
+        key: "longitude",
+        transform: function (value) {
+            var longitude = parseFloat(value);
+            if (!isNaN(longitude)) {
+                return longitude;
+            }
+            
+            return undefined;
+        },
+        "default": function () { return null; } // TODO: Remove when iOS-application supports null-values
+    },
+    "6": {
+        key: "ageLimit",
+        transform: function (value) {
+            var ageLimit = parseInt(value, 10);
+            return (!isNaN(ageLimit)) ? ageLimit : undefined;
+        },
+        "default": function () { return 0; } // TODO: Remove when iOS-application supports null-values
+    },
+    "7": {
+        key: "price",
+        transform: function (value) {
+            var cleanValue = value.replace("kr", "");
+            var price = parseInt(cleanValue, 10);
+            return (!isNaN(price)) ? price : undefined;
+        },
+        "default": function () { return 0; } // TODO: Remove when iOS-application supports null-values
+    },
+    "8": {
+        key: "categoryID",
+        transform: function (value) {
+            return value.toUpperCase(); // TODO: Validate category?
+        }
+    },
+    "9": {
+        key: "descriptions",
+        transform: addDescription("nb")
+    },
+    "10": {
+        key: "descriptions",
+        transform: addDescription("en")
+    },
+    "11": {
+        key: "isRecommended",
+        transform: function (value) {
+            return (value.toLowerCase() === "yes") ? true: false;
+        }
+    },
+    "12": {
+        key: "eventURL",
+        transform: function (value) {
+            if (String(value).length == 0) {
+                return undefined;
+            }
+            
+            return String(value);
+        }
+    },
+    "13": {
+        key: "isPublished",
+        transform: function (value) {
+            return (value.toLowerCase() === "yes") ? true: false;
+        }
+    }
+};

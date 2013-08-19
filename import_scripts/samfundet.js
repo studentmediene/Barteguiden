@@ -7,6 +7,7 @@ var serverSync = require("../server_sync");
 
 
 var sourceFile = __dirname + "/../data/examples/rss3.rss";
+var externalURL = "http://samfundet.no/rss";
 
 var parser = new xml2js.Parser();
 
@@ -19,7 +20,7 @@ parser.on("end", function(result) {
     var externalEvents = getEventsFromEventsSource(eventsSource);
     
 //    fs.writeFile(__dirname + "/data/sync/samfundet.json", JSON.stringify(samfundetEvents));
-    serverSync.sync(externalEvents, "http://samfundet.no/rss");
+    serverSync.sync(externalEvents, externalURL);
 });
 
 var getEventsFromEventsSource = function (eventsSource) {
@@ -31,7 +32,7 @@ var getEventsFromEventsSource = function (eventsSource) {
             address: "Elgeseter gate 1",
             latitude: 63.422634,
             longitude: 10.394697,
-            externalURL: "http://samfundet.no/rss",
+            externalURL: externalURL,
             isPublished: true
         }, mapping);
         samfundetEvents.push(event);
