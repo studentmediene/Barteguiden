@@ -35,31 +35,31 @@ var publicEventSchema = {
             require: true
         },
         placeName: {
-            type: "string",//["null", "string"],
+            type: "string",
             required: true
         },
         address: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
         latitude: {
-            type: "number"//["null", "number"],
+            type: ["null", "number"],
             //required: true,
         },
         longitude: {
-            type: "number"//["null", "number"],
+            type: ["null", "number"],
             //required: true,
         },
         ageLimit: {
-            type: "number"//["null", "number"],
+            type: ["null", "number"],
             //required: true,
         },
         price: {
-            type: "number"//["null", "number"],
+            type: ["null", "number"],
             //required: true,
         },
         categoryID: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
         descriptions: {
@@ -72,11 +72,11 @@ var publicEventSchema = {
             type: "boolean"
         },
         imageURL: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
         eventURL: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
     }
@@ -94,19 +94,19 @@ var adminEventSchema = {
             type: "boolean"
         },
         externalURL: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
         externalID: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
         createdAt: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
         updatedAt: {
-            type: "string"//["null", "string"],
+            type: ["null", "string"],
             //required: true,
         },
     })
