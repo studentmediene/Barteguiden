@@ -1,4 +1,4 @@
-/*global require, module*/
+/*global module*/
 
 module.exports = function(sequelize, Sequelize) {
     return sequelize.define("Event", {

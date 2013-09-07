@@ -20,9 +20,13 @@ module.exports = function () {
 //    this.use(express.favicon());
     this.use("/images", express.static(__dirname + "/../../data/images"));
     this.use(express.cookieParser());
+    this.use(express.cookieSession({
+        secret: "keyboard cat", // TODO: Set a better password
+        cookie: { maxAge: 60*60*1000 }
+    }));
     this.use(express.bodyParser());
     this.use(express.methodOverride());
-    this.use(express.session({ secret: "keyboard cat" })); // TODO: Set a better password
+//    this.use(express.session({ secret: "keyboard cat" })); // TODO: Set a better password
     this.use(passport.initialize());
     this.use(passport.session());
     

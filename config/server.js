@@ -3,8 +3,6 @@
 var locomotive = require("locomotive");
 var util = require("util");
 
-console.log(process.env.NODE_ENV);
-
 var env = (process.env.NODE_ENV === "production") ? "production" : "development";
 
 var config = {

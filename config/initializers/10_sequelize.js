@@ -7,8 +7,8 @@ module.exports = function() {
     // Set up database
     var sequelize = new Sequelize(null, null, null, {
         dialect : "sqlite",
-        storage : "data/barteguiden.db",
-        logging : (this.env == "development" ? console.log : false)
+        storage : "data/barteguiden.db"
+//      , logging : console.log
     });
     
     // Import models

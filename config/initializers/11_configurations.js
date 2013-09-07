@@ -6,7 +6,7 @@ var User = app.models.User;
 var Event = app.models.Event;
 
 module.exports = function (done) {
-    if (process.env.NODE_ENV === "development" && process.env.RESET_DB) {
+    if (this.env === "development" && process.env.RESET_DB) {
         console.log("Resetting database...");
         
         app.sequelize.sync({ force: true }).then(function () {
