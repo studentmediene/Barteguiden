@@ -3,39 +3,6 @@
 var mapper = require("object-mapper");
 var extend = require("xtend");
 
-var convertToDate = function (dateString) {
-    return new Date(Date.parse(dateString));
-};
-
-var getDescription = function (language) {
-    return function (descriptions) {
-        if (Object.prototype.toString.call(descriptions) !== "[object Array]") {
-            return null;
-        }
-        
-        for (var i = 0; i < descriptions.length; i++) {
-            var description = descriptions[i];
-            if (description.language === language) {
-                return description.text;
-            }
-        }
-    };
-};
-
-var addDescription = function (language) {
-    return function (value, fromObject, toObject) {
-        var output = mapper.getKeyValue(toObject, "descriptions") || [];
-        if (value) {
-            output.push({
-                language: language,
-                text: value
-            });
-        }
-        
-        return output;
-    };
-};
-
 var fromDatabaseToPublicMapping = {
     id: { key: "eventID", transform: function (value) { return value.toString(); } },
     title: { key: "title" },
@@ -96,6 +63,39 @@ var cleanUpOutput = function (output) { // TODO: Fix iOS-version to support null
     
     return output;
 };
+
+function convertToDate(dateString) {
+    return new Date(Date.parse(dateString));
+}
+
+function getDescription(language) {
+    return function (descriptions) {
+        if (!Array.isArray(descriptions)) {
+            return null;
+        }
+        
+        for (var i = 0; i < descriptions.length; i++) {
+            var description = descriptions[i];
+            if (description.language === language) {
+                return description.text;
+            }
+        }
+    };
+}
+
+function addDescription(language) {
+    return function (value, fromObject, toObject) {
+        var output = mapper.getKeyValue(toObject, "descriptions") || [];
+        if (value) {
+            output.push({
+                language: language,
+                text: value
+            });
+        }
+        
+        return output;
+    };
+}
 
 module.exports = {
     fromDatabaseToPublic: function (event) {

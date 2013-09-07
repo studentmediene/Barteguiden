@@ -15,7 +15,7 @@
         "xtend": "~2.0.6"
     },
     "scripts": {
-        "start": "supervisor --ignore . -- node_modules/locomotive/bin/lcm.js server",
-        "debug": "supervisor --watch app,config --exec node-theseus -- node_modules/locomotive/bin/lcm.js server"
+        "start": "supervisor --ignore . -- config/server.js",
+        "debug": "supervisor --watch app,config --exec node-theseus -- config/server.js"
     }
 }

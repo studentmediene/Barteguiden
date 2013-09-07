@@ -18,7 +18,7 @@ module.exports = function () {
     this.use(poweredBy(null));
     this.use(express.logger());
 //    this.use(express.favicon());
-    this.use("/events", express.static(__dirname + "/../../data/images"));
+    this.use("/images", express.static(__dirname + "/../../data/images"));
     this.use(express.cookieParser());
     this.use(express.bodyParser());
     this.use(express.methodOverride());

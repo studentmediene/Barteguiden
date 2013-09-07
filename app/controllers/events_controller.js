@@ -15,7 +15,8 @@ EventsController.before(["create", "update", "destroy"], app.ensureAuthenticated
 EventsController.index = function () {
     var controller = this;
     
-    var publicQuery = { where: ["startAt > ? and isPublished = 1", new Date()] };
+    
+    var publicQuery = { where: ["startAt > ? and isPublished = 1", getDate6HoursAgo()] };
     var query = (controller.req.isAuthenticated()) ? undefined : publicQuery;
     
     Event.findAll(query)
@@ -91,7 +92,7 @@ EventsController.destroy = function() {
 
 var findEvent = function (controller, id, callback) {
     var adminQuery = { where: ["id = ?", id] };
-    var publicQuery = { where: ["id = ? and startAt > ? and isPublished = 1", id, new Date()] };
+    var publicQuery = { where: ["id = ? and startAt > ? and isPublished = 1", id, getDate6HoursAgo()] };
     var query = (controller.req.isAuthenticated()) ? adminQuery : publicQuery;
     
     Event.find(query)
@@ -106,6 +107,14 @@ var findEvent = function (controller, id, callback) {
         .error(function(err) {
             controller.next(500, null, err);
         });
+};
+
+var getDate6HoursAgo = function () {
+    var seconds = 1000;
+    var minutes = 60 * seconds;
+    var hours = 60 * minutes;
+    
+    return new Date(Date.now() - 6 * hours);
 };
 
 module.exports = EventsController;
