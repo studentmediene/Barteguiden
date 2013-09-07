@@ -1,33 +1,50 @@
 /*global require, __dirname*/
 
-var fs = require("fs");
+//var fs = require("fs");
+var request = require("request");
 var xml2js = require("xml2js");
 var mapper = require("object-mapper");
 var serverSync = require("../server_sync");
 
-
-var sourceFile = __dirname + "/../data/examples/rss3.rss";
-var externalURL = "http://samfundet.no/rss";
-
 var parser = new xml2js.Parser();
 
-fs.readFile(sourceFile, function(err, data) {
+
+//var sourceFile = __dirname + "/../data/examples/rss3.rss";
+var externalURL = "http://samfundet.no/rss";
+
+//fs.readFile(sourceFile, function(err, data) {
+//    parser.parseString(data);
+//});
+
+getEventsFromExternalSource(function (data) {
     parser.parseString(data);
 });
 
+function getEventsFromExternalSource (callback) {
+    request({
+        method: "GET",
+        uri: externalURL,
+        encoding: "utf8"
+    }, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            callback(body);
+        }
+    });
+}
+
 parser.on("end", function(result) {
-    var eventsSource = mapper.getKeyValue(result, "rss.channel.0.item");
-    var externalEvents = getEventsFromEventsSource(eventsSource);
+    var data = mapper.getKeyValue(result, "rss.channel.0.item");
+    var events = parseEvents(data);
     
 //    fs.writeFile(__dirname + "/data/sync/samfundet.json", JSON.stringify(samfundetEvents));
-    serverSync.sync(externalEvents, externalURL);
+    serverSync.sync(events, externalURL);
 });
 
-var getEventsFromEventsSource = function (eventsSource) {
-    var samfundetEvents = [];
-    for (var i = 0; i < eventsSource.length; i++) {
-        var eventSource = eventsSource[i];
-        var event = mapper.merge(eventSource, {
+function parseEvents (externalEvents) {
+    var outputEvents = [];
+    for (var i = 0; i < externalEvents.length; i++) {
+        var externalEvent = externalEvents[i];
+        var event = mapper.merge(externalEvent, {
             placeName: "Studentersamfundet",
             address: "Elgeseter gate 1",
             latitude: 63.422634,
@@ -35,38 +52,14 @@ var getEventsFromEventsSource = function (eventsSource) {
             externalURL: externalURL,
             isPublished: true
         }, mapping);
-        samfundetEvents.push(event);
+        
+        outputEvents.push(event);
     }
     
-    return samfundetEvents;
-};
+    return outputEvents;
+}
 
-var categoryMapping = {
-    "Konsert": "MUSIC",
-    "Film": "PRESENTATIONS",
-    "Møte": "DEBATE",
-    "Happening": "NIGHTLIFE",
-    "Samfundsmøte": "DEBATE",
-    "Excenteraften": "DEBATE",
-    "Temafest": "NIGHTLIFE",
-    "Bokstavelig talt": "DEBATE",
-    "Quiz": "NIGHTLIFE",
-    "Show": "PERFORMANCES"
-};
 
-var addDescription = function (language) {
-    return function (value, fromObject, toObject) {
-        var output = mapper.getKeyValue(toObject, "descriptions") || [];
-        if (value) {
-            output.push({
-                language: language,
-                text: value
-            });
-        }
-        
-        return output;
-    };
-};
 
 var mapping = {
     "title.0": {
@@ -125,12 +118,46 @@ var mapping = {
         transform: addDescription("nb")
     },
     "link.0": {
-        key: "eventURL"
+        key: "eventURL",
+        transform: trimString
     },
     "link.1.$.href": {
-        key: "imageURL"
+        key: "imageURL",
+        transform: trimString
     },
     "guid.0": {
-        key: "externalID"
+        key: "externalID",
+        transform: trimString
     },
 };
+
+var categoryMapping = {
+    "Konsert": "MUSIC",
+    "Film": "PRESENTATIONS",
+    "Møte": "DEBATE",
+    "Happening": "NIGHTLIFE",
+    "Samfundsmøte": "DEBATE",
+    "Excenteraften": "DEBATE",
+    "Temafest": "NIGHTLIFE",
+    "Bokstavelig talt": "DEBATE",
+    "Quiz": "NIGHTLIFE",
+    "Show": "PERFORMANCES"
+};
+
+function addDescription (language) {
+    return function (value, fromObject, toObject) {
+        var output = mapper.getKeyValue(toObject, "descriptions") || [];
+        if (value) {
+            output.push({
+                language: language,
+                text: trimString(value)
+            });
+        }
+        
+        return output;
+    };
+}
+
+function trimString (value) {
+    return value.toString().trim();
+}

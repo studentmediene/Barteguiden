@@ -1,15 +1,24 @@
-/*global require, __dirname*/
+/*global require*/
 
 //var fs = require("fs");
+var request = require("request");
 var csv = require("csv");
 var mapper = require("object-mapper");
-var request = require("request");
 var serverSync = require("../server_sync");
 
 //var sourceFile = __dirname + "/../data/examples/Events.csv";
 var externalURL = "https://docs.google.com/spreadsheet/pub?key=0As_yy93hIfpddFRwc2hhMnpoOXpMWFQyOC1WUFN1TkE&output=csv";
 
-var getEventsFromExternalSource = function (callback) {
+//var data = fs.createReadStream(sourceFile);
+getEventsFromExternalSource(function (data) {
+    parseEvents(data, function (events) {
+//        console.log(events);
+        
+        serverSync.sync(events, externalURL);
+    });
+});
+
+function getEventsFromExternalSource (callback) {
     request({
         method: "GET",
         uri: externalURL,
@@ -19,9 +28,9 @@ var getEventsFromExternalSource = function (callback) {
             callback(body);
         }
     });
-};
+}
 
-var parseEvents = function (eventData, callback) {
+function parseEvents (eventData, callback) {
     var events = [];
     csv()
         .from(eventData)
@@ -52,31 +61,7 @@ var parseEvents = function (eventData, callback) {
         .on("error", function(error) {
             console.log(error.message);
         });
-};
-
-//var data = fs.createReadStream(sourceFile);
-getEventsFromExternalSource(function (data) {
-    parseEvents(data, function (events) {
-//        console.log(events);
-        
-        serverSync.sync(events, externalURL);
-    });
-});
-
-
-var addDescription = function (language) {
-    return function (value, fromObject, toObject) {
-        var output = mapper.getKeyValue(toObject, "descriptions") || [];
-        if (value) {
-            output.push({
-                language: language,
-                text: value
-            });
-        }
-        
-        return output;
-    };
-};
+}
 
 var mapping = {
     "0": {
@@ -159,7 +144,7 @@ var mapping = {
     "12": {
         key: "eventURL",
         transform: function (value) {
-            if (String(value).length == 0) {
+            if (String(value).length === 0) {
                 return undefined;
             }
             
@@ -173,3 +158,21 @@ var mapping = {
         }
     }
 };
+
+function addDescription (language) {
+    return function (value, fromObject, toObject) {
+        var output = mapper.getKeyValue(toObject, "descriptions") || [];
+        if (value) {
+            output.push({
+                language: language,
+                text: trimString(value)
+            });
+        }
+        
+        return output;
+    };
+}
+
+function trimString (value) {
+    return String(value).trim();
+}
