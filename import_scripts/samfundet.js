@@ -1,10 +1,14 @@
 /*global require*/
 
-//var fs = require("fs");
+var fs = require("fs");
+var Q = require("q");
 var request = require("request");
 var xml2js = require("xml2js");
 var mapper = require("object-mapper");
+var jsdom = require("jsdom");
 var serverSync = require("../server_sync");
+
+var jquery = fs.readFileSync("../libs/jquery-1.7.min.js", "utf-8");
 
 var parser = new xml2js.Parser();
 
@@ -36,8 +40,9 @@ parser.on("end", function(result) {
     var data = mapper.getKeyValue(result, "rss.channel.0.item");
     var events = parseEvents(data);
     
-//    fs.writeFile(__dirname + "/data/sync/samfundet.json", JSON.stringify(samfundetEvents));
-    serverSync.sync(events, externalURL);
+    updateEventsWithPrices(events, function () {
+        serverSync.sync(events, externalURL);
+    });
 });
 
 function parseEvents (externalEvents) {
@@ -59,7 +64,47 @@ function parseEvents (externalEvents) {
     return outputEvents;
 }
 
+function updateEventsWithPrices (events, callback) {
+    var promise_chain = Q.fcall(function(){});
+    
+    events.forEach(function (event) {
+        var promise_link = function () {
+            var deferred = Q.defer();
+            
+            console.log("Finding price for event: " + event.externalID);
+            jsdom.env({
+                url: event.eventURL,
+                src: [jquery],
+                done: updateEventCallback(event, deferred)
+            });
+            
+            return deferred.promise;
+        };
+        
+        promise_chain = promise_chain.then(promise_link);
+    });
+    
+    promise_chain.done(function () {
+        callback();
+    });
+}
 
+function updateEventCallback (event, deferred) {
+    return function (err, window) {
+        var $ = window.$;
+        
+        var prices = $(".eventbox td").get().map(function (value) {
+            return parseInt($(value).text(), 10);
+        }).filter(function (value) {
+            return value > 0;
+        });
+        
+        event.price = Math.max(Math.max.apply(null, prices), 0);
+        
+        console.log("Found price (" + event.price + ") for event: " + event.externalID);
+        deferred.resolve();
+    };
+}
 
 var mapping = {
     "title.0": {
