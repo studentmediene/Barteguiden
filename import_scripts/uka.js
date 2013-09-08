@@ -1,8 +1,8 @@
-/*global require, __dirname*/
+/*global require*/
 
 var fs = require("fs");
 var Q = require("q");
-//var request = require("request");
+var request = require("request");
 var mapper = require("object-mapper");
 var jsdom = require("jsdom");
 var serverSync = require("../server_sync");
@@ -10,7 +10,7 @@ var serverSync = require("../server_sync");
 var jquery = fs.readFileSync("../libs/jquery-1.7.min.js", "utf-8");
 
 
-var sourceFile = __dirname + "/../data/examples/uka.json";
+//var sourceFile = __dirname + "/../data/examples/uka.json";
 var externalURL = "https://www.uka.no/program/?format=json";
 
 
@@ -24,18 +24,18 @@ getEventsFromExternalSource(function (data) {
 });
 
 function getEventsFromExternalSource (callback) {
-    fs.readFile(sourceFile, function(err, data) {
-        callback(data);
-    });
-//    request({
-//        method: "GET",
-//        uri: externalURL,
-//        encoding: "utf8"
-//    }, function (error, response, body) {
-//        if (!error && response.statusCode === 200) {
-//            callback(body);
-//        }
+//    fs.readFile(sourceFile, function(err, data) {
+//        callback(data);
 //    });
+    request({
+        method: "GET",
+        uri: externalURL,
+        encoding: "utf8"
+    }, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            callback(body);
+        }
+    });
 }
 
 function parseEventsWithData (eventsSource) {
@@ -91,8 +91,6 @@ function updateEventCallback (event, deferred) {
         deferred.resolve();
     };
 }
-
-//var showingsMapping = {};
 
 var mapping = {
     "title": {
@@ -160,7 +158,8 @@ var mapping = {
 
 var categoryMapping = {
     "Konsert": "MUSIC",
-    "Fest og moro": "NIGHTLIFE"
+    "Fest og moro": "NIGHTLIFE",
+    "Revy og teater": "THEATRE"
 };
 
 var placeNameMapping = {
