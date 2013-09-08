@@ -1,4 +1,4 @@
-/*global require, __dirname*/
+/*global require*/
 
 //var fs = require("fs");
 var request = require("request");
@@ -118,16 +118,13 @@ var mapping = {
         transform: addDescription("nb")
     },
     "link.0": {
-        key: "eventURL",
-        transform: trimString
+        key: "eventURL"
     },
     "link.1.$.href": {
-        key: "imageURL",
-        transform: trimString
+        key: "imageURL"
     },
     "guid.0": {
-        key: "externalID",
-        transform: trimString
+        key: "externalID"
     },
 };
 
@@ -150,14 +147,10 @@ function addDescription (language) {
         if (value) {
             output.push({
                 language: language,
-                text: trimString(value)
+                text: value
             });
         }
         
         return output;
     };
-}
-
-function trimString (value) {
-    return value.toString().trim();
 }
