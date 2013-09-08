@@ -57,22 +57,26 @@ function parseEventsWithData (eventsSource) {
 }
 
 function updateEventsWithPrices (events, callback) {
-    var promises = [];
+    var promise_chain = Q.fcall(function(){});
     
     events.forEach(function (event) {
-        console.log("Start:" + event.externalID);
-        var deferred = Q.defer();
+        var promise_link = function () {
+            var deferred = Q.defer();
+            
+            console.log("Finding price for event: " + event.externalID);
+            jsdom.env({
+                url: event.eventURL,
+                src: [jquery],
+                done: updateEventCallback(event, deferred)
+            });
+            
+            return deferred.promise;
+        };
         
-        jsdom.env({
-            url: event.eventURL,
-            src: [jquery],
-            done: updateEventCallback(event, deferred)
-        });
-        
-        promises.push(deferred.promise);
+        promise_chain = promise_chain.then(promise_link);
     });
     
-    Q.all(promises).done(function () {
+    promise_chain.done(function () {
         callback();
     });
 }
@@ -87,7 +91,7 @@ function updateEventCallback (event, deferred) {
         
         event.price = Math.max(Math.max.apply(null, prices), 0);
         
-        console.log("End:" + event.externalID + " (" + event.price + ")");
+        console.log("Found price (" + event.price + ") for event: " + event.externalID);
         deferred.resolve();
     };
 }
@@ -159,7 +163,7 @@ var mapping = {
 var categoryMapping = {
     "Konsert": "MUSIC",
     "Fest og moro": "NIGHTLIFE",
-    "Revy og teater": "THEATRE"
+    "Revy og teater": "PERFORMANCES"
 };
 
 var placeNameMapping = {
