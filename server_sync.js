@@ -7,6 +7,8 @@ var baseURL = "http://localhost:3000";
 //var baseURL = "http://barteguiden.no/v1";
 
 var sync = function (externalEvents) {
+    console.log("Started updating at " + baseURL);
+    
     logInAndGetEventsFromServer(function (serverEvents) {
         var next = function () {
             console.log("Finished!");
