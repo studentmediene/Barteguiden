@@ -43,25 +43,12 @@ var fromAdminToDatabaseMapping = {
         { key: "description_en", transform: getDescription("en") },
         { key: "description_nb", transform: getDescription("nb") }
     ],
-    isRecommended: {
-        key: "isRecommended",
-        transform: function (value) { return value || false; }
-    },
+    isRecommended: { key: "isRecommended" },
     imageURL: { key: "imageURL" },
     eventURL: { key: "eventURL" },
     isPublished: { key: "isPublished" },
     externalURL: { key: "externalURL" },
     externalID: { key: "externalID" }
-};
-
-var cleanUpOutput = function (output) { // TODO: Fix iOS-version to support null-values
-    for (var key in output) {
-        if(output[key] === null) {
-            delete output[key];
-        }
-    }
-    
-    return output;
 };
 
 function convertToDate(dateString) {
@@ -97,10 +84,21 @@ function addDescription(language) {
     };
 }
 
+function cleanUpOutput (output) {
+    for (var key in output) {
+        var value = output[key];
+        if (value === null) {
+            delete output[key];
+        }
+        else if (typeof(value) === "string") {
+            output[key] = value.trim();
+        }
+    }
+}
+
 module.exports = {
     fromDatabaseToPublic: function (event) {
-        var output = mapper.merge(event, {}, fromDatabaseToPublicMapping);
-        return cleanUpOutput(output);
+        return mapper.merge(event, {}, fromDatabaseToPublicMapping);
     },
     
     fromDatabaseToAdmin: function (event) {
@@ -108,6 +106,8 @@ module.exports = {
     },
     
     fromAdminToDatabase: function (event) {
-        return mapper.merge(event, {}, fromAdminToDatabaseMapping);
+        var output = mapper.merge(event, {}, fromAdminToDatabaseMapping);
+        cleanUpOutput(output);
+        return output;
     }
 };
