@@ -1,12 +1,12 @@
 /*global require, module*/
 
-var app = require("locomotive");
+var locomotive = require("locomotive");
 var passport = require("passport");
 var passportLocal = require("passport-local");
 
 var LocalStrategy = passportLocal.Strategy;
 
-var User = app.models.User;
+var User = locomotive.models.User;
 
 module.exports = function() {
     passport.use(new LocalStrategy(function(username, password, done) {

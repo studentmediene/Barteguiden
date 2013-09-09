@@ -1,23 +1,17 @@
-/*global require, module, __dirname*/
+/*global require, module*/
 
-var fs = require("fs");
-var app = require("locomotive");
-var Controller = app.Controller;
+var locomotive = require("locomotive");
+var Controller = locomotive.Controller;
 
 var RootController = new Controller();
 
-
-var packageFile = __dirname + "/../../package.json";
-
-
 RootController.main = function () {
-    this.res.json({ version: getVersion() });
+    var controller = this;
+    
+    this.res.json({
+        version: controller.app.appVersion,
+        events: controller.app.baseURL + "/events"
+    });
 };
-
-function getVersion() {
-    var data = fs.readFileSync(packageFile);
-    var package = JSON.parse(data);
-    return package.version;
-}
 
 module.exports = RootController;

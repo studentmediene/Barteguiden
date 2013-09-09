@@ -1,5 +1,6 @@
 /*global require, module, __dirname*/
 
+var fs = require("fs");
 var express = require("express");
 var poweredBy = require("connect-powered-by");
 var util = require("util");
@@ -52,4 +53,14 @@ module.exports = function () {
         
         res.json(500, { error: "Internal server error" });
     });
+    
+    // Configurations
+    this.appVersion = getPackageVersion();
 };
+
+function getPackageVersion() {
+    var packageFile = __dirname + "/../../package.json";
+    var data = fs.readFileSync(packageFile);
+    var package = JSON.parse(data);
+    return package.version;
+}

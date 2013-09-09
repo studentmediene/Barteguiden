@@ -1,15 +1,15 @@
 /*global require, module, process*/
 
-var app = require("locomotive");
+var locomotive = require("locomotive");
 
-var User = app.models.User;
-var Event = app.models.Event;
+var User = locomotive.models.User;
+var Event = locomotive.models.Event;
 
 module.exports = function (done) {
     if (this.env === "development" && process.env.RESET_DB) {
         console.log("Resetting database...");
         
-        app.sequelize.sync({ force: true }).then(function () {
+        locomotive.sequelize.sync({ force: true }).then(function () {
             User.create({
                 username: "pablo",
                 password: "pablo!12345"

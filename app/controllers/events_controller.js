@@ -1,20 +1,19 @@
 /*global require, module*/
 
 require("simple-errors");
-var app = require("locomotive");
+var locomotive = require("locomotive");
 var eventViewModel = require("../view_models/event");
 
-var Controller = app.Controller;
+var Controller = locomotive.Controller;
 var EventsController = new Controller();
 
-var Event = app.models.Event;
+var Event = locomotive.models.Event;
 
 
-EventsController.before(["create", "update", "destroy"], app.ensureAuthenticated);
+EventsController.before(["create", "update", "destroy"], locomotive.ensureAuthenticated);
 
 EventsController.index = function () {
     var controller = this;
-    
     
     var publicQuery = { where: ["startAt > ? and isPublished = 1", getDate6HoursAgo()] };
     var query = (controller.req.isAuthenticated()) ? undefined : publicQuery;
