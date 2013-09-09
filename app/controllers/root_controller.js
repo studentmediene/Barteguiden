@@ -11,7 +11,7 @@ var packageFile = __dirname + "/../../package.json";
 
 
 RootController.main = function () {
-    this.res.json({ welcome: getVersion() });
+    this.res.json({ version: getVersion() });
 };
 
 function getVersion() {
