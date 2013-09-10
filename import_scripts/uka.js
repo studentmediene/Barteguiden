@@ -18,9 +18,7 @@ getEventsFromExternalSource(function (data) {
     var externalEvents = JSON.parse(data);
     var events = parseEventsWithData(externalEvents);
     
-    updateEventsWithPrices(events, function () {
-        serverSync.sync(events, externalURL);
-    });
+    serverSync.sync(events, externalURL);
 });
 
 function getEventsFromExternalSource (callback) {
@@ -53,44 +51,6 @@ function parseEventsWithData (eventsSource) {
     }
     
     return outputEvents;
-}
-
-function updateEventsWithPrices (events, callback) {
-    var promise_chain = Q.fcall(function(){});
-    
-    events.forEach(function (event) {
-        var promise_link = function () {
-            var deferred = Q.defer();
-            
-            console.log("Finding price for event: " + event.externalID);
-            jsdom.env({
-                url: event.eventURL,
-                src: [jquery],
-                done: function (err, window) {
-                    event.price = findPrice(window.$);
-                    console.log("Found price: " + event.price);
-                    
-                    deferred.resolve();
-                }
-            });
-            
-            return deferred.promise;
-        };
-        
-        promise_chain = promise_chain.then(promise_link);
-    });
-    
-    promise_chain.done(function () {
-        callback();
-    });
-}
-
-function findPrice($) {
-    var prices = $("[data-price]").get().map(function (element) {
-        return parseInt($(element).attr("data-price"), 10);
-    });
-    
-    return Math.max(Math.max.apply(null, prices), 0);
 }
 
 var mapping = {
@@ -138,6 +98,13 @@ var mapping = {
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
             return (!isNaN(ageLimit)) ? ageLimit : 0;
+        }
+    },
+    "showings.0.price": {
+        key: "price",
+        transform: function (value) {
+            var price = parseInt(value, 10);
+            return (!isNaN(price)) ? price : 0;
         }
     },
     "event_type": {
