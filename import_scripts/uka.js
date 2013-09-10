@@ -140,7 +140,7 @@ var categoryMapping = {
 var placeNameMapping = {
     "Storsalen": "Studentersamfundet",
     "Knaus": "Studentersamfundet",
-    "Dødens Dal": "Dødens Dal"
+    "Dødens Dal": "Dødens dal"
 };
 
 var addressMapping = {
