@@ -140,25 +140,25 @@ var categoryMapping = {
 var placeNameMapping = {
     "Storsalen": "Studentersamfundet",
     "Knaus": "Studentersamfundet",
-    "Dødens dal": "Dødens dal"
+    "Dødens Dal": "Dødens Dal"
 };
 
 var addressMapping = {
     "Storsalen": "Elgeseter gate 1",
     "Knaus": "Elgeseter gate 1",
-    "Dødens dal": undefined
+    "Dødens Dal": undefined
 };
 
 var latitudeMapping = {
     "Storsalen": 63.422634,
     "Knaus": 63.422634,
-    "Dødens dal": 63.419322
+    "Dødens Dal": 63.419322
 };
 
 var longitudeMapping = {
     "Storsalen": 10.394697,
     "Knaus": 10.394697,
-    "Dødens dal": 10.406578
+    "Dødens Dal": 10.406578
 };
 
 function addDescription (language) {
