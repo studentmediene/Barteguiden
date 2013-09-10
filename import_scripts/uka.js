@@ -43,7 +43,6 @@ function parseEventsWithData (eventsSource) {
     for (var i = 0; i < eventsSource.length; i++) {
         var eventSource = eventsSource[i];
         var baseEvent = mapper.merge(eventSource, {
-            ageLimit: 18,
             externalURL: externalURL,
             isPublished: true
         }, mapping);
@@ -67,7 +66,12 @@ function updateEventsWithPrices (events, callback) {
             jsdom.env({
                 url: event.eventURL,
                 src: [jquery],
-                done: updateEventCallback(event, deferred)
+                done: function (err, window) {
+                    event.price = findPrice(window.$);
+                    console.log("Found price: " + event.price);
+                    
+                    deferred.resolve();
+                }
             });
             
             return deferred.promise;
@@ -81,19 +85,12 @@ function updateEventsWithPrices (events, callback) {
     });
 }
 
-function updateEventCallback (event, deferred) {
-    return function (err, window) {
-        var $ = window.$;
-        
-        var prices = $("[data-price]").get().map(function (element) {
-            return parseInt($(element).attr("data-price"), 10);
-        });
-        
-        event.price = Math.max(Math.max.apply(null, prices), 0);
-        
-        console.log("Found price (" + event.price + ") for event: " + event.externalID);
-        deferred.resolve();
-    };
+function findPrice($) {
+    var prices = $("[data-price]").get().map(function (element) {
+        return parseInt($(element).attr("data-price"), 10);
+    });
+    
+    return Math.max(Math.max.apply(null, prices), 0);
 }
 
 var mapping = {
@@ -136,6 +133,13 @@ var mapping = {
             }
         }
     ],
+    "age_limit": {
+        key: "ageLimit",
+        transform: function (value) {
+            var ageLimit = parseInt(value, 10);
+            return (!isNaN(ageLimit)) ? ageLimit : 0;
+        }
+    },
     "event_type": {
         key: "categoryID",
         transform: function (value) {

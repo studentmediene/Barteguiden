@@ -75,7 +75,12 @@ function updateEventsWithPrices (events, callback) {
             jsdom.env({
                 url: event.eventURL,
                 src: [jquery],
-                done: updateEventCallback(event, deferred)
+                done: function (err, window) {
+                    event.price = findPrice(window.$);
+                    console.log("Found price: " + event.price);
+                    
+                    deferred.resolve();
+                }
             });
             
             return deferred.promise;
@@ -89,21 +94,14 @@ function updateEventsWithPrices (events, callback) {
     });
 }
 
-function updateEventCallback (event, deferred) {
-    return function (err, window) {
-        var $ = window.$;
-        
-        var prices = $(".eventbox td").get().map(function (value) {
-            return parseInt($(value).text(), 10);
-        }).filter(function (value) {
-            return value > 0;
-        });
-        
-        event.price = Math.max(Math.max.apply(null, prices), 0);
-        
-        console.log("Found price (" + event.price + ") for event: " + event.externalID);
-        deferred.resolve();
-    };
+function findPrice($) {
+    var prices = $(".eventbox td").get().map(function (value) {
+        return parseInt($(value).text(), 10);
+    }).filter(function (value) {
+        return value > 0;
+    });
+    
+    return Math.max(Math.max.apply(null, prices), 0);
 }
 
 var mapping = {
@@ -126,32 +124,30 @@ var mapping = {
         key: "ageLimit",
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
-            return (!isNaN(ageLimit)) ? ageLimit : undefined;
-        },
-        default: function () { return 0; } // TODO: Remove when iOS-application supports null-values
+            return (!isNaN(ageLimit)) ? ageLimit : 0;
+        }
     },
-    "prices.0.price": {
-        key: "price",
-        transform: function (value) {
-            if (!value) {
-                return undefined;
-            }
-            
-            for (var i = 0; i < value.length; i++) {
-                var priceSource = value[i];
-                var priceType = mapper.getKeyValue(priceSource, "$.rel");
-                if (priceType === "For envher pris") {
-                    var price = parseInt(mapper.getKeyValue(priceSource, "_"), 10);
-                    if (!isNaN(price)) {
-                        return price;
-                    }
-                }
-            }
-            
-            return undefined;
-        },
-        default: function () { return 0; } // TODO: Remove when iOS-application supports null-values
-    },
+//    "prices.0.price": {
+//        key: "price",
+//        transform: function (value) {
+//            if (!value) {
+//                return undefined;
+//            }
+//            
+//            for (var i = 0; i < value.length; i++) {
+//                var priceSource = value[i];
+//                var priceType = mapper.getKeyValue(priceSource, "$.rel");
+//                if (priceType === "For envher pris") {
+//                    var price = parseInt(mapper.getKeyValue(priceSource, "_"), 10);
+//                    if (!isNaN(price)) {
+//                        return price;
+//                    }
+//                }
+//            }
+//            
+//            return 0;
+//        }
+//    },
     "category.0": {
         key: "categoryID",
         transform: function (value) {
