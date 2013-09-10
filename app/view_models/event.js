@@ -91,7 +91,7 @@ function cleanUpOutput (output) {
             delete output[key];
         }
         else if (typeof(value) === "string") {
-            output[key] = value.trim().replace(/\s+/g, " "); // TODO: Remove replace() when iOS support newlines
+            output[key] = value.trim().replace(/\s+/g, " "); // TODO: Remove replace() when the iOS-app supports newlines for description
         }
     }
 }
