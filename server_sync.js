@@ -1,46 +1,52 @@
 /*global require, module*/
 
+var Q = require("q");
 var request = require("request");
 var eventSchema = require("./event_schema");
 
 var baseURL = "http://localhost:3000";
 //var baseURL = "http://barteguiden.no/v1";
 
-var sync = function (externalEvents) {
+function sync(externalEvents) {
     console.log("Started updating at " + baseURL);
     
     logInAndGetEventsFromServer(function (serverEvents) {
-        var next = function () {
-            console.log("Finished!");
-        };
+        var promise_chain = Q.fcall(function (){});
         
-        while (externalEvents.length > 0) {
-            var externalEvent = externalEvents.pop();
+        externalEvents.forEach(function (externalEvent) {
             var eventID = eventIDForExternalEvent(serverEvents, externalEvent);
-            next = processEvent(externalEvent, eventID, next);
-        }
+            var promise_link = processEvent(externalEvent, eventID);
+            
+            promise_chain = promise_chain.then(promise_link);
+        });
         
-        next();
+        promise_chain.done(function () {
+            console.log("Finished!");
+        });
     });
-};
+}
 
-var processEvent = function (externalEvent, eventID, next) {
+function processEvent(externalEvent, eventID) {
     return function () {
+        var deferred = Q.defer();
+        
         if (!validateEvent(externalEvent)) {
-            next();
-            return;
+//            deferred.reject();
+            return;// deferred.promise;
         }
         
         if (eventID !== null) {
-            updateEventOnServer(externalEvent, eventID, next);
+            updateEventOnServer(externalEvent, eventID, deferred);
         }
         else {
-            addEventToServer(externalEvent, next);
+            addEventToServer(externalEvent, deferred);
         }
+        
+        return deferred.promise;
     };
-};
+}
 
-var validateEvent = function (externalEvent) {
+function validateEvent(externalEvent) {
     var isValid = eventSchema.validateAdminEvent(externalEvent);
     if (!isValid) {
         console.log("Failed to validate event: " + externalEvent.externalID);
@@ -48,25 +54,25 @@ var validateEvent = function (externalEvent) {
     }
     
     return isValid;
-};
+}
 
-var eventIDForExternalEvent = function (serverEvents, externalEvent) {
+function eventIDForExternalEvent(serverEvents, externalEvent) {
     var filteredEvents = serverEvents.filter(function (serverEvent) {
         return (serverEvent.externalURL === externalEvent.externalURL && serverEvent.externalID === externalEvent.externalID);
     });
     
     return (filteredEvents.length > 0) ? filteredEvents[0].eventID : null;
-};
+}
 
-var logInAndGetEventsFromServer = function (callback) {
+function logInAndGetEventsFromServer(callback) {
     logIn(function () {
         getEventsFromServer(callback);
     });
-};
+}
 
 var j = request.jar();
 
-var logIn = function (callback) {
+function logIn(callback) {
     request({
         method: "POST",
         uri: (baseURL + "/login"),
@@ -81,9 +87,9 @@ var logIn = function (callback) {
             callback();
         }
     });
-};
+}
 
-var getEventsFromServer = function (callback) {
+function getEventsFromServer(callback) {
     request({
         method: "GET",
         uri: (baseURL + "/events"),
@@ -95,9 +101,9 @@ var getEventsFromServer = function (callback) {
             callback(data.events);
         }
     });
-};
+}
 
-var addEventToServer = function (event, next) {
+function addEventToServer(event, deferred) {
     request({
         method: "POST",
         uri: (baseURL + "/events"),
@@ -107,17 +113,19 @@ var addEventToServer = function (event, next) {
     }, function (error, response, body) {
         if (!error && response.statusCode === 200 && body) {
             console.log("Added event: " + event.externalID);
+            
+            deferred.resolve();
         }
         else {
             console.log("Failed to add event: " + event.externalID);
             console.log(event);
+            
+            deferred.reject();
         }
-        
-        next();
     });
-};
+}
 
-var updateEventOnServer = function (event, eventID, next) {
+function updateEventOnServer(event, eventID, deferred) {
     request({
         method: "PUT",
         uri: (baseURL + "/events/" + eventID),
@@ -127,14 +135,16 @@ var updateEventOnServer = function (event, eventID, next) {
     }, function (error, response, body) {
         if (!error && response.statusCode === 200 && body) {
             console.log("Updated event: " + event.externalID);
+            
+            deferred.resolve();
         }
         else {
             console.log("Failed to update event: " + event.externalID);
+            
+            deferred.reject();
         }
-        
-        next();
     });
-};
+}
 
 module.exports = {
     sync: sync
