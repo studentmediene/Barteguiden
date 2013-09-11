@@ -1,13 +1,8 @@
 /*global require*/
 
-var fs = require("fs");
-var Q = require("q");
 var request = require("request");
 var mapper = require("object-mapper");
-var jsdom = require("jsdom");
 var serverSync = require("../server_sync");
-
-var jquery = fs.readFileSync("../libs/jquery-1.7.min.js", "utf-8");
 
 
 //var sourceFile = __dirname + "/../data/examples/uka.json";
