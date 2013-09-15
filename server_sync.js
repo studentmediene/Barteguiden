@@ -113,15 +113,13 @@ function addEventToServer(event, deferred) {
     }, function (error, response, body) {
         if (!error && response.statusCode === 200 && body) {
             console.log("Added event: " + event.externalID);
-            
-            deferred.resolve();
         }
         else {
-            console.log("Failed to add event: " + event.externalID);
+            console.log("Failed to add event: " + event.externalID + " (Error " + response.statusCode + ")");
             console.log(event);
-            
-            deferred.reject();
         }
+        
+        deferred.resolve();
     });
 }
 
@@ -135,14 +133,13 @@ function updateEventOnServer(event, eventID, deferred) {
     }, function (error, response, body) {
         if (!error && response.statusCode === 200 && body) {
             console.log("Updated event: " + event.externalID);
-            
-            deferred.resolve();
         }
         else {
-            console.log("Failed to update event: " + event.externalID);
-            
-            deferred.reject();
+            console.log("Failed to update event: " + event.externalID + " (Error " + response.statusCode + ")");
+            console.log(event);
         }
+        
+        deferred.resolve();
     });
 }
 
