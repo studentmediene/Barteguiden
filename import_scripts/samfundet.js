@@ -101,7 +101,8 @@ function findPrice($) {
         return value > 0;
     });
     
-    return Math.max(Math.max.apply(null, prices), 0);
+    var lowestPrice = Math.min.apply(null, prices);
+    return (lowestPrice !== Infinity) ? lowestPrice : 0;
 }
 
 var mapping = {
