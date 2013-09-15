@@ -1,11 +1,13 @@
-/*global require*/
+/*global require, __dirname*/
 
+var fs = require("fs");
 var request = require("request");
 var mapper = require("object-mapper");
+var extend = require("xtend");
 var serverSync = require("../server_sync");
 
 
-//var sourceFile = __dirname + "/../data/examples/uka.json";
+var sourceFile = __dirname + "/../data/examples/uka4.json";
 var externalURL = "https://www.uka.no/program/?format=json";
 
 
@@ -17,89 +19,123 @@ getEventsFromExternalSource(function (data) {
 });
 
 function getEventsFromExternalSource (callback) {
-//    fs.readFile(sourceFile, function(err, data) {
-//        callback(data);
-//    });
-    request({
-        method: "GET",
-        uri: externalURL,
-        encoding: "utf8"
-    }, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            callback(body);
-        }
+    fs.readFile(sourceFile, function(err, data) {
+        callback(data);
     });
+//    request({
+//        method: "GET",
+//        uri: externalURL,
+//        encoding: "utf8"
+//    }, function (error, response, body) {
+//        if (!error && response.statusCode === 200) {
+//            callback(body);
+//        }
+//    });
 }
 
 function parseEventsWithData (eventsSource) {
     var outputEvents = [];
-    for (var i = 0; i < eventsSource.length; i++) {
-        var eventSource = eventsSource[i];
+    
+//    var addedEventIDs = [];
+    
+    eventsSource.forEach(function (eventSource) {
+//        var id = eventSource.id;
+//        if (addedEventIDs.indexOf(id) !== -1) { // TODO: Remove this when uka.no removes duplicates
+//            console.log("duplicate id: " + id);
+//            return;
+//        }
+//        else {
+//            addedEventIDs.push(id);
+//        }
+        
         var baseEvent = mapper.merge(eventSource, {
             externalURL: externalURL,
             isPublished: true
         }, mapping);
         
-//        var data = mapper.getKeyValue(eventSource, "showings");
-        
-        outputEvents.push(baseEvent);
-    }
+        eventSource.showings.forEach(function (showing) {
+            // TODO: Remove this when uka.no fixes:
+//            if (showing.id === 98 || // Missing startAt
+//                showing.id === 204 || // Missing placeName
+//                showing.id === 222 || // Missing placeName
+//                showing.id === 223 || // Missing placeName
+//                showing.id === 224 || // Missing placeName
+//                showing.id === 278 || // ???
+//                showing.id === 283 || // ???
+//                showing.id === 289 || // ??? Missing text...
+//                showing.id === 315) { // Contains special characters in title
+//                return;
+//            }
+            
+            var showingEvent = mapper.merge(showing, {}, showingMapping);
+            var outputEvent = extend(baseEvent, showingEvent);
+            
+            outputEvents.push(outputEvent);
+        });
+    });
     
     return outputEvents;
 }
 
-var mapping = {
-    "title": {
-        key: "title",
-        transform: trimString
-    },
-    "showings.0.date": { // TODO: There might exist more than one show
+var showingMapping = {
+    "date": {
         key: "startAt",
         transform: function (value) {
+            if (value === null) {
+                return undefined;
+            }
+            
             var currentTime = new Date();
             var timezoneOffset = currentTime.getTimezoneOffset();
             var date = new Date(Date.parse(value) + timezoneOffset * 60 * 1000);
             return date.toISOString();
         }
     },
-    "showings.0.place": [
+    "place": [
         {
             key: "placeName",
-            transform: function (value) {
-                return placeNameMapping[value];
-            }
+            transform: getPlaceTransform("placeName")
         },
         {
             key: "address",
-            transform: function (value) {
-                return addressMapping[value];
-            }
+            transform: getPlaceTransform("address")
         },
         {
             key: "latitude",
-            transform: function (value) {
-                return latitudeMapping[value];
-            }
+            transform: getPlaceTransform("latitude")
         },
         {
             key: "longitude",
-            transform: function (value) {
-                return longitudeMapping[value];
-            }
+            transform: getPlaceTransform("longitude")
         }
     ],
+    "price": {
+        key: "price",
+        transform: function (value) {
+            var price = parseInt(value, 10);
+            return (!isNaN(price)) ? price : 0;
+        }
+    },
+    "url": {
+        key: "eventURL",
+        transform: addUKAPrefix
+    },
+    "id": {
+        key: "externalID",
+        transform: trimString
+    },
+};
+
+var mapping = {
+    "title": {
+        key: "title",
+        transform: trimString
+    },
     "age_limit": {
         key: "ageLimit",
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
             return (!isNaN(ageLimit)) ? ageLimit : 0;
-        }
-    },
-    "showings.0.price": {
-        key: "price",
-        transform: function (value) {
-            var price = parseInt(value, 10);
-            return (!isNaN(price)) ? price : 0;
         }
     },
     "event_type": {
@@ -112,51 +148,95 @@ var mapping = {
         key: "descriptions",
         transform: addDescription("nb")
     },
-    "showings.0.url": {
-        key: "eventURL",
-        transform: addUKAPrefix
-    },
     "image": {
         key: "imageURL",
         transform: addUKAPrefix
     },
-    "showings.0.id": {
-        key: "externalID",
-        transform: trimString
-    },
 };
 
 var categoryMapping = {
-    "Konsert": "MUSIC",
+    "Dagens bedrift": "PRESENTATIONS",
     "Fest og moro": "NIGHTLIFE",
-    "Revy og teater": "PERFORMANCES"
+    "Konsert": "MUSIC",
+    "Kurs og events": "PRESENTATIONS",
+    "Revy og teater": "PERFORMANCES",
 };
 
-var placeNameMapping = {
-    "Storsalen": "Studentersamfundet",
-    "Knaus": "Studentersamfundet",
-    "Dødens Dal": "Dødens dal"
+var placeMapping = {
+    "Samfundet": {
+        "placeName": "Studentersamfundet",
+        "address": "Elgeseter gate 1",
+        "latitude": 63.422634,
+        "longitude": 10.394697,
+    },
+    "Dødens Dal": {
+        "placeName": "Dødens dal",
+        "address": null,
+        "latitude": 63.419322,
+        "longitude": 10.406578,
+    },
+    "Elgesetergate 4": {
+        "placeName": "Elgesetergate 4",
+        "address": null,
+        "latitude": 63.42177,
+        "longitude": 10.394608,
+    },
+    "Gløshaugen": {
+        "placeName": "Gløshaugen",
+        "address": null,
+        "latitude": 63.415366,
+        "longitude": 10.408513,
+    },
+    "Høyskoleparken": {
+        "placeName": "Høyskoleparken",
+        "address": null,
+        "latitude": 63.421223,
+        "longitude": 10.396797,
+    },
+    "Vår Frue Kirke": {
+        "placeName": "Vår Frue Kirke",
+        "address": "Kongens gate 5",
+        "latitude": 63.430227,
+        "longitude": 10.397526,
+    },
 };
 
-var addressMapping = {
-    "Storsalen": "Elgeseter gate 1",
-    "Knaus": "Elgeseter gate 1",
-    "Dødens Dal": undefined
+var aliasForPlaceMapping = {
+    "Biblioteket": "Samfundet",
+    "Bodegaen": "Samfundet",
+    "Daglighallen": "Samfundet",
+    "Edgar": "Samfundet",
+    "Hele huset": "Samfundet",
+    "Klubben": "Samfundet",
+    "Knaus": "Samfundet",
+    "Rundhallen": "Samfundet",
+    "Selskapssiden": "Samfundet",
+    "Storsalen": "Samfundet",
+    "Strossa": "Samfundet",
+    "Realfagsbygget - Gløshaugen": "Gløshaugen",
+    "Stripa - Gløshaugen": "Gløshaugen",
 };
 
-var latitudeMapping = {
-    "Storsalen": 63.422634,
-    "Knaus": 63.422634,
-    "Dødens Dal": 63.419322
-};
+function getPlaceTransform(attribute) {
+    return function (value) {
+        var place = getPlace(value);
+        if (place) {
+            return place[attribute];
+        }
+    };
+}
 
-var longitudeMapping = {
-    "Storsalen": 10.394697,
-    "Knaus": 10.394697,
-    "Dødens Dal": 10.406578
-};
+function getPlace(place) {
+    var aliasForPlace = aliasForPlaceMapping[place];
+    if (aliasForPlace) {
+        place = aliasForPlace;
+    }
+    
+    var actualPlace = placeMapping[place];
+    return actualPlace;
+}
 
-function addDescription (language) {
+function addDescription(language) {
     return function (value, fromObject, toObject) {
         var output = mapper.getKeyValue(toObject, "descriptions") || [];
         if (value) {
@@ -170,11 +250,11 @@ function addDescription (language) {
     };
 }
 
-function trimString (value) {
+function trimString(value) {
     return value.toString().trim();
 }
 
-function addUKAPrefix (value) {
+function addUKAPrefix(value) {
     return "https://www.uka.no" + trimString(value);
 }
 

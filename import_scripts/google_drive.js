@@ -78,7 +78,12 @@ var mapping = {
         key: "placeName"
     },
     "3": {
-        key: "address"
+        key: "address",
+        transform: function (value) {
+            if (value) {
+                return value;
+            }
+        }
     },
     "4": {
         key: "latitude",
@@ -87,10 +92,7 @@ var mapping = {
             if (!isNaN(latitude)) {
                 return latitude;
             }
-            
-            return undefined;
-        },
-        "default": function () { return null; } // TODO: Remove when iOS-application supports null-values
+        }
     },
     "5": {
         key: "longitude",
@@ -99,18 +101,14 @@ var mapping = {
             if (!isNaN(longitude)) {
                 return longitude;
             }
-            
-            return undefined;
-        },
-        "default": function () { return null; } // TODO: Remove when iOS-application supports null-values
+        }
     },
     "6": {
         key: "ageLimit",
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
             return (!isNaN(ageLimit)) ? ageLimit : undefined;
-        },
-        "default": function () { return 0; } // TODO: Remove when iOS-application supports null-values
+        }
     },
     "7": {
         key: "price",
@@ -118,8 +116,7 @@ var mapping = {
             var cleanValue = value.replace("kr", "");
             var price = parseInt(cleanValue, 10);
             return (!isNaN(price)) ? price : undefined;
-        },
-        "default": function () { return 0; } // TODO: Remove when iOS-application supports null-values
+        }
     },
     "8": {
         key: "categoryID",
