@@ -1,6 +1,6 @@
 {
     "name": "Barteguiden-Server",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "private": true,
     "dependencies": {
         "locomotive": "0.3.x",
