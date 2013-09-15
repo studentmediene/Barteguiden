@@ -46,7 +46,31 @@ EventsController.create = function() {
     var controller = this;
     var params = controller.req.body;
     
-    Event.create(eventViewModel.fromAdminToDatabase(params))
+    var newEvent = eventViewModel.fromAdminToDatabase(params);
+    
+    if (newEvent.externalURL) {
+        var query = { where: ["externalURL = ? and externalID = ?", newEvent.externalURL, newEvent.externalID] };
+    
+        Event.find(query)
+            .success(function(event) {
+                if (event !== null) {
+                    controller.next(Error.http(409));
+                    return;
+                }
+                
+                createEvent(controller, newEvent);
+            })
+            .error(function(err) {
+                controller.next(500, null, err);
+            });
+    }
+    else {
+        createEvent(controller, newEvent);
+    }
+};
+
+function createEvent(controller, newEvent) {
+    Event.create(newEvent)
         .success(function(event) {
             controller.res.charset = "utf8"; // TODO: Move to a more central place?
             controller.res.json(eventViewModel.fromDatabaseToAdmin(event));
@@ -54,7 +78,7 @@ EventsController.create = function() {
         .error(function(err) {
             controller.next(Error.http(500, null, err));
         });
-};
+}
 
 EventsController.update = function() {
     var controller = this;
