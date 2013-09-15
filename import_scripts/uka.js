@@ -19,54 +19,30 @@ getEventsFromExternalSource(function (data) {
 });
 
 function getEventsFromExternalSource (callback) {
-    fs.readFile(sourceFile, function(err, data) {
-        callback(data);
-    });
-//    request({
-//        method: "GET",
-//        uri: externalURL,
-//        encoding: "utf8"
-//    }, function (error, response, body) {
-//        if (!error && response.statusCode === 200) {
-//            callback(body);
-//        }
+//    fs.readFile(sourceFile, function(err, data) {
+//        callback(data);
 //    });
+    request({
+        method: "GET",
+        uri: externalURL,
+        encoding: "utf8"
+    }, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            callback(body);
+        }
+    });
 }
 
 function parseEventsWithData (eventsSource) {
     var outputEvents = [];
     
-//    var addedEventIDs = [];
-    
     eventsSource.forEach(function (eventSource) {
-//        var id = eventSource.id;
-//        if (addedEventIDs.indexOf(id) !== -1) { // TODO: Remove this when uka.no removes duplicates
-//            console.log("duplicate id: " + id);
-//            return;
-//        }
-//        else {
-//            addedEventIDs.push(id);
-//        }
-        
         var baseEvent = mapper.merge(eventSource, {
             externalURL: externalURL,
             isPublished: true
         }, mapping);
         
         eventSource.showings.forEach(function (showing) {
-            // TODO: Remove this when uka.no fixes:
-//            if (showing.id === 98 || // Missing startAt
-//                showing.id === 204 || // Missing placeName
-//                showing.id === 222 || // Missing placeName
-//                showing.id === 223 || // Missing placeName
-//                showing.id === 224 || // Missing placeName
-//                showing.id === 278 || // ???
-//                showing.id === 283 || // ???
-//                showing.id === 289 || // ??? Missing text...
-//                showing.id === 315) { // Contains special characters in title
-//                return;
-//            }
-            
             var showingEvent = mapper.merge(showing, {}, showingMapping);
             var outputEvent = extend(baseEvent, showingEvent);
             
