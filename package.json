@@ -12,7 +12,8 @@
         "passport-local": "~0.1.6",
         "simple-errors": "~0.0.4",
         "object-mapper": "~0.0.7",
-        "xtend": "~2.0.6"
+        "xtend": "~2.0.6",
+        "analytics-node": "~0.5.0"
     },
     "scripts": {
         "start": "supervisor --ignore . -- config/server.js",
