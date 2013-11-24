@@ -5,6 +5,7 @@ var express = require("express");
 var poweredBy = require("connect-powered-by");
 var util = require("util");
 var passport = require("passport");
+var analytics = require("analytics-node");
 
 module.exports = function () {
     // Warn of version mismatch between global "lcm" binary and local installation
@@ -37,6 +38,26 @@ module.exports = function () {
 //        res.charset = "utf-8";
 //        next();
 //    });
+    
+    this.use(function (req, res, next) {
+        var userId = (req.user) ? req.user.username : "anonymous";
+        
+        analytics.track({
+            userId: userId,
+            event: req.method,
+            properties: {
+                url: req.url,
+                referrer: req.headers["referer"],
+                headers: req.headers
+            },
+            context: {
+                userAgent: req.headers["user-agent"],
+                ip: req.connection.remoteAddress
+            }
+        });
+        
+        next();
+    });
     
     this.use(this.router);
     
