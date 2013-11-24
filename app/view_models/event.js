@@ -1,5 +1,3 @@
-/*global require, module*/
-
 var mapper = require("object-mapper");
 var extend = require("xtend");
 

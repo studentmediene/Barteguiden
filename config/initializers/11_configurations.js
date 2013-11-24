@@ -1,4 +1,4 @@
-/*global require, module, process*/
+/*global process*/
 
 var locomotive = require("locomotive");
 

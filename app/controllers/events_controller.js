@@ -1,5 +1,3 @@
-/*global require, module*/
-
 require("simple-errors");
 var locomotive = require("locomotive");
 var eventViewModel = require("../view_models/event");

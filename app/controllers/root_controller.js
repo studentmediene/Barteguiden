@@ -1,5 +1,3 @@
-/*global require, module*/
-
 var locomotive = require("locomotive");
 var Controller = locomotive.Controller;
 

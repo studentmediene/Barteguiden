@@ -1,4 +1,4 @@
-/*global require, module, __dirname*/
+/*global __dirname*/
 
 var path = require("path");
 var Sequelize = require("sequelize");

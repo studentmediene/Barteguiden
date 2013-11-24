@@ -1,4 +1,4 @@
-/*global require, module, __dirname*/
+/*global __dirname*/
 
 var fs = require("fs");
 var express = require("express");

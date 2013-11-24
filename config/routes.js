@@ -1,5 +1,3 @@
-/*global require, module*/
-
 var locomotive = require("locomotive");
 
 // Draw routes.  Locomotive's router provides expressive syntax for drawing

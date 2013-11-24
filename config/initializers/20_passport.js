@@ -1,5 +1,3 @@
-/*global require, module*/
-
 var locomotive = require("locomotive");
 var passport = require("passport");
 var passportLocal = require("passport-local");

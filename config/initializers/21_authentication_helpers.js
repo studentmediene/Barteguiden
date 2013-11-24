@@ -1,5 +1,3 @@
-/*global require, module*/
-
 require("simple-errors");
 var passport = require("passport");
 
