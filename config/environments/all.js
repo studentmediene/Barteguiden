@@ -42,17 +42,20 @@ module.exports = function () {
     this.use(function (req, res, next) {
         var userId = (req.user) ? req.user.username : "anonymous";
         
+        var clientIp = req.socket.remoteAddress;
+        var xffip  = req.header("X-Forwarded-For");
+        var ip = xffip || clientIp;
+        
         analytics.track({
             userId: userId,
             event: req.method,
             properties: {
                 url: req.url,
-                referrer: req.headers["referer"],
-                headers: req.headers
+                referrer: req.header("Referer")
             },
             context: {
-                userAgent: req.headers["user-agent"],
-                ip: req.connection.remoteAddress
+                userAgent: req.header("User-Agent"),
+                ip: ip
             }
         });
         
