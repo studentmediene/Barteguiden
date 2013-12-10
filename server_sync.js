@@ -1,8 +1,16 @@
-/*global require, module*/
+/*global __dirname*/
 
+var fs = require("fs");
 var Q = require("q");
 var request = require("request");
 var eventSchema = require("./event_schema");
+
+var serverConfig = JSON.parse(fs.readFileSync(__dirname + "/config/server.json"));
+
+var credentials = {
+    username: serverConfig.username,
+    password: serverConfig.password
+};
 
 var baseURL = "http://localhost:3000";
 //var baseURL = "http://barteguiden.no/v1";
@@ -76,10 +84,7 @@ function logIn(callback) {
     request({
         method: "POST",
         uri: (baseURL + "/login"),
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded" 
-        },
-        body: "username=pablo&password=pablo!12345",
+        json: credentials,
         jar: j,
         encoding: "utf8"
     }, function (error, response) {

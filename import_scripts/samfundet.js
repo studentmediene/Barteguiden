@@ -1,4 +1,4 @@
-/*global require*/
+/*global __dirname*/
 
 var fs = require("fs");
 var Q = require("q");
@@ -8,7 +8,7 @@ var mapper = require("object-mapper");
 var jsdom = require("jsdom");
 var serverSync = require("../server_sync");
 
-var jquery = fs.readFileSync("../libs/jquery-1.7.min.js", "utf-8");
+var jquery = fs.readFileSync(__dirname + "/../libs/jquery-1.7.min.js", "utf-8");
 
 var parser = new xml2js.Parser();
 
@@ -179,7 +179,7 @@ var categoryMapping = {
     "Excenteraften": "DEBATE",
     "Temafest": "NIGHTLIFE",
     "Bokstavelig talt": "DEBATE",
-    "Quiz": "NIGHTLIFE",
+    "Quiz": "OTHER",
     "Show": "PERFORMANCES"
 };
 

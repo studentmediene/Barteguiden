@@ -1,5 +1,3 @@
-/*global require, module*/
-
 var extend = require("xtend");
 var Validator = require("jsonschema").Validator;
 
