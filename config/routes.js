@@ -10,7 +10,7 @@ var locomotive = require("locomotive");
 module.exports = function routes() {
     this.post("/login", locomotive.logIn);
     
-    this.post('/logout', locomotive.logOut);
+    this.post("/logout", locomotive.logOut);
     
     this.get("/isloggedin", locomotive.ensureAuthenticated, function (req, res) {
         console.log(req.user);
