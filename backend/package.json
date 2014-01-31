@@ -1,0 +1,22 @@
+{
+    "name": "Barteguiden-Server",
+    "version": "1.0.6",
+    "private": true,
+    "dependencies": {
+        "locomotive": "0.3.x",
+        "express": "3.x.x",
+        "connect-powered-by": "0.1.x",
+        "sequelize": "~1.7.0",
+        "sqlite3": "~2.1.14",
+        "passport": "~0.1.17",
+        "passport-local": "~0.1.6",
+        "simple-errors": "~0.0.4",
+        "object-mapper": "~0.0.7",
+        "xtend": "~2.0.6",
+        "analytics-node": "~0.5.0"
+    },
+    "scripts": {
+        "start": "supervisor --ignore . -- config/server.js",
+        "debug": "supervisor --watch app,config --exec node-theseus -- config/server.js"
+    }
+}
