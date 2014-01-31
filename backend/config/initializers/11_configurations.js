@@ -21,7 +21,7 @@ module.exports = function (done) {
                 address: "Elgeseter gate 1",
                 latitude: 63.422634,
                 longitude: 10.394697,
-                isPublished: false,
+                isPublished: true,
             }, {
                 title: "CV- og jobbsøkerkurs med Effect Bemanning",
                 startAt: new Date(Date.parse("2013-08-16 20:00")),
@@ -37,7 +37,7 @@ module.exports = function (done) {
                 isRecommended: true,
                 imageURL: "http://barteguiden.no/v1/events/2.jpg",
                 eventURL: "http://www.samfundet.no/arrangement/vis/3611",
-                isPublished: false,
+                isPublished: true,
             }, {
                 title: "Dagen etter semesterstart",
                 startAt: new Date(Date.parse("2013-08-14 20:00")),
@@ -45,7 +45,7 @@ module.exports = function (done) {
                 address: "Elgeseter gate 1",
                 latitude: 63.422634,
                 longitude: 10.394697,
-                isPublished: false,
+                isPublished: true,
             }]).error(function (err) {
                 console.log(err);
             });

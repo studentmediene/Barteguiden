@@ -17,6 +17,6 @@
     },
     "scripts": {
         "start": "supervisor --ignore . -- config/server.js",
-        "debug": "supervisor --watch app,config --exec node-theseus -- config/server.js"
+        "debug": "supervisor --watch app,config -- config/server.js"
     }
 }
