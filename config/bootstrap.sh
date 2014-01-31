@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-HOME=/home/vagrant
 PROJECT=/vagrant
 CONFIG=$PROJECT/config
 BACKEND=$PROJECT/backend
@@ -13,8 +12,6 @@ log () {
 
 log 'Installing common requirements...'
 apt-get update
-# apt-get install -y tmux
-# apt-get install -y software-properties-common
 apt-get install -y python-software-properties # Needed for 'add-apt-repository' command
 
 log 'Installing node...'
@@ -34,6 +31,6 @@ mkdir -p $BACKEND/data # Needed for sqlite database
 
 log 'Starting servers...'
 service nginx restart
-# cd $BACKEND && RESET_DB=1 npm start
+# cd $BACKEND && RESET_DB=1 npm run-script debug
 
 log 'Finished bootstrapping'
