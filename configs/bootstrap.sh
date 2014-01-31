@@ -1,17 +1,56 @@
 #!/usr/bin/env bash
 
+PROJECT=/vagrant
 HOME=/home/vagrant
-REPOS=$HOME/repos
-TOOLS=$HOME/tools
-DOWNLOADS=$HOME/downloads
 
 log () {
-	echo "[Barteguiden-Server] $1" | tee -a $HOME/bootstrap.log
+  echo "[Barteguiden-Server] $1" | tee -a $HOME/bootstrap.log
 }
 
-mkdir -p $REPOS
-mkdir -p $TOOLS
-mkdir -p $DOWNLOADS
+log 'Installing common requirements...'
+apt-get update
+# apt-get install -y tmux
+# apt-get install -y software-properties-common
+apt-get install -y python-software-properties # Needed for 'add-apt-repository' command
+
+log 'Installing node.js...'
+add-apt-repository -y ppa:chris-lea/node.js
+apt-get update
+apt-get install -y nodejs
+
+log 'Installing nginx...'
+apt-get install -y nginx
+
+log 'Setting up nginx...'
+rm /etc/nginx/sites-enabled/default
+ln -s $PROJECT/configs/nginx.conf /etc/nginx/sites-enabled/barteguiden.no
+service nginx restart
+
+log 'Installing node.js packages...'
+# npm -g install locomotive
+# npm -g install express
+npm -g install supervisor
+
+log 'Starting software...'
+# TODO
+
+
+# ---
+
+#!/usr/bin/env bash
+
+# HOME=/home/vagrant
+# REPOS=$HOME/repos
+# TOOLS=$HOME/tools
+# DOWNLOADS=$HOME/downloads
+
+# log () {
+#   echo "[Barteguiden-Server] $1" | tee -a $HOME/bootstrap.log
+# }
+
+# mkdir -p $REPOS
+# mkdir -p $TOOLS
+# mkdir -p $DOWNLOADS
 
 # log 'Adding repos for node and R...'
 # sudo add-apt-repository -y ppa:chris-lea/node.js
