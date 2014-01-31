@@ -2,6 +2,10 @@
 
 PROJECT=/vagrant
 HOME=/home/vagrant
+CONFIGS=$PROJECT/configs
+BACKEND=$PROJECT/backend
+FRONTEND=$PROJECT/frontend
+IMPORT=$PROJECT/import-scripts
 
 log () {
   echo "[Barteguiden-Server] $1" | tee -a $HOME/bootstrap.log
@@ -23,13 +27,16 @@ apt-get install -y nginx
 
 log 'Setting up nginx...'
 rm /etc/nginx/sites-enabled/default
-ln -s $PROJECT/configs/nginx.conf /etc/nginx/sites-enabled/barteguiden.no
+ln -s $CONFIGS/nginx.conf /etc/nginx/sites-enabled/barteguiden.no
 service nginx restart
 
 log 'Installing node.js packages...'
 # npm -g install locomotive
 # npm -g install express
 npm -g install supervisor
+
+log 'Initializing backend...'
+mkdir -p 
 
 log 'Starting software...'
 # TODO
