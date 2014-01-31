@@ -1,0 +1,16 @@
+{
+    "name": "Barteguiden-Import",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "xml2js": "~0.2.8",
+        "csv": "~0.3.5",
+        "object-mapper": "~0.0.7",
+        "objectdiff": "~1.1.0",
+        "jsdom": "~0.8.3",
+        "request": "~2.26.0",
+        "xtend": "~2.0.6",
+        "jsonschema": "~0.4.0",
+        "q": "~0.9.7"
+    }
+}
