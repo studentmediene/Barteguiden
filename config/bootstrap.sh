@@ -5,7 +5,7 @@ PROJECT=/vagrant
 CONFIG=$PROJECT/config
 BACKEND=$PROJECT/backend
 FRONTEND=$PROJECT/frontend
-IMPORT=$PROJECT/import-scripts
+IMPORT=$PROJECT/import
 
 log () {
   echo "[Barteguiden-Server] $1" | tee -a $HOME/bootstrap.log
@@ -32,7 +32,7 @@ log 'Setting up backend...'
 cd $BACKEND && npm install
 mkdir -p $BACKEND/data # Needed for sqlite database
 
-# log 'Setting up import-scripts...'
+# log 'Setting up import...'
 cd $IMPORT && npm install
 cp $IMPORT/config/server.json.example $IMPORT/config/server.json
 # TODO
