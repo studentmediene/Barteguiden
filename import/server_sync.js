@@ -12,8 +12,8 @@ var credentials = {
     password: serverConfig.password
 };
 
-var baseURL = "http://localhost:3000";
-//var baseURL = "http://barteguiden.no/v1";
+var baseURL = "http://localhost:10913/v1/";
+//var baseURL = "http://barteguiden.no/v1/";
 
 function sync(externalEvents) {
     console.log("Started updating at " + baseURL);
