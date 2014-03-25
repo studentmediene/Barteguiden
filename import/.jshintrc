@@ -5,11 +5,8 @@
     "indent": 4,
     "devel": true,
     "laxcasebreak": true,
-    "strict": true,
-    "globalstrict": true,
     "globals": {
         "require": true,
-        "module": true,
-        "angular": true
+        "module": true
     }
 }
