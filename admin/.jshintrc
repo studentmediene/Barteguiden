@@ -1,0 +1,11 @@
+{
+    "globals": {
+        "require": true,
+        "module": true,
+        "angular": true
+    },
+    "browser": true,
+    "strict": true,
+    "globalstrict": true,
+    "indent": 4
+}
