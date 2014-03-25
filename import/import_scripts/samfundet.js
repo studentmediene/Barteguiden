@@ -180,7 +180,10 @@ var categoryMapping = {
     "Temafest": "NIGHTLIFE",
     "Bokstavelig talt": "DEBATE",
     "Quiz": "OTHER",
-    "Show": "PERFORMANCES"
+    "Show": "PERFORMANCES",
+    "Fotballkamp": "SPORT",
+    "DJ": "MUSIC",
+    "Teater": "PERFORMANCES"
 };
 
 function addDescription (language) {
