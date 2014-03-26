@@ -3,6 +3,7 @@
     "unused": true,
     "curly": true,
     "indent": 4,
+    "quotmark": "double",
     "devel": true,
     "laxcasebreak": true,
     "strict": true,
