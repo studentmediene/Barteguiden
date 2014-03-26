@@ -1,5 +1,5 @@
-'use strict';
+"use strict";
 
-module.exports = ['$scope', function ($scope) {
-    $scope.text = 'This is a test.';
+module.exports = ["$scope", function ($scope) {
+    $scope.text = "This is a test.";
 }];

@@ -1,14 +1,14 @@
 /*globals window*/
-'use strict';
+"use strict";
 
-require('angular/angular');
-require('angular-route/angular-route');
-require('jquery/dist/jquery')(window);
-require('bootstrap/dist/js/bootstrap');
+require("angular/angular");
+require("angular-route/angular-route");
+require("jquery/dist/jquery")(window);
+require("bootstrap/dist/js/bootstrap");
 
-angular.module('barteguidenAdminApp', [
-        'ngRoute',
-        require('./main').name,
-        require('./events').name
+angular.module("barteguidenAdminApp", [
+        "ngRoute",
+        require("./main").name,
+        require("./events").name
     ])
-    .config(require('./routes'));
+    .config(require("./routes"));

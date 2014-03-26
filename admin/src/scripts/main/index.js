@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
-module.exports = angular.module('barteguidenAdminApp.main', [])
-    .controller('MainCtrl', require('./mainCtrl'));
+module.exports = angular.module("barteguidenAdminApp.main", [])
+    .controller("MainCtrl", require("./mainCtrl"));

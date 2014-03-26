@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
-module.exports = ['$routeProvider', function ($routeProvider) {
+module.exports = ["$routeProvider", function ($routeProvider) {
     $routeProvider
-        .when('/', {
-            templateUrl: 'partials/home.html',
-            controller: 'MainCtrl'
+        .when("/", {
+            templateUrl: "partials/home.html",
+            controller: "MainCtrl"
         })
-        .when('/events/', {
-            templateUrl: 'partials/home.html',
-            controller: 'EventsCtrl'
+        .when("/events/", {
+            templateUrl: "partials/home.html",
+            controller: "EventsCtrl"
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: "/"
         });
 }];
