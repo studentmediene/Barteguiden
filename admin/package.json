@@ -1,8 +1,9 @@
 {
-    "name": "sample-server",
-    "version": "0.0.1",
+    "name": "Barteguiden-Admin",
+    "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "jquery": "~2.1.0"
     },
     "devDependencies": {
         "gulp": "~3.5.6",

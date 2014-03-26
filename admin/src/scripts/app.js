@@ -1,10 +1,14 @@
+/*globals window*/
 'use strict';
 
 require('angular/angular');
 require('angular-route/angular-route');
+require('jquery/dist/jquery')(window);
+require('bootstrap/dist/js/bootstrap');
 
-angular.module('sampleApp', [
+angular.module('barteguidenAdminApp', [
         'ngRoute',
-        require('./controllers').name
+        require('./main').name,
+        require('./events').name
     ])
     .config(require('./routes'));

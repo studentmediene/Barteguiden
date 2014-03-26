@@ -7,10 +7,9 @@ var livereload = require('gulp-livereload');
 var embedlr = require('gulp-embedlr');
 var uglify = require('gulp-uglify');
 var less = require('gulp-less');
-var minifyHTML = require('gulp-minify-html');
+//var minifyHTML = require('gulp-minify-html');
 var minifyCSS = require('gulp-minify-css');
 //var imagemin = require('gulp-imagemin');
-var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 var jshint = require('gulp-jshint');
 
@@ -18,13 +17,12 @@ var isProd = (gutil.env.type === 'production');
 
 gulp.task('scripts', function() {
     var browserifyOpts = {
-        insertGlobals: true,
         debug: !isProd
     };
+    
     gulp.src(['./src/scripts/app.js'])
         .pipe(browserify(browserifyOpts))
         .pipe(isProd ? uglify() : gutil.noop())
-//        .pipe(concat('app.js'))
         .pipe(gulp.dest('./dist/scripts/'))
         .pipe(livereload());
 });
@@ -40,23 +38,27 @@ gulp.task('styles', function() {
 gulp.task('markup', function() {
     gulp.src(['./src/**/*.html'])
         .pipe(!isProd ? embedlr() : gutil.noop())
-        .pipe(isProd ? minifyHTML() : gutil.noop())
+//        .pipe(isProd ? minifyHTML() : gutil.noop())
         .pipe(gulp.dest('./dist/'))
         .pipe(livereload());
 });
 
-//gulp.task('images', function () {
-//    gulp.src(['./src/**/*.jpg', './src/**/*.png'])
+gulp.task('images', function () {
+    gulp.src(['./src/**/*.jpg', './src/**/*.png'])
 //        .pipe(isProd ? imagemin() : gutil.noop())
-//        .pipe(gulp.dest('./dist/'))
-//        .pipe(livereload());
-//});
-//
-//gulp.task('lint', function() {
-//    gulp.src(['./src/scripts/**/*.js'])
-//        .pipe(jshint())
-//        .pipe(jshint.reporter('default'));
-//});
+        .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('fonts', function() {
+    gulp.src(['./node_modules/bootstrap/dist/fonts/*'])
+        .pipe(gulp.dest('./dist/fonts/'));
+});
+
+gulp.task('lint', function() {
+    gulp.src(['./src/scripts/**/*.js'])
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
 
 gulp.task('clean', function() {
     gulp.src('./dist/', {read: false})
@@ -69,4 +71,4 @@ gulp.task('watch', function () {
     gulp.watch(['./src/styles/**/*.less'], ['styles']);
 });
 
-gulp.task('default', ['markup', 'scripts', 'styles', /*'images',*/ 'watch']);
+gulp.task('default', ['markup', 'scripts', 'styles', 'images', 'fonts', 'watch']);
