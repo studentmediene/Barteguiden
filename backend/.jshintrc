@@ -5,7 +5,6 @@
     "indent": 4,
     "quotmark": "double",
     "devel": true,
-    "laxcasebreak": true,
     "globals": {
         "require": true,
         "module": true
