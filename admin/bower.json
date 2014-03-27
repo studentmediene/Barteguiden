@@ -1,0 +1,24 @@
+{
+    "name": "Barteguiden-Admin",
+    "version": "1.0.0",
+    "homepage": "https://github.com/Studentmediene/Barteguiden-Server",
+    "authors": [
+        "Christian Rasmussen <christian.rasmussen@me.com>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "angular-animate": "~1.2.15",
+        "angular-cookies": "~1.2.15",
+        "angular-http-auth": "~1.2.1",
+        "angular-route": "~1.2.15",
+        "bootstrap": "~3.1.1"
+    }
+}

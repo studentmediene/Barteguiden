@@ -9,7 +9,7 @@ var uglify = require("gulp-uglify");
 var less = require("gulp-less");
 //var minifyHTML = require("gulp-minify-html");
 var minifyCSS = require("gulp-minify-css");
-//var imagemin = require("gulp-imagemin");
+var imagemin = require("gulp-imagemin");
 var clean = require("gulp-clean");
 var jshint = require("gulp-jshint");
 
@@ -17,6 +17,7 @@ var isProd = (gutil.env.type === "production");
 
 gulp.task("scripts", function() {
     var browserifyOpts = {
+        paths: ["bower_components"],
         debug: !isProd
     };
     
@@ -28,8 +29,12 @@ gulp.task("scripts", function() {
 });
 
 gulp.task("styles", function() {
+    var lessOpts = {
+        paths: ["bower_components"]
+    };
+    
     gulp.src(["./src/styles/app.less"])
-        .pipe(less())
+        .pipe(less(lessOpts))
         .pipe(isProd ? minifyCSS() : gutil.noop())
         .pipe(gulp.dest("./dist/styles/"))
         .pipe(livereload());
@@ -44,13 +49,13 @@ gulp.task("markup", function() {
 });
 
 gulp.task("images", function () {
-    gulp.src(["./src/**/*.jpg", "./src/**/*.png"])
-//        .pipe(isProd ? imagemin() : gutil.noop())
-        .pipe(gulp.dest("./dist/"));
+    gulp.src(["./src/images/**/*.jpg", "./src/images/**/*.png"])
+        .pipe(isProd ? imagemin() : gutil.noop())
+        .pipe(gulp.dest("./dist/images/"));
 });
 
 gulp.task("fonts", function() {
-    gulp.src(["./node_modules/bootstrap/dist/fonts/*"])
+    gulp.src(["./bower_components/bootstrap/dist/fonts/*"])
         .pipe(gulp.dest("./dist/fonts/"));
 });
 
