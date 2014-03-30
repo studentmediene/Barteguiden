@@ -17,8 +17,58 @@ var isProd = (gutil.env.type === "production");
 
 gulp.task("scripts", function() {
     var browserifyOpts = {
-        paths: ["bower_components"],
-        debug: !isProd
+        debug: !isProd,
+        shim: {
+            angular: {
+                path: "./bower_components/angular/angular.js",
+                exports: "angular"
+            },
+            "angular-route": {
+                path: "./bower_components/angular-route/angular-route.js",
+                exports: "ngRoute",
+                depends: {
+                    angular: "angular"
+                }
+            },
+//            "angular-animate": {
+//                path: "./node_modules/angular-animate/angular-animate.js",
+//                exports: "ngAnimate",
+//                depends: {
+//                    angular: "angular",
+//                    jQuery: "jQuery"
+//                }
+//            }
+            "angular-http-auth": {
+                path: "./bower_components/angular-http-auth/src/http-auth-interceptor.js",
+                exports: "ngHttpAuth",
+                depends: {
+                    angular: "angular"
+                }
+            },
+            jquery: {
+                path: "./bower_components/jquery/dist/jquery.js",
+                exports: "jquery"
+            },
+            bootstrap: {
+                path: "./bower_components/bootstrap/dist/js/bootstrap.js",
+                exports: "bootstrap",
+                depends: {
+                    jquery: "jquery"
+                }
+            },
+            lodash: {
+                path: "./bower_components/lodash/dist/lodash.js",
+                exports: "lodash"
+            },
+            restangular: {
+                path: "./bower_components/restangular/dist/restangular.js",
+                exports: "restangular",
+                depends: {
+                    angular: "angular",
+                    lodash: "lodash"
+                }
+            }
+        }
     };
     
     gulp.src(["./src/scripts/app.js"])

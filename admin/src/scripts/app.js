@@ -1,14 +1,13 @@
-/*globals window*/
 "use strict";
 
-require("angular/angular");
-require("angular-route/angular-route");
-require("jquery/dist/jquery")(window);
-require("bootstrap/dist/js/bootstrap");
+require("angular");
+require("angular-route");
+require("bootstrap");
 
 angular.module("barteguidenAdminApp", [
         "ngRoute",
-        require("./main").name,
-        require("./events").name
+        require("./auth").name,
+        require("./events").name,
+        require("./import").name
     ])
     .config(require("./routes"));

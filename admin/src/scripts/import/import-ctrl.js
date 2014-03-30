@@ -1,5 +1,5 @@
 "use strict";
 
 module.exports = ["$scope", function ($scope) {
-    $scope.text = "This is a test.";
+    $scope.text = "The backend is running version";
 }];
