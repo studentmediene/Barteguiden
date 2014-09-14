@@ -38,6 +38,11 @@ module.exports = function () {
 //        res.charset = "utf-8";
 //        next();
 //    });
+
+    this.use(function(req, res, next){
+      res.header('Access-Control-Allow-Origin', 'http://localhost:9000');
+      next();
+    });
     
     this.use(function (req, res, next) {
         var userId = (req.user) ? req.user.username : "anonymous";
