@@ -14,7 +14,11 @@ Steps to get up and running:
 ```
 $ git clone https://github.com/Studentmediene/Barteguiden-Server.git
 $ cd Barteguiden-Server
-$ vagrant up
+$ vagrant up
+$ vagrant ssh
+$ sudo service nginx restart 
+$ cd /vagrant/backend
+$ npm run-script debug
 ```
 
 The web server should now be available at: [http://localhost:10913/v1/](http://localhost:10913/v1/)
@@ -26,4 +30,4 @@ The web server should now be available at: [http://localhost:10913/v1/](http://l
 - How to start web servers manually?
 - Create a short summary how the server is structured (nginx/node)
 - Read NSHipster post about what to include in a README
-- Special requiremenst for the production server? (Eventually remove the installation guide on Google Drive)
+- Special requirements for the production server? (Eventually remove the installation guide on Google Drive)
