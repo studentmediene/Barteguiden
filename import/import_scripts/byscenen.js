@@ -1,7 +1,8 @@
 FEED_URL = "http://byscenen.no/?post_type=event&feed=rss2"
 
-var FeedParser = require('feedparser')
-  , request = require('request');
+var mapper = require("object-mapper");
+var FeedParser = require('feedparser');
+var request = require('request');
 
 var req = request(FEED_URL)
   , feedparser = new FeedParser([]);
@@ -25,7 +26,28 @@ feedparser.on('readable', function(){
   var stream = this
     , meta = this.meta
     , item;
+  items = []
   while (item = stream.read()){
-    console.log(item.title);
+    items.push(item)
   }
+  events = parseEvents(items);
+
 })
+
+function parseEvents (externalEvents) {
+    var outputEvents = [];
+    for (var i = 0; i < externalEvents.length; i++) {
+        var externalEvent = externalEvents[i];
+        var event = mapper.merge(externalEvent, {
+            placeName: "Byscenen",
+            address: "Kongens Gate 19, 7012 Trondheim",
+            latitude: 63.430051,
+            longitude: 10.391950,
+            externalURL: externalURL,
+            isPublished: true
+        }, mapping);
+        
+        outputEvents.push(event);
+    }
+    return outputEvents;
+}
