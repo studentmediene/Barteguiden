@@ -20,6 +20,7 @@ $ sudo service nginx restart
 $ cd /vagrant/backend
 $ npm run-script debug
 ```
+*NOTE!* The first time, you'll have to run `NODE_ENV=development RESET_DB=1 npm run-script debug` instead of just `npm run-script debug`.
 
 The web server should now be available at: [http://localhost:10913/v1/](http://localhost:10913/v1/)
 
