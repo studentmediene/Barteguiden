@@ -20,7 +20,7 @@ req.on('response', function(res){
 });
 
 feedparser.on('error', function(error){
-  console.log("hue");
+  console.log(error)
 })
 feedparser.on('readable', function(){
   var stream = this
@@ -31,6 +31,7 @@ feedparser.on('readable', function(){
     items.push(item)
   }
   events = parseEvents(items);
+  console.log(events);
 
 })
 
@@ -43,7 +44,7 @@ function parseEvents (externalEvents) {
             address: "Kongens Gate 19, 7012 Trondheim",
             latitude: 63.430051,
             longitude: 10.391950,
-            externalURL: externalURL,
+            externalURL: FEED_URL,
             isPublished: true
         }, mapping);
         
@@ -51,3 +52,48 @@ function parseEvents (externalEvents) {
     }
     return outputEvents;
 }
+
+var mapping = {
+    "title.0": {
+        key: "title",
+        transform: function (value) {
+            return value.replace(/^.*?-/, "").trim();
+        }
+    },
+    "pubDate.0": {
+        key: "startAt",
+        transform: function (value) {
+            if (value === undefined)
+                return "";
+            var currentTime = new Date();
+            var timezoneOffset = currentTime.getTimezoneOffset();
+            var date = new Date(Date.parse(value) + timezoneOffset * 60 * 1000);
+            return date.toISOString();
+        }
+    },
+    "agelimit.0": {
+        key: "ageLimit",
+        transform: function (value) {
+            var ageLimit = parseInt(value, 10);
+            return (!isNaN(ageLimit)) ? ageLimit : 0;
+        }
+    },
+    "category.0": {
+        key: "categoryID",
+        transform: function (value) {
+            return "OTHER";
+        }
+    },
+    "description.0": {
+        key: "descriptions",
+    },
+    "link.0": {
+        key: "eventURL"
+    },
+    "link.1.$.href": {
+        key: "imageURL"
+    },
+    "guid.0": {
+        key: "externalID"
+    },
+};

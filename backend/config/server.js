@@ -20,10 +20,10 @@ locomotive.boot(".", env, function (err, server) {
     if (err) {
         throw err;
     }
-    
+
     console.log(util.format("Locomotive %s application starting in %s...", locomotive.version, env));
-    
-    server.listen(config[env].port, config[env].host, function () { 
+
+    server.listen(config[env].port, config[env].host, function () {
         var addr = this.address();
         console.log("Listening on %s:%d", addr.address, addr.port);
     });

@@ -39,7 +39,7 @@ function getEventsFromExternalSource (callback) {
 parser.on("end", function(result) {
     var data = mapper.getKeyValue(result, "rss.channel.0.item");
     var events = parseEvents(data);
-    
+
     updateEventsWithPrices(events, function () {
         serverSync.sync(events, externalURL);
     });
@@ -57,20 +57,20 @@ function parseEvents (externalEvents) {
             externalURL: externalURL,
             isPublished: true
         }, mapping);
-        
+
         outputEvents.push(event);
     }
-    
+
     return outputEvents;
 }
 
 function updateEventsWithPrices (events, callback) {
     var promise_chain = Q.fcall(function(){});
-    
+
     events.forEach(function (event) {
         var promise_link = function () {
             var deferred = Q.defer();
-            
+
             console.log("Finding price for event: " + event.externalID);
             jsdom.env({
                 url: event.eventURL,
@@ -78,17 +78,17 @@ function updateEventsWithPrices (events, callback) {
                 done: function (err, window) {
                     event.price = findPrice(window.$);
                     console.log("Found price: " + event.price);
-                    
+
                     deferred.resolve();
                 }
             });
-            
+
             return deferred.promise;
         };
-        
+
         promise_chain = promise_chain.then(promise_link);
     });
-    
+
     promise_chain.done(function () {
         callback();
     });
@@ -100,7 +100,7 @@ function findPrice($) {
     }).filter(function (value) {
         return value > 0;
     });
-    
+
     var lowestPrice = Math.min.apply(null, prices);
     return (lowestPrice !== Infinity) ? lowestPrice : 0;
 }
@@ -121,53 +121,53 @@ var mapping = {
             return date.toISOString();
         }
     },
-    "agelimit.0": {
-        key: "ageLimit",
-        transform: function (value) {
-            var ageLimit = parseInt(value, 10);
-            return (!isNaN(ageLimit)) ? ageLimit : 0;
-        }
-    },
-//    "prices.0.price": {
-//        key: "price",
-//        transform: function (value) {
-//            if (!value) {
-//                return undefined;
-//            }
-//            
-//            for (var i = 0; i < value.length; i++) {
-//                var priceSource = value[i];
-//                var priceType = mapper.getKeyValue(priceSource, "$.rel");
-//                if (priceType === "For envher pris") {
-//                    var price = parseInt(mapper.getKeyValue(priceSource, "_"), 10);
-//                    if (!isNaN(price)) {
-//                        return price;
-//                    }
-//                }
-//            }
-//            
-//            return 0;
-//        }
-//    },
-    "category.0": {
-        key: "categoryID",
-        transform: function (value) {
-            return categoryMapping[value];
-        }
-    },
-    "description.0": {
-        key: "descriptions",
-        transform: addDescription("nb")
-    },
-    "link.0": {
-        key: "eventURL"
-    },
-    "link.1.$.href": {
-        key: "imageURL"
-    },
-    "guid.0": {
-        key: "externalID"
-    },
+        "agelimit.0": {
+            key: "ageLimit",
+            transform: function (value) {
+                var ageLimit = parseInt(value, 10);
+                return (!isNaN(ageLimit)) ? ageLimit : 0;
+            }
+        },
+        //    "prices.0.price": {
+        //        key: "price",
+        //        transform: function (value) {
+        //            if (!value) {
+        //                return undefined;
+        //            }
+        //            
+        //            for (var i = 0; i < value.length; i++) {
+        //                var priceSource = value[i];
+        //                var priceType = mapper.getKeyValue(priceSource, "$.rel");
+        //                if (priceType === "For envher pris") {
+        //                    var price = parseInt(mapper.getKeyValue(priceSource, "_"), 10);
+        //                    if (!isNaN(price)) {
+        //                        return price;
+        //                    }
+        //                }
+        //            }
+        //            
+        //            return 0;
+        //        }
+        //    },
+        "category.0": {
+            key: "categoryID",
+            transform: function (value) {
+                return categoryMapping[value];
+            }
+        },
+            "description.0": {
+                key: "descriptions",
+                transform: addDescription("nb")
+            },
+            "link.0": {
+                key: "eventURL"
+            },
+                "link.1.$.href": {
+                    key: "imageURL"
+                },
+                "guid.0": {
+                    key: "externalID"
+                },
 };
 
 var categoryMapping = {
@@ -175,10 +175,10 @@ var categoryMapping = {
     "Film": "PRESENTATIONS",
     "Møte": "DEBATE",
     "Happening": "NIGHTLIFE",
-    "Samfundsmøte": "DEBATE",
+        "Samfundsmøte": "DEBATE",
     "Excenteraften": "DEBATE",
     "Temafest": "NIGHTLIFE",
-    "Bokstavelig talt": "DEBATE",
+        "Bokstavelig talt": "DEBATE",
     "Quiz": "OTHER",
     "Show": "PERFORMANCES",
     "Fotballkamp": "SPORT",
@@ -195,7 +195,7 @@ function addDescription (language) {
                 text: value
             });
         }
-        
+
         return output;
     };
 }

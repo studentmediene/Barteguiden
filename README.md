@@ -16,7 +16,7 @@ $ git clone https://github.com/Studentmediene/Barteguiden-Server.git
 $ cd Barteguiden-Server
 $ vagrant up
 $ vagrant ssh
-$ sudo service nginx restart 
+$ sudo service nginx restart
 $ cd /vagrant/backend
 $ npm run-script debug
 ```
