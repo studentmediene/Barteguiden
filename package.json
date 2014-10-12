@@ -1,0 +1,18 @@
+{
+  "name": "Barteguiden-v2",
+  "version": "0.0.1",
+  "description": "Barteguiden server v2",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.0.0",
+    "http": "^0.0.0",
+    "sqlite3": "^3.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "martinhath",
+  "license": "MIT"
+}
