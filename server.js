@@ -1,12 +1,19 @@
+var mongoose = require('mongoose');
+var Event = require('./models/Event.js');
+
+var bodyParser = require('body-parser');
+
 var express = require('express');
 var app = express();
 var router = express.Router();
 
-port = process.env.PORT || 8080;
 
-app.get('/', function(req, res) {
-    res.send("fuck u\nnigger");
-});
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+port = process.env.PORT || 8000;
+mongoose.connect('mongodb://127.0.0.1:27017/eventdb');
 
 router.use(function(req, res, next) {
     console.log('Got request.');
@@ -23,7 +30,15 @@ router.get('/', function(req, res) {
 
 router.route('/events')
     .post(function(req, res) {
-        console.log(req.body.title);
+        var evnt = Event();
+        evnt.title = req.body.title;
+        evnt.description = req.body.desc;
+
+        evnt.save(function(err){
+            if(err)
+                res.rend(err);
+            res.json({ message: 'Event added.', data: evnt });
+        });
     });
 
 
