@@ -28,8 +28,24 @@ router.get('/', function(req, res) {
     }]);
 });
 
-router.route('/events')
-    .post(function(req, res) {
+/**
+ * Routing and GET for a single event
+ */
+eventRoute = router.route('/events/:event_id');
+eventRoute.get(function(req, res){
+    Event.findById(req.params.event_id, function(err, evnt){
+        if(err)
+            res.send(err);
+        res.fson(evnt);
+    })
+})
+
+/**
+ * Routing, with POST and GET for 
+ * all events
+ */
+eventsRouter = router.route('/events');
+eventsRouter.post(function(req, res) {
         var evnt = Event();
         evnt.title = req.body.title;
         evnt.description = req.body.desc;
@@ -40,8 +56,14 @@ router.route('/events')
             res.json({ message: 'Event added.', data: evnt });
         });
     });
+eventsRouter.get(function(req, res){
+    Event.find(function(err, events) {
+        if(err)
+            res.send(err);
+        res.json(events);
+    })
+});
 
 
 app.use('/api', router);
-
 app.listen(port);
