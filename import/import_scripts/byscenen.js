@@ -1,41 +1,55 @@
 FEED_URL = "http://byscenen.no/?post_type=event&feed=rss2"
 
 var mapper = require("object-mapper");
-var FeedParser = require('feedparser');
+var feedParser = require('feedparser');
 var request = require('request');
 
-var req = request(FEED_URL)
-  , feedparser = new FeedParser([]);
+var serverSync = require("../server_sync");
 
-req.on('error', function(error){
-  
+var req = request(FEED_URL),
+    feedparser = new feedParser([]);
+
+req.on('error', function(error) {
+
 });
 
-req.on('response', function(res){
-  var stream = this;
+req.on('response', function(res) {
+    var stream = this;
 
-  if (res.statusCode != 200) return this.emit('errror', new Error("Bad status code"));
+    if (res.statusCode != 200) return this.emit('errror', new Error("Bad status code"));
 
-  stream.pipe(feedparser);
+    stream.pipe(feedparser);
 });
 
-feedparser.on('error', function(error){
-  console.log(error)
-})
-feedparser.on('readable', function(){
-  var stream = this
-    , meta = this.meta
-    , item;
-  items = []
-  while (item = stream.read()){
-    items.push(item)
-  }
-  events = parseEvents(items);
-  console.log(events);
+feedparser.on('error', function(error) {
+    console.log(error)
+});
 
-})
+feedparser.on('readable', function() {
+    var stream = this,
+        meta = this.meta,
+        item;
+    items = [];
+    while (item = stream.read()) {
+        items.push(item);
+    }
+    events = parseEvents(items);
+    console.log(events);
 
-function parseEvents (externalEvents) {
+});
+
+feedparser.on('end', function(result) {
+    var data = mapper.getKeyValue(result, "rss.channel.0.item");
+    var events = parseEvents(data);
+
+    console.log(events);
+
+    for (event in events)
+        if (!event === undefined)
+            serverSync.sync(event, externalURL);
+});
+
+function parseEvents(externalEvents) {
     var outputEvents = [];
     for (var i = 0; i < externalEvents.length; i++) {
         var externalEvent = externalEvents[i];
@@ -47,22 +61,22 @@ function parseEvents (externalEvents) {
             externalURL: FEED_URL,
             isPublished: true
         }, mapping);
-        
+
         outputEvents.push(event);
     }
     return outputEvents;
 }
 
 var mapping = {
-    "title.0": {
+    "title": {
         key: "title",
-        transform: function (value) {
+        transform: function(value) {
             return value.replace(/^.*?-/, "").trim();
         }
     },
-    "pubDate.0": {
+    "pubDate": {
         key: "startAt",
-        transform: function (value) {
+        transform: function(value) {
             if (value === undefined)
                 return "";
             var currentTime = new Date();
@@ -71,29 +85,29 @@ var mapping = {
             return date.toISOString();
         }
     },
-    "agelimit.0": {
+    "agelimit": {
         key: "ageLimit",
-        transform: function (value) {
+        transform: function(value) {
             var ageLimit = parseInt(value, 10);
             return (!isNaN(ageLimit)) ? ageLimit : 0;
         }
     },
     "category.0": {
         key: "categoryID",
-        transform: function (value) {
+        transform: function(value) {
             return "OTHER";
         }
     },
-    "description.0": {
+    "description": {
         key: "descriptions",
     },
-    "link.0": {
-        key: "eventURL"
+    "link": {
+        key: "link"
     },
     "link.1.$.href": {
         key: "imageURL"
     },
-    "guid.0": {
+    "guid": {
         key: "externalID"
     },
 };
