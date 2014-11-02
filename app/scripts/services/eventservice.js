@@ -7,7 +7,7 @@
  * # eventService
  * Factory in the barteguidenMarkedsWebApp.
  */
-angular.module('barteguidenMarkedsWebApp.services')
+angular.module('barteguidenMarkedsWebApp')
   .service('eventService', function ($http) {
     var baseURL = 'http://barteguiden.no/v2/';
     //$http.get(baseURL + 'events');

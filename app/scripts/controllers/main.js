@@ -8,10 +8,14 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('MainCtrl', ['$scope', 'eventService', function ($scope, eventService) {
+    eventService.getAllEvents()
+      .success(function(data) {
+        $scope.events = data.events;
+      })
+      .error(function(data, status, headers) {
+        console.log(data, status, headers);
+      });
+
+
+  }]);

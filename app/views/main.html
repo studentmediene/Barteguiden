@@ -1,7 +1,27 @@
-<div class="jumbotron">
-  <h1>Hello, World!</h1>
-  <p class="lead">
-    Hello, world!
-  </p>
+<h3>Dine arrangementer</h3>
+<button class="btn btn-md btn-info"><span class="glyphicon glyphicon-plus"></span> Legg til arrangement</button>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Tittel</th><th>Tid</th><th>Sted</th><th>Endre</th><th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="event in userEvents = (events | orderBy: 'startAt')">
+      <td>
+        {{event.title | limitTo: 30}}
+      </td>
+      <td>
+        {{event.startAt | date:'dd/MM/yy HH:mm'}}
+      </td>
+      <td>
+        {{event.placeName}}
+      </td>
+      <td>
+        <button class="btn btn-xs btn-info">Endre</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
-
