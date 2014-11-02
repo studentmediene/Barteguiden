@@ -12,7 +12,8 @@ angular
   .module('barteguidenMarkedsWebApp', [
     'ngCookies',
     'ngResource',
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -23,6 +24,10 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/edit', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
       })
       .otherwise({
         redirectTo: '/'
