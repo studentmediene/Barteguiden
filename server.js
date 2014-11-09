@@ -36,7 +36,7 @@ eventRoute.get(function(req, res){
     Event.findById(req.params.event_id, function(err, evnt){
         if(err)
             res.send(err);
-        res.fson(evnt);
+        res.json(evnt);
     })
 })
 
