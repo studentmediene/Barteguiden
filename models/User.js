@@ -43,11 +43,6 @@ UserSchema.methods.verifyPassword = function(password, callback){
     bcrypt.compare(password, this.password, function(err, isMatch){
         if (err)
             return callback(err);
-        console.log("passwords matching? ", isMatch);
-        if(!isMatch){
-            console.log(password);
-            console.log(this.password);
-        }
 
         callback(null, isMatch);
     });
