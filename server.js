@@ -30,7 +30,7 @@ router.route('/events/:event_id')
 
 router.route('/users')
     .put(auth, userController.putUser)
-    .get(/*auth,*/ userController.getUsers);
+    .get(auth, userController.getUsers);
 
 
 app.use('/api', router);
