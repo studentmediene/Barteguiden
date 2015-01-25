@@ -11,7 +11,6 @@ To get all events, or events with a specific Id, use
 
 `GET /api/events[/:event_id]`
 
-
-|Require admin? | No  |
-|---------------|-----|
-| test setttset | nasd|
+| Auth required? |
+|----------------|
+|  No            |
