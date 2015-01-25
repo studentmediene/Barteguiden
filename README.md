@@ -38,7 +38,8 @@ GET /api/events/:event_id
 
 | Name   | Type   |  Description           |
 |--------|--------|------------------------|
-| Title  | String | The title of the event |
+| title  | String | The title of the event |
+| description | String | Description of the event |
 
 
 | Auth required? |
@@ -80,6 +81,13 @@ POST /api/users/
 ```
 GET /api/users/:user_id
 ```
+
+### Parameters
+
+| Name   | Type   |  Description           |
+|--------|--------|------------------------|
+| username  | String | Username of the user |
+| password | String | Password of the user (clear text!?) |
 
 | Auth required? |
 |----------------|
