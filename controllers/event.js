@@ -2,11 +2,11 @@ var Event = require('../models/Event')
 
 // POST /api/events
 exports.postEvents = function(req, res){
-    var evnt = new Event();
-
-    evnt.title = req.body.title;
-    evnt.desc = req.body.desc;
-    evnt.ownerId = req.user._id;
+    var evnt = new Event({
+        title = req.body.title,
+        description = req.body.description,
+        ownerId = req.user._id;
+    });
 
     evnt.save(function(err){
         if (err)
