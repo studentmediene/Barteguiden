@@ -44,3 +44,60 @@ GET /api/events/:event_id
 | Auth required? |
 |----------------|
 |  Yes           |
+
+## Removing an event
+
+```
+DELETE /api/event/:event_id
+```
+
+| Auth required? |
+|----------------|
+|  Yes           |
+
+## Get users
+
+To get all users, or users with a specific Id, use
+
+```
+GET /api/users/[:user_id]
+```
+
+| Auth required? |
+|----------------|
+|  Yes           |
+
+
+## Add/update users
+ 
+As with Events, use `POST` when adding a new user, and `PUT` when updating an
+existing user.
+
+```
+POST /api/users/
+```
+
+```
+GET /api/users/:user_id
+```
+
+| Auth required? |
+|----------------|
+|  Yes           |
+
+
+## Removing  a user
+
+```
+DELETE /api/users/:user_id
+```
+
+| Auth required? |
+|----------------|
+|  Yes           |
+
+
+
+
+
+
