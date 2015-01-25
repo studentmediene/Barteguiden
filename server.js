@@ -10,14 +10,13 @@ var authController = require('./controllers/auth');
 var auth = authController.isAuthenticated;
 
 
-
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(passport.initialize());
 
-port = process.env.PORT || 8000;
-mongoose.connect('mongodb://127.0.0.1:27017/eventdb');
+port = process.env.PORT || 4004;
+mongoose.connect('mongodb://127.0.0.1:27018/eventdb');
 
 router.route('/events')
     .post(auth, eventController.postEvents)
