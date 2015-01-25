@@ -5,6 +5,8 @@ This is the server backend for **Barteguiden**.
 
 #API
 
+_**Warning**: this is not a complete spec of the API!_
+
 ## Get events
 
 To get all events, or events with a specific Id, use
@@ -37,3 +39,8 @@ GET /api/events/:event_id
 | Name   | Type   |  Description           |
 |--------|--------|------------------------|
 | Title  | String | The title of the event |
+
+
+| Auth required? |
+|----------------|
+|  Yes           |
