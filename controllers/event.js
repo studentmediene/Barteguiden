@@ -1,6 +1,6 @@
 var Event = require('../models/Event')
 
-// /api/events POST
+// POST /api/events
 exports.postEvents = function(req, res){
     var evnt = new Event();
 
@@ -16,7 +16,7 @@ exports.postEvents = function(req, res){
     })
 }
 
-// /api/events GET
+// GET /api/events
 exports.getEvents = function(req, res){
     Event.find(function(err, events) {
         if(err)
@@ -25,7 +25,7 @@ exports.getEvents = function(req, res){
     });
 };
 
-// /api/events/:id GET
+// GET /api/events/:event_id
 exports.getEvent = function(req, res){
     Event.findById(req.params.event_id, function(err, evnt){
         if(err)
@@ -34,7 +34,7 @@ exports.getEvent = function(req, res){
     });
 };
 
-// /api/events/:id PUT
+// PUT /api/events/:event_id
 exports.putEvent = function(req, res){
     Event.update({ownerId: req.user._id, _id:req.params.event_id},
                  function(err, raw){
@@ -45,7 +45,7 @@ exports.putEvent = function(req, res){
                  });
 };
 
-// /api/events/:id DELETE
+// DELETE /api/events/:event_id
 exports.deleteEvent = function(req, res){
     Event.remove({ownerId: req.user._id, _id: req.params.event_id},
             function(err){

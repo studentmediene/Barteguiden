@@ -29,9 +29,14 @@ router.route('/events/:event_id')
     .delete(auth, eventController.deleteEvent);
 
 router.route('/users')
-    .put(auth, userController.putUser)
+    .post(auth, userController.postUser)
     .get(auth, userController.getUsers);
 
+router.route('/users/:user_id')
+    .put(auth, userController.putUser)
+    .get(auth, userController.getUser)
+    .delete(auth, userController.deleteUser);
+    
 
 app.use('/api', router);
 
