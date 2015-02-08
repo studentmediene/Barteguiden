@@ -5,7 +5,6 @@ exports.postEvents = function(req, res){
     var evnt = new Event({
         title: req.body.title,
         description: req.body.description,
-        ownerId: req.user._id,
     });
 
     evnt.save(function(err){
@@ -36,7 +35,7 @@ exports.getEvent = function(req, res){
 
 // PUT /api/events/:event_id
 exports.putEvent = function(req, res){
-    Event.update({ownerId: req.user._id, _id:req.params.event_id},
+    Event.update({_id:req.params.event_id},
                  function(err, raw){
                      if (err)
                          res.send(err);
@@ -47,7 +46,7 @@ exports.putEvent = function(req, res){
 
 // DELETE /api/events/:event_id
 exports.deleteEvent = function(req, res){
-    Event.remove({ownerId: req.user._id, _id: req.params.event_id},
+    Event.remove({_id: req.params.event_id},
             function(err){
                 if (err)
                     res.send(err);
