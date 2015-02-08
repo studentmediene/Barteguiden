@@ -7,15 +7,16 @@
  * # MainCtrl
  * Controller of the barteguidenMarkedsWebApp
  */
-angular.module('barteguidenMarkedsWebApp')
-  .controller('MainCtrl', ['$scope', 'eventService', function ($scope, eventService) {
-    eventService.getAllEvents()
-      .success(function(data) {
-        $scope.events = data.events;
-      })
-      .error(function(data, status, headers) {
-        console.log(data, status, headers);
-      });
+angular.module('barteguidenMarkedsWebApp.controllers')
+  .controller('MainCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
 
-
+    var events = Event.query(function() {
+      $scope.events = events.events;
+    });
+    $scope.editEvent = function(id) {
+      $location.path('/edit/' + id);
+    };
+    $scope.createEvent = function() {
+      $location.path('/new');
+    };
   }]);

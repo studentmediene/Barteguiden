@@ -1,5 +1,7 @@
 <h3>Dine arrangementer</h3>
-<button class="btn btn-md btn-info"><span class="glyphicon glyphicon-plus"></span> Legg til arrangement</button>
+<button ng-click="createEvent()" class="btn btn-md btn-info">
+  <span class="glyphicon glyphicon-plus"></span> Legg til arrangement
+</button>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -19,7 +21,7 @@
         {{event.placeName}}
       </td>
       <td>
-        <button class="btn btn-xs btn-info">Endre</button>
+        <button ng-click="editEvent(event.eventID)" class="btn btn-xs btn-info">Endre</button>
       </td>
     </tr>
     </tbody>

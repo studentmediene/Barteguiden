@@ -2,22 +2,15 @@
 
 /**
  * @ngdoc function
- * @name barteguidenMarkedsWebApp.controller:EditCtrl
+ * @name barteguidenMarkedsWebApp.controller:NewCtrl
  * @description
- * # EditCtrl
+ * # NewCtrl
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('EditCtrl', function ($scope, $routeParams, Event) {
+  .controller('NewCtrl', function ($scope, Event) {
 
-    var events = Event.get({id: $routeParams.id}, function() {
-      $scope.event = events;
-    });
-    //datepicker - startPicker
-
-    $scope.format = 'dd. MMMM yyyy';
-
-    $scope.event = {
+    $scope.event = new Event({
       startDate: undefined,
       endDate: undefined,
       descriptions: [
@@ -25,7 +18,17 @@ angular.module('barteguidenMarkedsWebApp.controllers')
           'language': 'nb', 'text': ''
         } //add another element if we want to implement english
       ]
-  };
+    });
+
+    $scope.submit = function() {
+      console.log($scope.event);
+      // event.$save(function() {
+
+      // });
+    }
+    //datepicker - startPicker
+    $scope.format = 'dd. MMMM yyyy';
+
 
     $scope.today = function() {
       $scope.event.startDate = new Date();
@@ -85,8 +88,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
         $scope.event.startDate.setMinutes(parseInt(time.slice(3, 5), 10));
       }
     };
-
-
 
     // categories
     $scope.categoryOptions = [

@@ -7,11 +7,7 @@
  * # LoginCtrl
  * Controller of the barteguidenMarkedsWebApp
  */
-angular.module('barteguidenMarkedsWebApp')
+angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('LoginCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    //Do awesome login stuff
   });

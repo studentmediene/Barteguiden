@@ -7,18 +7,17 @@
  * # eventService
  * Factory in the barteguidenMarkedsWebApp.
  */
-angular.module('barteguidenMarkedsWebApp')
-  .service('eventService', function ($http) {
-    var baseURL = 'http://barteguiden.no/v2/';
-    //$http.get(baseURL + 'events');
-    return {
-      getAllEvents: function() {
-        //just get the json file locally now
-        return $http.get(baseURL + 'events');
+angular.module('barteguidenMarkedsWebApp.services')
+  .factory('Event', function ($resource) {
+    return $resource('http://barteguiden.no/v2/events/:id', { id: '@_id' }, {
+      update: {
+        method: 'PUT'
       },
-      getEventById: function(id) {
-        return $http.get(baseURL + 'events/' + id.toString());
+      query: {
+        method: 'GET',
+        isArray: false
       }
-    };
+    });
   });
+
 
