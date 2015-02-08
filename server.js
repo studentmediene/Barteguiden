@@ -19,13 +19,13 @@ port = process.env.PORT || 4004;
 mongoose.connect('mongodb://127.0.0.1:27018/eventdb');
 
 router.route('/events')
-    .post(auth, eventController.postEvents)
+    .post(eventController.postEvents)
     .get(eventController.getEvents);
 
 router.route('/events/:event_id')
     .get(eventController.getEvent)
-    .put(auth, eventController.putEvent)
-    .delete(auth, eventController.deleteEvent);
+    .put(eventController.putEvent)
+    .delete(eventController.deleteEvent);
 
 router.route('/users')
     .post(auth, userController.postUser)
