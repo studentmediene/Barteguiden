@@ -2,10 +2,8 @@ var mongoose = require('mongoose');
 
 
 var EventSchema = new mongoose.Schema({
-    id: Number,
     title: String,
     description: String,
-    //ownerId: String,
     shows: [{
         startAt: String,
         endAt: String,
