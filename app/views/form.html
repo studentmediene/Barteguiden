@@ -71,8 +71,8 @@
 <div class="row">
   <label class="col-sm-2 control-label">Kategori</label>
   <div class="col-sm-4">
-    <select class="form-control" ng-model="event.categoryID">
-      <option ng-repeat="category in categoryOptions" value="{{category.id}}" ng-selected="true" ng-init="event.categoryID = category.id" required>{{category.name}} </option>
+    <select class="form-control" ng-model="category.categoryID">
+      <option ng-repeat="category in categoryOptions" ng-value="{{category.id}}" ng-selected="true" ng-init="event.categoryID = category.id" required>{{category.name}} </option>
     </select>
     <span class="help-block">Velg kategori fra listen.</span>
 
@@ -102,13 +102,13 @@
   <label class="col-sm-2 control-label">Aldersgrense</label>
   <div class="col-sm-10">
     <label class="radio-inline">
-      <input type="radio" ng-init="event.ageLimit = null" ng-model="event.ageLimit" name="ageLimitOptions" value=0> Ingen
+      <input type="radio" ng-init="event.ageLimit = null" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{null}}"> Ingen
     </label>
     <label class="radio-inline">
-      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" value=18> 18
+      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{18}}"> 18
     </label>
     <label class="radio-inline">
-      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" value=20> 20
+      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{20}}"> 20
     </label>
   </div>
 </div>

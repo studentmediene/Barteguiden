@@ -12,6 +12,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.datepicker = {};
     $scope.event = new Event();
+    $scope.category = {};
 
     $scope.event.shows = [{
       startDate: new Date(),
@@ -32,6 +33,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     };
 
     $scope.submit = function() {
+      $scope.event.tags.push($scope.category.categoryID);
       console.log($scope.event);
       // event.$save(function() {
 
