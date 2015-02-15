@@ -10,53 +10,43 @@
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('NewCtrl', function ($scope, Event) {
 
-    $scope.event = new Event({
-      startDate: undefined,
-      endDate: undefined,
-      descriptions: [
-        {
-          'language': 'nb', 'text': ''
-        } //add another element if we want to implement english
-      ]
-    });
+    $scope.datepicker = {};
+    $scope.event = new Event();
+
+    $scope.event.shows = [{
+      startDate: new Date(),
+      endDate: null
+    }];
+
+    $scope.add = function () {
+      $scope.event.shows.push({
+          startDate: new Date(),
+          endDate: null
+      });
+    };
+
+    $scope.remove = function(index) {
+      if(index !== 0) {
+        $scope.event.shows.splice(index, 1);
+      }
+    };
 
     $scope.submit = function() {
       console.log($scope.event);
       // event.$save(function() {
 
       // });
-    }
+    };
     //datepicker - startPicker
     $scope.format = 'dd. MMMM yyyy';
 
-
-    $scope.today = function() {
-      $scope.event.startDate = new Date();
-      $scope.event.endDate = new Date();
-    };
-    $scope.today();
-
-
-
-    $scope.clear = function () {
-      $scope.event.startDate = null;
-      $scope.event.endDate = null;
-    };
-
-    $scope.openStart = function($event) {
+    $scope.open = function($event, elementOpened) {
       $event.preventDefault();
       $event.stopPropagation();
 
-      $scope.startPickerOpened = true;
+      $scope.datepicker[elementOpened] = !$scope.datepicker[elementOpened];
+
     };
-
-    $scope.openEnd = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      $scope.endPickerOpened = true;
-    };
-
 
     $scope.dateOptions = {
       formatYear: 'yy',
@@ -65,28 +55,18 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.toggleMinMax = function() {
       $scope.minDate = new Date();
-
       $scope.maxDate = new Date();
-      $scope.maxDate.setFullYear($scope.minDate.getFullYear() + 1);
-      // sets max available date one year ahead
-
+      $scope.maxDate.setFullYear($scope.minDate.getFullYear() + 1);  // sets max available date one year ahead
     };
+
     $scope.toggleMinMax();
 
-    $scope.insertTimeIntoEndDate = function(time) {
-      if(time !== undefined && $scope.event.endDate !== undefined)  {
-        $scope.event.endDate.setHours(parseInt(time.slice(0,2),10));
-        $scope.event.endDate.setMinutes(parseInt(time.slice(3,5),10));
-        $scope.event.endDate = $scope.event.endDate;
+    $scope.insertTimeIntoDate = function(time, index, date) {
+      if(time !== undefined && $scope.event.shows[index][date] !== undefined)  {
+        $scope.event.shows[index][date].setHours(parseInt(time.slice(0,2),10));
+        $scope.event.shows[index][date].setMinutes(parseInt(time.slice(3,5),10));
       }
 
-    };
-
-    $scope.insertTimeIntoStartDate = function(time) {
-      if (time !== undefined && $scope.event.startDate !== undefined) {
-        $scope.event.startDate.setHours(parseInt(time.slice(0, 2), 10));
-        $scope.event.startDate.setMinutes(parseInt(time.slice(3, 5), 10));
-      }
     };
 
     // categories
