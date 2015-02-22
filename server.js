@@ -7,11 +7,14 @@ var passport = require('passport');
 var eventController = require('./controllers/event');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
+var imageController = require('./controllers/image');
 var auth = authController.isAuthenticated;
 var cors = require('cors')
+var busboy = require('connect-busboy');
 
 
 app.use(bodyParser.json());
+app.use(busboy());
 app.use(passport.initialize());
 app.use(cors({origin: 'http://localhost:9000'}));
 
@@ -35,7 +38,10 @@ router.route('/users/:user_id')
     .put(auth, userController.putUser)
     .get(auth, userController.getUser)
     .delete(auth, userController.deleteUser);
-    
+
+router.route('/image')
+    .post(imageController.postImage)
+    .get(imageController.getImages);
 
 app.use('/api', router);
 
