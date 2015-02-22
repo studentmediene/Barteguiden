@@ -2,6 +2,12 @@
 
 This is the server backend for **Barteguiden**.
 
+#Setup
+
+You should only need to run
+`npm install`
+
+The server uses MongoDB, which it assumes runs on port __27018__ (note, not _27017_!).
 
 #API
 
