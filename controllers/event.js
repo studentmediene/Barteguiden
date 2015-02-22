@@ -14,7 +14,7 @@ exports.postEvents = function(req, res){
 
 // GET /api/events
 exports.getEvents = function(req, res){
-    var time = Date().getTime();
+    var time = new Date().getTime();
     Event.find()
     .where('shows.startAt').gt(time)
     .exec(function(err, events) {
@@ -36,20 +36,21 @@ exports.getEvent = function(req, res){
 // PUT /api/events/:event_id
 exports.putEvent = function(req, res){
     Event.update({_id:req.params.event_id},
-             function(err, raw){
-                 if (err)
-                     res.send(err);
-                
-                 res.json({message: 'Event updated.'});
-             });
+                  req.body,
+         function(err, raw){
+             if (err)
+                 res.send(err);
+            
+             res.json({message: 'Event updated.'});
+         });
 };
 
 // DELETE /api/events/:event_id
 exports.deleteEvent = function(req, res){
     Event.remove({_id: req.params.event_id},
-            function(err){
-                if (err)
-                    res.send(err);
-                res.json({message: 'Event removed.'});
-            });
+        function(err){
+            if (err)
+                res.send(err);
+            res.json({message: 'Event removed.'});
+        });
 };
