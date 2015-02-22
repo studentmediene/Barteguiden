@@ -40,8 +40,7 @@ router.route('/users/:user_id')
     .delete(auth, userController.deleteUser);
 
 router.route('/image')
-    .post(imageController.postImage)
-    .get(imageController.getImages);
+    .post(imageController.postImage);
 
 router.route('/image/*')
     .get(imageController.getImage);

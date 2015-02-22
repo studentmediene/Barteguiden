@@ -18,11 +18,6 @@ exports.postImage = function(req, res){
     });
 };
 
-exports.getImages = function(req, res){
-    // TODO: List all urls available
-};
-
-// TODO: 
 exports.getImage = function(req, res){
     var p = path.resolve('./uploads/');
     p += '/' + req.params['0'];
