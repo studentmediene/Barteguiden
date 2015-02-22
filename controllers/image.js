@@ -9,7 +9,10 @@ exports.postImage = function(req, res){
         fstream = fs.createWriteStream(path.resolve('./uploads/'+filename));
         file.pipe(fstream);
         fstream.on('close', function() {
-            var url = req.protocol + '://'+ req.host + req.originalUrl + filename;
+            var port = req.app.settings.port || '';
+            var url = path.join(req.get('host'),
+                                req.originalUrl, filename);
+            url = req.protocol + '://' + url;
             res.json({halla: url});
         });
     });
@@ -17,8 +20,11 @@ exports.postImage = function(req, res){
 
 exports.getImages = function(req, res){
     // TODO: List all urls available
-    res.sendfile(path.resolve('uploads/'));
 };
 
 // TODO: 
-// exports.getImage = function(req, res){};
+exports.getImage = function(req, res){
+    var p = path.resolve('./uploads/');
+    p += '/' + req.params['0'];
+    res.sendFile(p);
+};
