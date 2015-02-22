@@ -14,7 +14,10 @@ exports.postEvents = function(req, res){
 
 // GET /api/events
 exports.getEvents = function(req, res){
-    Event.find(function(err, events) {
+    var time = Date().getTime();
+    Event.find()
+    .where('shows.startAt').gt(time)
+    .exec(function(err, events) {
         if(err)
             res.send(err);
         res.json(events);

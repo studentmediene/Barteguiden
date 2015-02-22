@@ -10,9 +10,7 @@ var authController = require('./controllers/auth');
 var auth = authController.isAuthenticated;
 
 
-app.use(bodyParser.json({
-    extended: true
-}));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 
 port = process.env.PORT || 4004;
