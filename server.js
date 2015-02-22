@@ -43,6 +43,9 @@ router.route('/image')
     .post(imageController.postImage)
     .get(imageController.getImages);
 
+router.route('/image/*')
+    .get(imageController.getImage);
+
 app.use('/api', router);
 
 console.log("Serving on port " + port);

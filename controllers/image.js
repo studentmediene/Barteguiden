@@ -13,7 +13,7 @@ exports.postImage = function(req, res){
             var url = path.join(req.get('host'),
                                 req.originalUrl, filename);
             url = req.protocol + '://' + url;
-            res.json({halla: url});
+            res.json({url: url});
         });
     });
 };
