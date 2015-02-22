@@ -11,7 +11,7 @@ var EventSchema = new mongoose.Schema({
     venue: {
         name: String,
         address: String,
-        latitute: String,
+        latitude: String,
         longitude: String,
     },
     ageLimit: Number,
