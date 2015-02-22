@@ -10,7 +10,7 @@ var authController = require('./controllers/auth');
 var auth = authController.isAuthenticated;
 
 
-app.use(bodyParser.urlencoded({
+app.use(bodyParser.json({
     extended: true
 }));
 app.use(passport.initialize());
