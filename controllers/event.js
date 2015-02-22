@@ -16,7 +16,7 @@ exports.postEvents = function(req, res){
 exports.getEvents = function(req, res){
     var time = new Date().getTime();
     Event.find()
-    .where('shows.startAt').gt(time)
+    .where('shows.startDate').gt(time)
     .exec(function(err, events) {
         if(err)
             res.send(err);

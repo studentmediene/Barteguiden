@@ -5,8 +5,8 @@ var EventSchema = new mongoose.Schema({
     title: String,
     description: String,
     shows: [{
-        startAt: String,
-        endAt: String,
+        startDate: Date,
+        endDate: Date,
     }],
     venue: {
         name: String,
@@ -19,6 +19,7 @@ var EventSchema = new mongoose.Schema({
     tags: [String],
     imageUrl: String,
     eventUrl: String,
+    isPromoted: Boolean
 })
 
 module.exports = mongoose.model('Event', EventSchema);

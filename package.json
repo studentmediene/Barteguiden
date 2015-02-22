@@ -10,7 +10,8 @@
     "mongoose": "^3.7",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
-    "sqlite3": "^3.0.2"
+    "sqlite3": "^3.0.2",
+    "cors": "~2.5.3"
   },
   "devDependencies": {},
   "scripts": {
