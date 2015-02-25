@@ -9,51 +9,50 @@
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event) {
+    $scope.time = [];
+    $scope.event = {};
+    $scope.cat = {};
 
-    var events = Event.get({id: $routeParams.id}, function() {
-      $scope.event = events;
+    var event = Event.get({id: $routeParams.id}, function() {
+      $scope.event = event;
+      for(var i = 0; i < $scope.event.shows.length; i++) {
+        var start = new Date($scope.event.shows[i].startDate);
+        var end = $scope.event.shows[i].endDate === null ? null : new Date($scope.event.shows[i].endDate);
+
+        $scope.time.push({
+          startTime: $scope.formatTime(start.getHours()) + ':' + $scope.formatTime(start.getMinutes()),
+          endTime: end === null ? null : $scope.formatTime(end.getHours()) + ':' + $scope.formatTime(end.getMinutes())
+        });
+      }
+      $scope.cat.id = $scope.event.tags.pop();
+      $scope._id = event._id;
+
     });
-    //datepicker - startPicker
+
+
+    $scope.formatTime = function(time) {
+      if (time < 10) {
+        return '0'+ time;
+      }
+      return time;
+    };
+
+    $scope.update = function() {
+      $scope.event.$update({id:$routeParams.id }, function() {
+        console.log('Success');
+      });
+    };
+
 
     $scope.format = 'dd. MMMM yyyy';
 
-    $scope.event = {
-      startDate: undefined,
-      endDate: undefined,
-      descriptions: [
-        {
-          'language': 'nb', 'text': ''
-        } //add another element if we want to implement english
-      ]
-  };
-
-    $scope.today = function() {
-      $scope.event.startDate = new Date();
-      $scope.event.endDate = new Date();
-    };
-    $scope.today();
-
-
-
-    $scope.clear = function () {
-      $scope.event.startDate = null;
-      $scope.event.endDate = null;
-    };
-
-    $scope.openStart = function($event) {
+    $scope.open = function($event, elementOpened) {
       $event.preventDefault();
       $event.stopPropagation();
 
-      $scope.startPickerOpened = true;
+      $scope.datepicker[elementOpened] = !$scope.datepicker[elementOpened];
+
     };
-
-    $scope.openEnd = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      $scope.endPickerOpened = true;
-    };
-
 
     $scope.dateOptions = {
       formatYear: 'yy',
@@ -70,23 +69,14 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     };
     $scope.toggleMinMax();
 
-    $scope.insertTimeIntoEndDate = function(time) {
-      if(time !== undefined && $scope.event.endDate !== undefined)  {
-        $scope.event.endDate.setHours(parseInt(time.slice(0,2),10));
-        $scope.event.endDate.setMinutes(parseInt(time.slice(3,5),10));
-        $scope.event.endDate = $scope.event.endDate;
+
+    $scope.insertTimeIntoDate = function(time, index, date) {
+      if(time !== undefined && $scope.event.shows[index][date] !== undefined)  {
+        $scope.event.shows[index][date].setHours(parseInt(time.slice(0,2),10));
+        $scope.event.shows[index][date].setMinutes(parseInt(time.slice(3,5),10));
       }
 
     };
-
-    $scope.insertTimeIntoStartDate = function(time) {
-      if (time !== undefined && $scope.event.startDate !== undefined) {
-        $scope.event.startDate.setHours(parseInt(time.slice(0, 2), 10));
-        $scope.event.startDate.setMinutes(parseInt(time.slice(3, 5), 10));
-      }
-    };
-
-
 
     // categories
     $scope.categoryOptions = [

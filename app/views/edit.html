@@ -1,8 +1,4 @@
 <h2>Endre arrangement</h2>
-<form novalidate class="form-horizontal" name="form" role="form" ng-submit="updateEvent()">
-    <div ng-include="'views/form.html'"></div>
+<form ng-include src="'views/form.html'" novalidate class="form-horizontal" name="form" role="form" ng-submit="update()">
 </form>
-
-
-  {{ event | json }}
 
