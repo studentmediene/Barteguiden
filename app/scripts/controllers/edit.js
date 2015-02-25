@@ -9,13 +9,39 @@
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event) {
-
+    $scope.time = [];
     $scope.event = {};
+    $scope.cat = {};
 
     var event = Event.get({id: $routeParams.id}, function() {
-      console.log(event);
       $scope.event = event;
+      for(var i = 0; i < $scope.event.shows.length; i++) {
+        var start = new Date($scope.event.shows[i].startDate);
+        var end = $scope.event.shows[i].endDate === null ? null : new Date($scope.event.shows[i].endDate);
+
+        $scope.time.push({
+          startTime: $scope.formatTime(start.getHours()) + ':' + $scope.formatTime(start.getMinutes()),
+          endTime: end === null ? null : $scope.formatTime(end.getHours()) + ':' + $scope.formatTime(end.getMinutes())
+        });
+      }
+      $scope.cat.id = $scope.event.tags.pop();
+      $scope._id = event._id;
+
     });
+
+
+    $scope.formatTime = function(time) {
+      if (time < 10) {
+        return '0'+ time;
+      }
+      return time;
+    };
+
+    $scope.update = function() {
+      $scope.event.$update({id:$routeParams.id }, function() {
+        console.log('Success');
+      });
+    };
 
 
     $scope.format = 'dd. MMMM yyyy';
