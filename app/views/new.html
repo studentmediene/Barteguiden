@@ -1,8 +1,3 @@
 <h2>Legg til arrangement</h2>
-<form novalidate class="form-horizontal" name="form" role="form" ng-submit="submit()">
-    <div ng-include="'views/form.html'"></div>
+<form ng-include src="'views/form.html'" novalidate class="form-horizontal" name="form" role="form" ng-submit="submit()">
 </form>
-
-
-  {{ event | json }}
-

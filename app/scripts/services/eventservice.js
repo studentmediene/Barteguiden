@@ -9,13 +9,13 @@
  */
 angular.module('barteguidenMarkedsWebApp.services')
   .factory('Event', function ($resource) {
-    return $resource('http://barteguiden.no/v2/events/:id', { id: '@_id' }, {
+    return $resource('http://localhost:4004/api/events/:id', { id: '@_id' }, {
       update: {
         method: 'PUT'
       },
       query: {
         method: 'GET',
-        isArray: false
+        isArray: true
       }
     });
   });
