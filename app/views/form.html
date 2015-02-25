@@ -38,7 +38,7 @@
     <div class="col-sm-3">
       <div class="input-group has-feedback" ng-class="{'has-error': form.startTimePicker.$dirty && form.startTimePicker.$invalid, 'has-success': form.startTimePicker.$valid}">
         <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
-        <input ng-change="insertTimeIntoDate(startTime, $index, 'startDate')" class="form-control" name="startTimePicker"ng-model="startTime" type="time" required>
+        <input ng-change="insertTimeIntoDate(time[$index].startTime, $index, 'startDate')" class="form-control" name="startTimePicker"ng-model="time[$index].startTime" type="time" required>
       </div>
     </div>
     <button type="button" class="btn btn-danger" ng-click="remove($index)">Fjern show</button>
@@ -60,7 +60,7 @@
     <div class="col-sm-3">
       <div class="input-group has-feedback" ng-class="{'has-error': form.endTimePicker.$dirty && form.endTimePicker.$invalid, 'has-success': form.endTimePicker.$valid}">
         <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
-        <input ng-change="insertTimeIntoDate(endTime, $index, 'endDate')" class="form-control" name="endTimePicker" ng-model="endTime" type="time">
+        <input ng-change="insertTimeIntoDate(time[$index].endTime, $index, 'endDate')" class="form-control" name="endTimePicker" ng-model="time[$index].endTime" type="time">
       </div>
     </div>
   </div>
@@ -71,8 +71,8 @@
 <div class="row">
   <label class="col-sm-2 control-label">Kategori</label>
   <div class="col-sm-4">
-    <select class="form-control" ng-model="category.categoryID">
-      <option ng-repeat="category in categoryOptions" ng-value="{{category.id}}" ng-selected="true" ng-init="event.categoryID = category.id" required>{{category.name}} </option>
+    <select class="form-control" ng-model="cat">
+      <option ng-repeat="category in categoryOptions" ng-value="{{category.id}}" ng-selected="true" ng-init="cat.id = category.id" required>{{category.name}} </option>
     </select>
     <span class="help-block">Velg kategori fra listen.</span>
 
@@ -92,7 +92,7 @@
 <div class="form-group" ng-class="{'has-error': form.Tags.$dirty && form.Tags.$invalid, 'has-success': form.Tags.$valid}">
   <label class="col-sm-2 control-label">Merkelapper</label>
   <div class="col-sm-10">
-    <input type="text" class="form-control" name="Tags" ng-model="event.tags"  placeholder="Merkelapper" ng-list>
+    <input type="text" class="form-control" name="Tags" ng-init="event.tags = []" ng-model="event.tags"  placeholder="Merkelapper" ng-list>
      <span class="help-block">Skriv inn merkelapper kommaseparert. Eks: UKA, Isfit.</span>
   </div>
 </div>
@@ -102,7 +102,7 @@
   <label class="col-sm-2 control-label">Aldersgrense</label>
   <div class="col-sm-10">
     <label class="radio-inline">
-      <input type="radio" ng-init="event.ageLimit = null" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{null}}"> Ingen
+      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{null}}"> Ingen
     </label>
     <label class="radio-inline">
       <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{18}}"> 18
@@ -135,7 +135,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': form.ImageUrl.$dirty && form.ImageUrl.$invalid, 'has-success': form.ImageUrl.$valid}" >
   <label class="col-sm-2 control-label">Bilde-URL</label>
   <div class="col-sm-10">
-    <input type="url" name="ImageUrl" ng-model="event.imageURL" class="form-control" placeholder="http://www.ensidemedbilde/bilder/bilde.png" required>
+    <input type="url" name="ImageUrl" ng-model="event.imageUrl" class="form-control" placeholder="http://www.ensidemedbilde/bilder/bilde.png" required>
     <span class="help-block">Bildet må være .png eller .jpg og ~~lalala~~</span>
 
   </div>
@@ -144,7 +144,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': form.ExternalUrl.$dirty && form.ExternalUrl.$invalid, 'has-success': form.ExternalUrl.$valid && form.ExternalUrl.$dirty}">
   <label class="col-sm-2 control-label">Ekstern URL til arrangementet</label>
   <div class="col-sm-10">
-    <input type="url" class="form-control" name="ExternalUrl" ng-model="event.eventURL" placeholder="http://www.enellerannennettside.no/arrangementet">
+    <input type="url" class="form-control" name="ExternalUrl" ng-model="event.eventUrl" placeholder="http://www.enellerannennettside.no/arrangementet">
     <span class="help-block">Legg inn ekstern lenke til arrangementet ditt her.</span>
 
   </div>
