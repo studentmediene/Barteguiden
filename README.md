@@ -100,7 +100,7 @@ GET /api/users/:user_id
 | Name   | Type   |  Description           |
 |--------|--------|------------------------|
 | username  | String | Username of the user |
-| password | String | Password of the user (clear text!?) |
+| password | String | Password of the user |
 
 | Auth required? |
 |----------------|
