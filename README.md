@@ -1,4 +1,4 @@
 Barteguiden-MarkedsWeb
 ======================
 
-A webapp that let's the event planners control wich events that show up in Barteguiden.
+A webapp that lets the event planners control which events that show up in Barteguiden.
