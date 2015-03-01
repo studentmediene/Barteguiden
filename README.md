@@ -57,14 +57,14 @@ GET /api/events/:event_id
 #### Shows
 
 | Name | Type | Description |
-|---------------------------|
+|------|------|-------------|
 | startDate | Date | Start time of the event |
 | endDate | Date | End time of the event |
 
 #### Venue
 
 | Name | Type | Description |
-|---------------------------|
+|------|------|-------------|
 | Name | String | Name of the location | 
 | Address | String | The locations address |
 | Latitude | String | Latitude |
