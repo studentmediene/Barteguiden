@@ -39,10 +39,10 @@ router.route('/users/:user_id')
     .get(auth, userController.getUser)
     .delete(auth, userController.deleteUser);
 
-router.route('/image')
+router.route('/images')
     .post(imageController.postImage);
 
-router.route('/image/*')
+router.route('/images/*')
     .get(imageController.getImage);
 
 app.use('/api', router);

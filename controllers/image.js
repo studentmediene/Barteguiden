@@ -1,12 +1,14 @@
 var path = require('path'),
     fs = require('fs');
 
+var FOLDERNAME = './uploads/'
+
 exports.postImage = function(req, res){
     var fstream;
     req.pipe(req.busboy);
     req.busboy.on('file', function(fieldname, file, filename) {
         filename = filename.replace(/\s/g, '');
-        fstream = fs.createWriteStream(path.resolve('./uploads/'+filename));
+        fstream = fs.createWriteStream(path.resolve(FOLDERNAME+filename));
         file.pipe(fstream);
         fstream.on('close', function() {
             var port = req.app.settings.port || '';
@@ -19,7 +21,7 @@ exports.postImage = function(req, res){
 };
 
 exports.getImage = function(req, res){
-    var p = path.resolve('./uploads/');
+    var p = path.resolve(FOLDERNAME);
     p += '/' + req.params['0'];
     res.sendFile(p);
 };
