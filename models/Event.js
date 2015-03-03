@@ -2,18 +2,16 @@ var mongoose = require('mongoose');
 
 
 var EventSchema = new mongoose.Schema({
-    id: Number,
     title: String,
     description: String,
-    //ownerId: String,
     shows: [{
-        startAt: String,
-        endAt: String,
+        startDate: Date,
+        endDate: Date,
     }],
     venue: {
         name: String,
         address: String,
-        latitute: String,
+        latitude: String,
         longitude: String,
     },
     ageLimit: Number,
@@ -21,6 +19,7 @@ var EventSchema = new mongoose.Schema({
     tags: [String],
     imageUrl: String,
     eventUrl: String,
+    isPromoted: Boolean
 })
 
 module.exports = mongoose.model('Event', EventSchema);

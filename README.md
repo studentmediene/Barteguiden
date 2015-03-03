@@ -2,6 +2,12 @@
 
 This is the server backend for **Barteguiden**.
 
+#Setup
+
+You should only need to run
+`npm install`
+
+The server uses MongoDB, which it assumes runs on port __27018__ (note, not _27017_!).
 
 #API
 
@@ -40,6 +46,13 @@ GET /api/events/:event_id
 |--------|--------|------------------------|
 | title  | String | The title of the event |
 | description | String | Description of the event |
+| shows | [{String, String}] | A list of string tuples, describing start- and end time of multiple shows |
+| venue | {String, String, String, String} | Name, Address, latitude, and longitude of the event |
+| ageLimit | Number | Age limit of the event |
+| price | Number | Price of admision for the event |
+| tags | [String] | All tags related to the event |
+| imageUrl | String | An URL to an image for the event |
+| eventUrl | String | An URL to the event website |
 
 
 | Auth required? |
@@ -87,7 +100,7 @@ GET /api/users/:user_id
 | Name   | Type   |  Description           |
 |--------|--------|------------------------|
 | username  | String | Username of the user |
-| password | String | Password of the user (clear text!?) |
+| password | String | Password of the user |
 
 | Auth required? |
 |----------------|
@@ -103,9 +116,4 @@ DELETE /api/users/:user_id
 | Auth required? |
 |----------------|
 |  Yes           |
-
-
-
-
-
 

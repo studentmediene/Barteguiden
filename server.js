@@ -8,12 +8,12 @@ var eventController = require('./controllers/event');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 var auth = authController.isAuthenticated;
+var cors = require('cors')
 
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(cors({origin: 'http://localhost:9000'}));
 
 port = process.env.PORT || 4004;
 mongoose.connect('mongodb://127.0.0.1:27018/eventdb');

@@ -2,10 +2,7 @@ var Event = require('../models/Event')
 
 // POST /api/events
 exports.postEvents = function(req, res){
-    var evnt = new Event({
-        title: req.body.title,
-        description: req.body.description,
-    });
+    var evnt = new Event(req.body);
 
     evnt.save(function(err){
         if (err)
@@ -17,7 +14,10 @@ exports.postEvents = function(req, res){
 
 // GET /api/events
 exports.getEvents = function(req, res){
-    Event.find(function(err, events) {
+    var time = new Date().getTime();
+    Event.find()
+    .where('shows.startDate').gt(time)
+    .exec(function(err, events) {
         if(err)
             res.send(err);
         res.json(events);
@@ -36,20 +36,21 @@ exports.getEvent = function(req, res){
 // PUT /api/events/:event_id
 exports.putEvent = function(req, res){
     Event.update({_id:req.params.event_id},
-                 function(err, raw){
-                     if (err)
-                         res.send(err);
-                    
-                     res.json({message: 'Event updated.'});
-                 });
+                  req.body,
+         function(err, raw){
+             if (err)
+                 res.send(err);
+            
+             res.json({message: 'Event updated.'});
+         });
 };
 
 // DELETE /api/events/:event_id
 exports.deleteEvent = function(req, res){
     Event.remove({_id: req.params.event_id},
-            function(err){
-                if (err)
-                    res.send(err);
-                res.json({message: 'Event removed.'});
-            });
+        function(err){
+            if (err)
+                res.send(err);
+            res.json({message: 'Event removed.'});
+        });
 };
