@@ -13,13 +13,14 @@ exports.postImage = function(req, res){
     var fstream;
     req.pipe(req.busboy);
     req.busboy.on('file', function(fieldname, file, filename) {
-        filename = genFilename();
-        fstream = fs.createWriteStream(path.resolve(FOLDERNAME+filename));
+        var fname = genFilename() + path.extname(filename);
+        fstream = fs.createWriteStream(path.resolve(FOLDERNAME +
+                    fname));
         file.pipe(fstream);
         fstream.on('close', function() {
             var port = req.app.settings.port || '';
             var url = path.join(req.get('host'),
-                                req.originalUrl, filename);
+                                req.originalUrl, fname);
             url = req.protocol + '://' + url;
             res.json({url: url});
         });
