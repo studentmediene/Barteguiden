@@ -3,11 +3,17 @@ var path = require('path'),
 
 var FOLDERNAME = './uploads/'
 
+function genFilename() {
+    var n1 = Math.floor(Math.random() * 1e15);
+    var n2 = Math.floor(Math.random() * 1e15);
+    return n1.toString() + '_' + n2.toString();
+}
+
 exports.postImage = function(req, res){
     var fstream;
     req.pipe(req.busboy);
     req.busboy.on('file', function(fieldname, file, filename) {
-        filename = filename.replace(/\s/g, '');
+        filename = genFilename();
         fstream = fs.createWriteStream(path.resolve(FOLDERNAME+filename));
         file.pipe(fstream);
         fstream.on('close', function() {
