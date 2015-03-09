@@ -154,7 +154,10 @@ var mapping = {
         key: "eventURL"
     },
     "link.1.$.href": {
-        key: "imageURL"
+        key: "imageURL",
+        transform: function(value) {
+            return value.replace("/large/", "/medium/");
+        }
     },
     "guid.0": {
         key: "externalID"
