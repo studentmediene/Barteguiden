@@ -21,12 +21,12 @@
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
-    <tr>
-      <th>Tittel</th><th>Tid</th><th>Sted</th><th>Endre</th><th>Slett</th>
+    <tr ng-model="orderProperty">
+      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2">Tittel</a></th><th><a href="" ng-click="orderProperty = 'shows[0].startDate' ; reverse=reverse3 ; reverse3 = !reverse3">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4">Sted</a></th><th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="event in userEvents = (events | orderBy : 'shows[0].startDate' | filter:search)">
+    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search)">
       <td>
         {{event.title | limitTo: 30}}
       </td>

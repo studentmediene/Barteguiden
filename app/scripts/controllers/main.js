@@ -10,6 +10,12 @@
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('MainCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
 
+    $scope.orderProperty = 'shows[0].startDate';
+    $scope.reverse = false;
+    $scope.reverse2 = false;
+    $scope.reverse3 = false;
+    $scope.reverse4 = false;
+
     var events = Event.query(function() {
       $scope.events = events;
     });
