@@ -1,27 +1,32 @@
 <h3>Dine arrangementer</h3>
 
-<div class="input-group">
-  <div class="col-lg-5">
+<div class="input-group row">
+  <div class="col-lg-4">
     <button ng-click="createEvent()" class="btn btn-md btn-info">
       <span class="glyphicon glyphicon-plus"></span> Legg til arrangement
     </button>
   </div>
-  <div class="col-lg-6">
-    <div class="form-group-right">
-      <input ng-model="searchText" type="text" class="form-control" placeholder="Søk">
-    </div>
-  </div>
+    <div class="col-lg-3">
+      <div class="input-group">
+        <input ng-model="search.title" type="text" class="form-control" aria-label="..." placeholder="Søk på tittel">
+      </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+  <div class="col-lg-3">
+    <div class="input-group">
+      <input ng-model="search.venue.name" type="text" class="form-control" aria-label="..." placeholder="Søk på sted">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
 </div>
 
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
-    <tr>
-      <th>Tittel</th><th>Tid</th><th>Sted</th><th>Endre</th><th>Slett</th>
+    <tr ng-model="orderProperty">
+      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'shows[0].startDate' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="event in userEvents = (events | orderBy : 'shows[0].startDate' | filter: searchText)">
+    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search)">
       <td>
         {{event.title | limitTo: 30}}
       </td>
