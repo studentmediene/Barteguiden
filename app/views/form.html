@@ -1,0 +1,158 @@
+
+<div class="form-group has-feedback"  ng-class="{'has-error': form.Title.$dirty && form.Title.$invalid, 'has-success': form.Title.$valid}">
+  <label class="col-sm-2 control-label">Tittel</label>
+  <div class="col-sm-10">
+    <input type="text" ng-minlength="2" ng-maxlength="120" class="form-control" name="Title" ng-model="event.title" placeholder="Tittel på arrangementet" required>
+  </div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': form.Place.$dirty && form.Place.$invalid, 'has-success': form.Place.$valid}">
+  <label class="col-sm-2 control-label">Navn på sted</label>
+  <div class="col-sm-10">
+    <input type="text" ng-minlength="2" class="form-control" name="Place" ng-model="event.venue.name"  placeholder="Sted" required>
+  </div>
+</div>
+
+<!--- TODO Finn måte å fikse adresser på. Og koordinatar. -->
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Adresse</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" placeholder="Adresse" ng-model="event.venue.address">
+  </div>
+</div>
+
+<div ng-repeat="show in event.shows">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Starttidspunkt{{$index+1}}</label>
+    <div class="col-sm-4">
+      <div class="input-group has-feedback" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">
+        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="event.shows[$index].startDate"
+        is-open="datepicker.startPickerOpen" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+        ng-required="true" close-text="Lukk" clear-text="Fjern" current-text="I dag" name="startDatePicker">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event, 'startPickerOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="input-group has-feedback" ng-class="{'has-error': form.startTimePicker.$dirty && form.startTimePicker.$invalid, 'has-success': form.startTimePicker.$valid}">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
+        <input ng-change="insertTimeIntoDate(time[$index].startTime, $index, 'startDate')" class="form-control" name="startTimePicker"ng-model="time[$index].startTime" type="time" required>
+      </div>
+    </div>
+    <button type="button" class="btn btn-danger" ng-click="remove($index)">Fjern show</button>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Sluttidspunkt{{$index+1}}</label>
+    <div class="col-sm-4">
+      <div class="input-group has-feedback" ng-class="{'has-error': form.endDatePicker.$invalid, 'has-success': form.endDatePicker.$valid}">
+        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="event.shows[$index].endDate"
+        is-open="datepicker.endPickerOpen" min-date="event.startDate" max-date="maxDate" datepicker-options="dateOptions"
+        ng-required="false" close-text="Lukk" clear-text="Fjern" current-text="I dag" name="endDatePicker">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event, 'endPickerOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="input-group has-feedback" ng-class="{'has-error': form.endTimePicker.$dirty && form.endTimePicker.$invalid, 'has-success': form.endTimePicker.$valid}">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
+        <input ng-change="insertTimeIntoDate(time[$index].endTime, $index, 'endDate')" class="form-control" name="endTimePicker" ng-model="time[$index].endTime" type="time">
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-success" ng-click="add()">Legg til gjentakende</button>
+
+
+<div class="row">
+  <label class="col-sm-2 control-label">Kategori</label>
+  <div class="col-sm-4">
+    <select class="form-control" ng-model="cat">
+      <option ng-repeat="category in categoryOptions" ng-value="{{category.id}}" ng-selected="true" ng-init="cat.id = category.id" required>{{category.name}} </option>
+    </select>
+    <span class="help-block">Velg kategori fra listen.</span>
+
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group has-feedback" ng-class="{'has-error': form.Price.$dirty && form.Price.$invalid, 'has-success': form.Price.$valid}">
+      <label class="col-sm-4 control-label">Pris i kroner</label>
+      <div class="col-sm-8">
+        <input type="number" min="0" name="Price" ng-model="event.price" class="form-control" placeholder="Pris" required>
+        <span class="help-block">Skriv 0 hvis gratis.</span>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group" ng-class="{'has-error': form.Tags.$dirty && form.Tags.$invalid, 'has-success': form.Tags.$valid}">
+  <label class="col-sm-2 control-label">Merkelapper</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" name="Tags" ng-init="event.tags = []" ng-model="event.tags"  placeholder="Merkelapper" ng-list>
+     <span class="help-block">Skriv inn merkelapper kommaseparert. Eks: UKA, Isfit.</span>
+  </div>
+</div>
+
+
+<div class="form-group" required>
+  <label class="col-sm-2 control-label">Aldersgrense</label>
+  <div class="col-sm-10">
+    <label class="radio-inline">
+      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{null}}"> Ingen
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{18}}"> 18
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="event.ageLimit" name="ageLimitOptions" ng-value="{{20}}"> 20
+    </label>
+  </div>
+</div>
+
+<div class="form-group" required>
+  <label class="col-sm-2 control-label">Promotert</label>
+  <div class="col-sm-10">
+    <label class="radio-inline">
+      <input type="radio" ng-init="event.isPromoted = false" ng-model="event.isPromoted" name="promotedOptions" ng-value="{{false}}"> Nei
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="event.isPromoted" name="promotedOptions" ng-value="{{true}}"> Ja
+    </label>
+  </div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': form.Description.$dirty && form.Description.$invalid, 'has-success': form.Description.$valid}">
+  <label class="col-sm-2 control-label">Beskrivelse</label>
+  <div class="col-sm-10">
+    <textarea ng-minlength="30" name="Description" ng-model="event.description" class="form-control" rows="6" required></textarea>
+  </div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': form.ImageUrl.$dirty && form.ImageUrl.$invalid, 'has-success': form.ImageUrl.$valid}" >
+  <label class="col-sm-2 control-label">Bilde-URL</label>
+  <div class="col-sm-10">
+    <input type="url" name="ImageUrl" ng-model="event.imageUrl" class="form-control" placeholder="http://www.ensidemedbilde/bilder/bilde.png" required>
+    <span class="help-block">Bildet må være .png eller .jpg og ~~lalala~~</span>
+
+  </div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': form.ExternalUrl.$dirty && form.ExternalUrl.$invalid, 'has-success': form.ExternalUrl.$valid && form.ExternalUrl.$dirty}">
+  <label class="col-sm-2 control-label">Ekstern URL til arrangementet</label>
+  <div class="col-sm-10">
+    <input type="url" class="form-control" name="ExternalUrl" ng-model="event.eventUrl" placeholder="http://www.enellerannennettside.no/arrangementet">
+    <span class="help-block">Legg inn ekstern lenke til arrangementet ditt her.</span>
+
+  </div>
+</div>
+<div class="alert alert-warning" ng-show="form.$invalid && form.$dirty">Noe i skjemaet er ugyldig. Fiks det og prøv igjen.</div>
+<div class="alert alert-info" ng-hide="form.$invalid">Alt ser ut til å være OK. Trykk "lagre" dersom du er ferdig.</div>
+
+<button type="submit" class="btn btn-md btn-info col-sm-2 col-sm-offset-10" ng-disabled="form.$invalid"><span class="glyphicon glyphicon-floppy-disk"></span> Lagre</button>
+
+{{ event | json }}
+
