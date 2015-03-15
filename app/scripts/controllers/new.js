@@ -16,6 +16,17 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.time = [];
     $scope.cat = {};
 
+    $scope.image = {};
+
+    $scope.uploadImage = function($event) {
+      $event.preventDefault();
+      var file = $scope.image.image;
+      Imageservice.upload(file).success(function(data) {
+        console.log('uploaded');
+        $scope.event.imageUrl = data.url;
+      });
+    };
+
     $scope.event.shows = [{
       startDate: new Date(),
       endDate: null
@@ -49,6 +60,8 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       });
 
     };
+
+
     //datepicker - startPicker
     $scope.format = 'dd. MMMM yyyy';
 
