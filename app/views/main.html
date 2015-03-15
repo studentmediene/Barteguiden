@@ -22,7 +22,7 @@
   <table class="table table-striped">
     <thead>
     <tr ng-model="orderProperty">
-      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2">Tittel</a></th><th><a href="" ng-click="orderProperty = 'shows[0].startDate' ; reverse=reverse3 ; reverse3 = !reverse3">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4">Sted</a></th><th>Endre</th><th>Slett</th>
+      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'shows[0].startDate' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>
