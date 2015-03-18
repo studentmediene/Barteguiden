@@ -8,7 +8,7 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('NewCtrl', function ($scope, Event) {
+  .controller('NewCtrl', function ($scope, Event, $location) {
 
     $scope.datepicker = {};
     $scope.event = new Event();
@@ -39,6 +39,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       }
       $scope.event.$save(function() {
         console.log('Success');
+        $location.path('/');
       });
     };
     //datepicker - startPicker

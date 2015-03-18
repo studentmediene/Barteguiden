@@ -8,7 +8,7 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('EditCtrl', function ($scope, $routeParams, Event) {
+  .controller('EditCtrl', function ($scope, $routeParams, Event, $location) {
     $scope.time = [];
     $scope.event = {};
     $scope.cat = {};
@@ -40,6 +40,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.update = function() {
       $scope.event.$update({id:$routeParams.id }, function() {
         console.log('Success');
+        $location.path('/');
       });
     };
 
