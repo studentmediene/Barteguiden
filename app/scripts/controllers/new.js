@@ -41,7 +41,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       $scope.event.$save(function () {
         // Success
         console.log('Success');
-        notify({message: 'Eventen er lagret!', classes: 'alert-success'});
+        notify({message: 'Arrangementet er lagret!', classes: 'alert-success'});
         $location.path('/');
       }, function () {
         // failure

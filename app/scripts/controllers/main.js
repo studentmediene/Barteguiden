@@ -8,7 +8,7 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('MainCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
+  .controller('MainCtrl', ['$scope', 'Event', '$location', '$modal', '$window', function ($scope, Event, $location,$modal, $window) {
 
     $scope.orderProperty = 'shows[0].startDate';
     $scope.reverse = false;
@@ -28,5 +28,29 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.deleteEvent = function(id) {
       Event.delete({id: id});
+    };
+
+    $scope.open = function (id) {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'myModalContent.html',
+        controller: 'MainCtrl',
+        size: 'sm'
+      });
+
+      modalInstance.result.then(function (result) {
+        if(result === 'ok'){
+          Event.delete({id: id});
+          $window.location.reload();
+        }
+      });
+    };
+
+    $scope.ok = function () {
+      $scope.$close('ok');
+    };
+
+    $scope.cancel = function () {
+      $scope.$dismiss('cancel');
     };
   }]);
