@@ -8,6 +8,7 @@
  */
 angular.module('barteguidenMarkedsWebApp')
   .directive('fileModel', function ($parse) {
+    // From here: https://uncorkedstudios.com/blog/multipartformdata-file-upload-with-angularjs
      return {
           restrict: 'A',
           link: function(scope, element, attrs) {
