@@ -9,6 +9,7 @@
  */
 angular.module('barteguidenMarkedsWebApp')
   .service('Imageservice', function ($http) {
+      // from here: https://uncorkedstudios.com/blog/multipartformdata-file-upload-with-angularjs
       this.upload = function(file){
         var uploadUrl = 'http://localhost:4004/api/images';
         var fd = new FormData();
