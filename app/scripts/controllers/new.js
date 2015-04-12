@@ -8,8 +8,9 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('NewCtrl', function ($scope, Event, $location) {
+  .controller('NewCtrl', function ($scope, Event, $location, notify) {
 
+    notify.config({duration:3000})
     $scope.datepicker = {};
     $scope.event = new Event();
     $scope.time = [];
@@ -37,10 +38,16 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       if($scope.cat.id) {
         $scope.event.tags.push($scope.cat.id);
       }
-      $scope.event.$save(function() {
+      $scope.event.$save(function (user, headers) {
+        // Success
         console.log('Success');
+        notify({message: 'Eventen er lagret!', classes: 'alert-success'});
         $location.path('/');
+      }, function (error) {
+        // failure
+        notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
       });
+
     };
     //datepicker - startPicker
     $scope.format = 'dd. MMMM yyyy';
