@@ -38,12 +38,12 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       if($scope.cat.id) {
         $scope.event.tags.push($scope.cat.id);
       }
-      $scope.event.$save(function (user, headers) {
+      $scope.event.$save(function () {
         // Success
         console.log('Success');
         notify({message: 'Eventen er lagret!', classes: 'alert-success'});
         $location.path('/');
-      }, function (error) {
+      }, function () {
         // failure
         notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
       });
