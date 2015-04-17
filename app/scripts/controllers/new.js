@@ -16,6 +16,16 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.time = [];
     $scope.cat = {};
 
+    $scope.image = {};
+
+    $scope.uploadImage = function($event) {
+      $event.preventDefault();
+      var file = $scope.image.image;
+      Imageservice.upload(file).success(function(data) {
+        $scope.event.imageUrl = data.url;
+      });
+    };
+
     $scope.event.shows = [{
       startDate: new Date(),
       endDate: null
