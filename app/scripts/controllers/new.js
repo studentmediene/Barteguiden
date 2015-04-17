@@ -10,7 +10,7 @@
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('NewCtrl', function ($scope, Event, $location, notify) {
 
-    notify.config({duration:3000})
+    notify.config({duration:3000});
     $scope.datepicker = {};
     $scope.event = new Event();
     $scope.time = [];

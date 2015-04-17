@@ -10,7 +10,7 @@
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event, $location, notify) {
 
-    notify.config({duration:3000})
+    notify.config({duration:3000});
     $scope.time = [];
     $scope.event = {};
     $scope.cat = {};

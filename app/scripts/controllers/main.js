@@ -33,7 +33,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.open = function (id) {
 
       var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
+        templateUrl: 'views/modal.html',
         controller: 'MainCtrl',
         size: 'sm'
       });
