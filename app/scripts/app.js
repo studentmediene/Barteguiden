@@ -24,7 +24,8 @@ angular
     'barteguidenMarkedsWebApp.controllers',
     'barteguidenMarkedsWebApp.filters',
     'barteguidenMarkedsWebApp.services',
-    'barteguidenMarkedsWebApp.directives'
+    'barteguidenMarkedsWebApp.directives',
+    'cgNotify'
   ])
   .config(function ($routeProvider) {
     $routeProvider

@@ -8,7 +8,9 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('EditCtrl', function ($scope, $routeParams, Event) {
+  .controller('EditCtrl', function ($scope, $routeParams, Event, $location, notify) {
+
+    notify.config({duration:3000});
     $scope.time = [];
     $scope.event = {};
     $scope.cat = {};
@@ -39,7 +41,13 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.update = function() {
       $scope.event.$update({id:$routeParams.id }, function() {
+        // Success
         console.log('Success');
+        notify({message: 'Endingen er lagret!', classes: 'alert-success'});
+        $location.path('/');
+      }, function () {
+        // failure
+        notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
       });
     };
 
