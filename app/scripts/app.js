@@ -41,9 +41,13 @@ angular
     'barteguidenMarkedsWebApp.filters',
     'barteguidenMarkedsWebApp.services',
     'barteguidenMarkedsWebApp.directives',
-    'cgNotify'
+    'cgNotify',
+    'uiGmapgoogle-maps'
+
   ])
   .config(function ($routeProvider) {
+
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -60,6 +64,9 @@ angular
       .when('/new', {
         templateUrl: 'views/new.html',
         controller: 'NewCtrl'
+      }).when('/venue', {
+        templateUrl: 'views/venue.html',
+        controller: 'VenueCtrl'
       })
       .otherwise({
         redirectTo: '/'
