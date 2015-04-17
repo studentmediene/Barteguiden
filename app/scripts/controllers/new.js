@@ -63,4 +63,8 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.minDate = minDate;
     $scope.maxDate = maxDate;
 
+    $scope.addVenue = function(){
+      $location.path('/venue');
+    }
+
   });
