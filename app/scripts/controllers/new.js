@@ -22,7 +22,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       $event.preventDefault();
       var file = $scope.image.image;
       Imageservice.upload(file).success(function(data) {
-        console.log('uploaded');
         $scope.event.imageUrl = data.url;
       });
     };
@@ -60,8 +59,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       });
 
     };
-
-
     //datepicker - startPicker
     $scope.format = 'dd. MMMM yyyy';
 
