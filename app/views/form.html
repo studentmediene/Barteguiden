@@ -22,57 +22,52 @@
   </div>
 </div>
 
-<div ng-repeat="show in event.shows">
-  <div class="form-group">
-    <label class="col-sm-2 control-label">Starttidspunkt{{$index+1}}</label>
-    <div class="col-sm-4">
-      <div class="input-group has-feedback" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">
-        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="event.shows[$index].startDate"
-        is-open="datepicker.startPickerOpen" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
-        ng-required="true" close-text="Lukk" clear-text="Fjern" current-text="I dag" name="startDatePicker">
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="open($event, 'startPickerOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Starttidspunkt</label>
+  <div class="col-sm-4">
+    <div class="input-group has-feedback" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">
+    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="event.startAt"
+      is-open="datepicker.startPickerOpen" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+      ng-required="true" close-text="Lukk" clear-text="Fjern" current-text="I dag" name="startDatePicker">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="open($event, 'startPickerOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
     </div>
-    <div class="col-sm-3">
-      <div class="input-group has-feedback" ng-class="{'has-error': form.startTimePicker.$dirty && form.startTimePicker.$invalid, 'has-success': form.startTimePicker.$valid}">
-        <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
-        <input ng-change="insertTimeIntoDate(time[$index].startTime, $index, 'startDate')" class="form-control" name="startTimePicker"ng-model="time[$index].startTime" type="time" required>
-      </div>
-    </div>
-    <button type="button" class="btn btn-danger" ng-click="remove($index)">Fjern show</button>
   </div>
-
-  <div class="form-group">
-    <label class="col-sm-2 control-label">Sluttidspunkt{{$index+1}}</label>
-    <div class="col-sm-4">
-      <div class="input-group has-feedback" ng-class="{'has-error': form.endDatePicker.$invalid, 'has-success': form.endDatePicker.$valid}">
-        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="event.shows[$index].endDate"
-        is-open="datepicker.endPickerOpen" min-date="event.startDate" max-date="maxDate" datepicker-options="dateOptions"
-        ng-required="false" close-text="Lukk" clear-text="Fjern" current-text="I dag" name="endDatePicker">
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="open($event, 'endPickerOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </div>
-    </div>
-
-    <div class="col-sm-3">
-      <div class="input-group has-feedback" ng-class="{'has-error': form.endTimePicker.$dirty && form.endTimePicker.$invalid, 'has-success': form.endTimePicker.$valid}">
-        <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
-        <input ng-change="insertTimeIntoDate(time[$index].endTime, $index, 'endDate')" class="form-control" name="endTimePicker" ng-model="time[$index].endTime" type="time">
-      </div>
+  <div class="col-sm-3">
+    <div class="input-group has-feedback" ng-class="{'has-error': form.startTimePicker.$dirty && form.startTimePicker.$invalid, 'has-success': form.startTimePicker.$valid}">
+      <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
+      <input ng-change="insertTimeIntoDate(time.startTime,'startAt')" class="form-control" name="startTimePicker"ng-model="time.startTime" type="time" required>
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-success" ng-click="add()">Legg til gjentakende</button>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Sluttidspunkt</label>
+  <div class="col-sm-4">
+    <div class="input-group has-feedback" ng-class="{'has-error': form.endDatePicker.$invalid, 'has-success': form.endDatePicker.$valid}">
+      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="event.endAt"
+      is-open="datepicker.endPickerOpen" min-date="event.startAt" max-date="maxDate" datepicker-options="dateOptions"
+      ng-required="false" close-text="Lukk" clear-text="Fjern" current-text="I dag" name="endDatePicker">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="open($event, 'endPickerOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+    <div class="input-group has-feedback" ng-class="{'has-error': form.endTimePicker.$dirty && form.endTimePicker.$invalid, 'has-success': form.endTimePicker.$valid}">
+      <div class="input-group-addon"><span class="glyphicon glyphicon-time"></span></div>
+      <input ng-change="insertTimeIntoDate(time.endTime, 'endAt')" class="form-control" name="endTimePicker" ng-model="time.endTime" type="time">
+    </div>
+  </div>
+</div>
 
 
 <div class="row">
   <label class="col-sm-2 control-label">Kategori</label>
   <div class="col-sm-4">
-    <select class="form-control" ng-model="cat">
-      <option ng-repeat="category in categoryOptions" ng-value="{{category.id}}" ng-selected="true" ng-init="cat.id = category.id" required>{{category.name}} </option>
+    <select class="form-control" ng-init="event.category = 'OTHER'" ng-model="event.category" ng-options="category.id as category.name for category in categoryOptions">
     </select>
     <span class="help-block">Velg kategori fra listen.</span>
 

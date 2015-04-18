@@ -11,22 +11,17 @@ angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event, $location, notify) {
 
     notify.config({duration:3000});
-    $scope.time = [];
+    $scope.time = {};
     $scope.event = {};
     $scope.cat = {};
 
     var event = Event.get({id: $routeParams.id}, function() {
       $scope.event = event;
-      for(var i = 0; i < $scope.event.shows.length; i++) {
-        var start = new Date($scope.event.shows[i].startDate);
-        var end = $scope.event.shows[i].endDate === null ? null : new Date($scope.event.shows[i].endDate);
+      var start = new Date($scope.event.startAt);
+      var end = $scope.event.endAt === null ? null : new Date($scope.event.endAt);
 
-        $scope.time.push({
-          startTime: $scope.formatTime(start.getHours()) + ':' + $scope.formatTime(start.getMinutes()),
-          endTime: end === null ? null : $scope.formatTime(end.getHours()) + ':' + $scope.formatTime(end.getMinutes())
-        });
-      }
-      $scope.cat.id = $scope.event.tags.pop();
+      $scope.time.startTime = $scope.formatTime(start.getHours()) + ':' + $scope.formatTime(start.getMinutes());
+      $scope.time.endTime = end === null ? null : $scope.formatTime(end.getHours()) + ':' + $scope.formatTime(end.getMinutes());
       $scope._id = event._id;
 
     });
@@ -78,10 +73,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.toggleMinMax();
 
 
-    $scope.insertTimeIntoDate = function(time, index, date) {
-      if(time !== undefined && $scope.event.shows[index][date] !== undefined)  {
-        $scope.event.shows[index][date].setHours(parseInt(time.slice(0,2),10));
-        $scope.event.shows[index][date].setMinutes(parseInt(time.slice(3,5),10));
+    $scope.insertTimeIntoDate = function(time, date) {
+      if(time !== undefined && $scope.event[date] !== undefined)  {
+        $scope.event[date].setHours(parseInt(time.slice(0,2),10));
+        $scope.event[date].setMinutes(parseInt(time.slice(3,5),10));
       }
 
     };

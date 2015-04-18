@@ -22,7 +22,7 @@
   <table class="table table-striped">
     <thead>
     <tr ng-model="orderProperty">
-      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'shows[0].startDate' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th>
+      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'startAt' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>
@@ -31,7 +31,7 @@
         {{event.title | limitTo: 30}}
       </td>
       <td>
-        {{event.shows[0].startDate | date:'dd/MM/yy HH:mm'}}
+        {{event.startAt | date:'dd/MM/yy HH:mm'}}
       </td>
       <td>
         {{event.venue.name}}

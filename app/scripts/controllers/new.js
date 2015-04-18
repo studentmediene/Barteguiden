@@ -8,14 +8,12 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('NewCtrl', function ($scope, Event, $location, notify) {
+  .controller('NewCtrl', function ($scope, Event, $location, notify, Imageservice) {
 
     notify.config({duration:3000});
     $scope.datepicker = {};
     $scope.event = new Event();
-    $scope.time = [];
-    $scope.cat = {};
-
+    $scope.time = {};
     $scope.image = {};
 
     $scope.uploadImage = function($event) {
@@ -26,28 +24,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       });
     };
 
-    $scope.event.shows = [{
-      startDate: new Date(),
-      endDate: null
-    }];
-
-    $scope.add = function () {
-      $scope.event.shows.push({
-          startDate: new Date(),
-          endDate: null
-      });
-    };
-
-    $scope.remove = function(index) {
-      if(index !== 0) {
-        $scope.event.shows.splice(index, 1);
-      }
-    };
-
     $scope.submit = function() {
-      if($scope.cat.id) {
-        $scope.event.tags.push($scope.cat.id);
-      }
       $scope.event.$save(function () {
         // Success
         console.log('Success');
@@ -83,10 +60,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.toggleMinMax();
 
-    $scope.insertTimeIntoDate = function(time, index, date) {
-      if(time !== undefined && $scope.event.shows[index][date] !== undefined)  {
-        $scope.event.shows[index][date].setHours(parseInt(time.slice(0,2),10));
-        $scope.event.shows[index][date].setMinutes(parseInt(time.slice(3,5),10));
+    $scope.insertTimeIntoDate = function(time, date) {
+      if(time !== undefined && $scope.event[date] !== undefined)  {
+        $scope.event[date].setHours(parseInt(time.slice(0,2),10));
+        $scope.event[date].setMinutes(parseInt(time.slice(3,5),10));
       }
 
     };
