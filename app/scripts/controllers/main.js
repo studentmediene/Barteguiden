@@ -25,7 +25,7 @@
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('MainCtrl', ['$scope', 'Event', '$location', '$modal', '$window', function ($scope, Event, $location,$modal, $window) {
 
-    $scope.orderProperty = 'shows[0].startDate';
+    $scope.orderProperty = 'startAt';
     $scope.reverse = false;
     $scope.reverse2 = false;
     $scope.reverse3 = false;
