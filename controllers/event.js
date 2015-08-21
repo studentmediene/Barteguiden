@@ -40,7 +40,7 @@ exports.putEvent = function(req, res){
          function(err, raw){
              if (err)
                  res.send(err);
-            
+
              res.json({message: 'Event updated.'});
          });
 };
