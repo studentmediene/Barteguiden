@@ -9,6 +9,8 @@ var EventSchema = new mongoose.Schema({
     venue: {
         name: String,
         address: String,
+        longitude: Number,
+        latitude: Number
     },
     ageLimit: Number,
     price: Number,
@@ -16,7 +18,8 @@ var EventSchema = new mongoose.Schema({
     tags: [String],
     imageUrl: String,
     eventUrl: String,
-    isPromoted: Boolean
+    isPromoted: Boolean,
+    isPublished: Boolean
 })
 
 module.exports = mongoose.model('Event', EventSchema);
