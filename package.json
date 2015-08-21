@@ -13,8 +13,16 @@
     "mongoose": "^3.7",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
-    "sqlite3": "^3.0.2",
-    "cors": "~2.5.3"
+    "cors": "~2.5.3",
+    "cron": "~1.0.9",
+    "xml2js": "~0.4.2",
+    "csv": "~0.3.5",
+    "object-mapper": "~0.0.7",
+    "jsdom": "~0.8.3",
+    "request": "~2.26.0",
+    "xtend": "~2.0.6",
+    "q": "~0.9.7",
+    "feedparser": "~0.19.2"
   },
   "devDependencies": {},
   "scripts": {
