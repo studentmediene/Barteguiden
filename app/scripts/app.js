@@ -36,6 +36,7 @@ angular
     'ngResource',
     'ngRoute',
     'ui.bootstrap',
+    'ui.bootstrap.datetimepicker',
     'barteguidenMarkedsWebApp.controllers',
     'barteguidenMarkedsWebApp.filters',
     'barteguidenMarkedsWebApp.services',
@@ -63,4 +64,35 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function (notify) {
+    notify.config({duration:3000});
+  })
+  .constant('categoryOptions',
+    [
+      {name: 'Debatter', id: 'DEBATE'},
+      {name: 'Utstillinger', id: 'EXHIBITIONS'},
+      {name: 'Musikk', id: 'MUSIC'},
+      {name: 'Uteliv', id: 'NIGHTLIFE'},
+      {name: 'Forestillinger', id: 'PERFORMANCES'},
+      {name: 'Presentasjoner', id: 'PRESENTATIONS'},
+      {name: 'Sport', id: 'SPORT'},
+      {name: 'Andre', id: 'OTHER'}
+    ]
+  )
+  .constant('dateOptions', {
+    formatYear: 'yy',
+    startingDay: 1
+  })
+  .constant('timeOptions', {
+    'show-meridian': false,
+    'minute-step': 15
+  })
+  .factory('minDate', function() {
+    return new Date();
+  })
+  .factory('maxDate', function() {
+    var date = new Date();
+    date.setFullYear(date.getFullYear() + 1);
+    return date;
   });
