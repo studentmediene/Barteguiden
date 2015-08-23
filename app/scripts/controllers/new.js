@@ -28,7 +28,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     notify.config({duration:3000});
     $scope.datepicker = {};
     $scope.event = new Event();
-    $scope.time = {};
     $scope.image = {};
 
     $scope.uploadImage = function($event) {
@@ -41,8 +40,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.submit = function() {
       $scope.event.$save(function () {
-        // Success
-        console.log('Success');
         notify({message: 'Arrangementet er lagret!', classes: 'alert-success'});
         $location.path('/');
       }, function () {
@@ -51,8 +48,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       });
 
     };
-    //datepicker - startPicker
-    $scope.format = 'dd. MMMM yyyy';
 
     $scope.open = function($event, elementOpened) {
       $event.preventDefault();
@@ -60,6 +55,11 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
       $scope.datepicker[elementOpened] = !$scope.datepicker[elementOpened];
 
+    };
+
+    $scope.timeOptions = {
+      'show-meridian': false,
+      'minute-step': 15
     };
 
     $scope.dateOptions = {
@@ -75,13 +75,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.toggleMinMax();
 
-    $scope.insertTimeIntoDate = function(time, date) {
-      if(time !== undefined && $scope.event[date] !== undefined)  {
-        $scope.event[date].setHours(parseInt(time.slice(0,2),10));
-        $scope.event[date].setMinutes(parseInt(time.slice(3,5),10));
-      }
-
-    };
 
     // categories
     $scope.categoryOptions = [

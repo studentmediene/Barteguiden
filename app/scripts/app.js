@@ -36,6 +36,7 @@ angular
     'ngResource',
     'ngRoute',
     'ui.bootstrap',
+    'ui.bootstrap.datetimepicker',
     'barteguidenMarkedsWebApp.controllers',
     'barteguidenMarkedsWebApp.filters',
     'barteguidenMarkedsWebApp.services',

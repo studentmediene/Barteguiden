@@ -26,33 +26,12 @@ angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event, $location, notify) {
 
     notify.config({duration:3000});
-    $scope.time = {};
-    $scope.event = {};
-    $scope.cat = {};
+    $scope.datepicker = {};
 
-    var event = Event.get({id: $routeParams.id}, function() {
-      $scope.event = event;
-      var start = new Date($scope.event.startAt);
-      var end = $scope.event.endAt === null ? null : new Date($scope.event.endAt);
-
-      $scope.time.startTime = $scope.formatTime(start.getHours()) + ':' + $scope.formatTime(start.getMinutes());
-      $scope.time.endTime = end === null ? null : $scope.formatTime(end.getHours()) + ':' + $scope.formatTime(end.getMinutes());
-      $scope._id = event._id;
-
-    });
-
-
-    $scope.formatTime = function(time) {
-      if (time < 10) {
-        return '0'+ time;
-      }
-      return time;
-    };
+    $scope.event = Event.get({id: $routeParams.id});
 
     $scope.update = function() {
       $scope.event.$update({id:$routeParams.id }, function() {
-        // Success
-        console.log('Success');
         notify({message: 'Endingen er lagret!', classes: 'alert-success'});
         $location.path('/');
       }, function () {
@@ -60,9 +39,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
         notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
       });
     };
-
-
-    $scope.format = 'dd. MMMM yyyy';
 
     $scope.open = function($event, elementOpened) {
       $event.preventDefault();
@@ -77,6 +53,11 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       startingDay: 1
     };
 
+    $scope.timeOptions = {
+      'show-meridian': false,
+      'minute-step': 15
+    };
+
     $scope.toggleMinMax = function() {
       $scope.minDate = new Date();
 
@@ -86,15 +67,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     };
     $scope.toggleMinMax();
-
-
-    $scope.insertTimeIntoDate = function(time, date) {
-      if(time !== undefined && $scope.event[date] !== undefined)  {
-        $scope.event[date].setHours(parseInt(time.slice(0,2),10));
-        $scope.event[date].setMinutes(parseInt(time.slice(3,5),10));
-      }
-
-    };
 
     // categories
     $scope.categoryOptions = [
