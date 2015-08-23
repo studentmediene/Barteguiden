@@ -9,12 +9,7 @@
     "angular-route": "~1.3.0",
     "angular-bootstrap": "~0.13.0",
     "angular-notify": "~2.5.0",
-    "bootstrap-ui-datetime-picker": "~1.1.7"
-    "angular-resource": "~1.2.0",
-    "angular-cookies": "~1.2.0",
-    "angular-route": "~1.2.0",
-    "angular-bootstrap": "~0.12.0",
-    "angular-notify": "~2.0.2",
+    "bootstrap-ui-datetime-picker": "~1.1.7",
     "angular-google-maps": "~2.0.19"
   },
   "devDependencies": {
