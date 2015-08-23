@@ -16,7 +16,7 @@ exports.postEvents = function(req, res){
 exports.getEvents = function(req, res){
     var time = new Date().getTime();
     Event.find()
-    .where('shows.startDate').gt(time)
+    .where('startAt').gt(time)
     .exec(function(err, events) {
         if(err)
             res.send(err);
@@ -40,7 +40,7 @@ exports.putEvent = function(req, res){
          function(err, raw){
              if (err)
                  res.send(err);
-            
+
              res.json({message: 'Event updated.'});
          });
 };

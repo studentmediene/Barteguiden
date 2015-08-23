@@ -11,6 +11,7 @@ var imageController = require('./controllers/image');
 var auth = authController.isAuthenticated;
 var cors = require('cors')
 var busboy = require('connect-busboy');
+var jobs = require('./import/jobs');
 
 
 app.use(bodyParser.json());
@@ -47,5 +48,8 @@ router.route('/images/*')
 
 app.use('/api', router);
 
-console.log("Serving on port " + port);
-app.listen(port);
+
+app.listen(port, function() {
+    console.log("Serving on port " + port);
+    jobs.start();
+});
