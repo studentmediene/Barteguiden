@@ -23,11 +23,10 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('EditCtrl', function ($scope, $routeParams, Event, $location, notify) {
+  .controller('EditCtrl', function ($scope, $routeParams, Event, $location,
+     notify, categoryOptions, dateOptions, timeOptions, minDate, maxDate) {
 
-    notify.config({duration:3000});
     $scope.datepicker = {};
-
     $scope.event = Event.get({id: $routeParams.id});
 
     $scope.update = function() {
@@ -48,35 +47,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     };
 
-    $scope.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1
-    };
+    $scope.dateOptions = dateOptions;
+    $scope.timeOptions = timeOptions;
+    $scope.categoryOptions = categoryOptions;
+    $scope.minDate = minDate;
+    $scope.maxDate = maxDate;
 
-    $scope.timeOptions = {
-      'show-meridian': false,
-      'minute-step': 15
-    };
-
-    $scope.toggleMinMax = function() {
-      $scope.minDate = new Date();
-
-      $scope.maxDate = new Date();
-      $scope.maxDate.setFullYear($scope.minDate.getFullYear() + 1);
-      // sets max available date one year ahead
-
-    };
-    $scope.toggleMinMax();
-
-    // categories
-    $scope.categoryOptions = [
-    {name: 'Debatter', id: 'DEBATE'},
-    {name: 'Utstillinger', id: 'EXHIBITIONS'},
-    {name: 'Musikk', id: 'MUSIC'},
-    {name: 'Uteliv', id: 'NIGHTLIFE'},
-    {name: 'Forestillinger', id: 'PERFORMANCES'},
-    {name: 'Presentasjoner', id: 'PRESENTATIONS'},
-    {name: 'Sport', id: 'SPORT'},
-    {name: 'Andre', id: 'OTHER'}
-    ];
   });

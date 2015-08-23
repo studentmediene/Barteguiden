@@ -23,9 +23,9 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('NewCtrl', function ($scope, Event, $location, notify, Imageservice) {
+  .controller('NewCtrl', function ($scope, Event, $location, notify,
+    Imageservice, dateOptions, timeOptions, categoryOptions, minDate, maxDate) {
 
-    notify.config({duration:3000});
     $scope.datepicker = {};
     $scope.event = new Event();
     $scope.image = {};
@@ -57,34 +57,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     };
 
-    $scope.timeOptions = {
-      'show-meridian': false,
-      'minute-step': 15
-    };
+    $scope.timeOptions = timeOptions;
+    $scope.dateOptions = dateOptions;
+    $scope.categoryOptions = categoryOptions;
+    $scope.minDate = minDate;
+    $scope.maxDate = maxDate;
 
-    $scope.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1
-    };
-
-    $scope.toggleMinMax = function() {
-      $scope.minDate = new Date();
-      $scope.maxDate = new Date();
-      $scope.maxDate.setFullYear($scope.minDate.getFullYear() + 1);  // sets max available date one year ahead
-    };
-
-    $scope.toggleMinMax();
-
-
-    // categories
-    $scope.categoryOptions = [
-    {name: 'Debatter', id: 'DEBATE'},
-    {name: 'Utstillinger', id: 'EXHIBITIONS'},
-    {name: 'Musikk', id: 'MUSIC'},
-    {name: 'Uteliv', id: 'NIGHTLIFE'},
-    {name: 'Forestillinger', id: 'PERFORMANCES'},
-    {name: 'Presentasjoner', id: 'PRESENTATIONS'},
-    {name: 'Sport', id: 'SPORT'},
-    {name: 'Andre', id: 'OTHER'}
-    ];
   });
