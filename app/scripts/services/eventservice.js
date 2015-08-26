@@ -24,7 +24,7 @@
  */
 angular.module('barteguidenMarkedsWebApp.services')
   .factory('Event', function ($resource) {
-    return $resource('http://localhost:4004/api/events/:id', { id: '@_id' }, {
+    return $resource('http://barteguiden.no/temp/api/events/:id', { id: '@_id' }, {
       update: {
         method: 'PUT'
       },
