@@ -17,8 +17,9 @@ module.exports = function (grunt) {
 
   // Configurable paths for the application
   var appConfig = {
-    app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    app: require('./bower.json').appPath || 'client/app',
+    dist: 'dist',
+    server: 'server'
   };
 
   // Define the configuration for all the tasks
@@ -107,6 +108,12 @@ module.exports = function (grunt) {
           open: true,
           base: '<%= yeoman.dist %>'
         }
+      }
+    },
+
+    nodemon: {
+      dev: {
+        script: '<%= yeoman.server %>/server.js'
       }
     },
 
@@ -399,6 +406,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
+      'nodemon',
       'watch'
     ]);
   });
