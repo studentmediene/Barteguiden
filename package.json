@@ -60,9 +60,16 @@
   },
   "scripts": {
     "test": "grunt test",
-    "start": "node server.js"
+    "start": "node server/server.js",
+    "dev": "grunt serve"
   },
   "private": true,
-  "author": "martinhath",
-  "license": "Apache"
+  "author": "Studentmediene i Trondheim AS",
+  "contributors": [
+    {"name": "martinhath"},
+    {"name": "andybb"},
+    {"name": "EirikRogno"},
+    {"name": "AnnaKastet"}
+  ],
+  "license": "Apache-2.0"
 }
