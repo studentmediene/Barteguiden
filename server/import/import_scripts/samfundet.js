@@ -90,7 +90,7 @@ var mapping = {
     "title.0": {
         key: "title",
         transform: function (value) {
-            return value.replace(/^.*?-/, "").trim();
+            return value.trim();
         }
     },
     "pubDate.0": {
