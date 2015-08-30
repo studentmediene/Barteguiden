@@ -422,7 +422,6 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'shell:mongo',
       'express:dev',
       'wiredep',
       'concurrent:server',
