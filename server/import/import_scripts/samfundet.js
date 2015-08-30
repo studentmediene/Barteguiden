@@ -18,7 +18,7 @@ exports.insertEvents = function getEventsFromExternalSource () {
         encoding: "utf8"
     }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            xml2js.parseString(body);
+            parser.parseString(body);
         }
     });
 }
