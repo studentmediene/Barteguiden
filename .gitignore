@@ -7,3 +7,8 @@ npm-debug.log
 .DS_Store
 .idea
 *.iml
+data/
+data_tools/
+node_modules/
+uploads/
+
