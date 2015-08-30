@@ -18,7 +18,8 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
+    server: 'server'
   };
 
   // Define the configuration for all the tasks
@@ -60,6 +61,13 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      express: {
+        files: ['<%= yeoman.server %>/**/*.js', '<%= yeoman.server %>/*.js'],
+        tasks: ['express:dev'],
+        options: {
+          spawn: false
+        }
       }
     },
 
@@ -106,6 +114,25 @@ module.exports = function (grunt) {
         options: {
           open: true,
           base: '<%= yeoman.dist %>'
+        }
+      }
+    },
+
+    express: {
+      options: {
+        port: 4004
+      },
+      dev: {
+        options: {
+          script: '<%= yeoman.server %>/server.js'
+        }
+      }
+    },
+    shell: {
+      mongo: {
+        command: 'mongod --port=27018',
+        options: {
+          async: true
         }
       }
     },
@@ -395,6 +422,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'express:dev',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
