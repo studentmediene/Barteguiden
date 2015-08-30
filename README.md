@@ -1,7 +1,7 @@
-Barteguiden-MarkedsWeb
+Barteguiden
 ======================
 
-A webapp that lets the event planners control which events that show up in Barteguiden.
+A webapp and server that lets the event planners control which events that show up in Barteguiden.
 
 ##Setup
 
@@ -9,7 +9,7 @@ You'll need `npm`, `grunt`, `bower`, `mongodb`, and `compass`. More info on inst
 
 Clone the repo with
 
-    git clone git@github.com:Studentmediene/Barteguiden-MarkedsWeb.git
+    git clone git@github.com:Studentmediene/Barteguiden.git
 
 `cd` into the directory and run
 
@@ -18,6 +18,7 @@ Clone the repo with
     grunt serve
 
 This might take some time. Now, the site should be available at `http://localhost:9000/`
+
 The server uses MongoDB, which it assumes runs on port __27018__ (note, not _27017_!).
 
 ## Build
