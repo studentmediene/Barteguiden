@@ -18,7 +18,7 @@ exports.insertEvents = function getEventsFromExternalSource () {
         encoding: "utf8"
     }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            parser.parseString(body);
+            xml2js.parseString(body);
         }
     });
 }
@@ -138,6 +138,7 @@ var categoryMapping = {
     "Temafest": "NIGHTLIFE",
     "Bokstavelig talt": "DEBATE",
     "Quiz": "OTHER",
+    "Kurs": "OTHER",
     "Show": "PERFORMANCES",
     "Fotballkamp": "SPORT",
     "DJ": "MUSIC",
