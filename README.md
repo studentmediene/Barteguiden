@@ -64,18 +64,31 @@ GET /api/events/:event_id
 |--------|--------|------------------------|
 | title  | String | The title of the event |
 | description | String | Description of the event |
-| shows | [{String, String}] | A list of string tuples, describing start- and end time of multiple shows |
-| venue | {String, String, String, String} | Name, Address, latitude, and longitude of the event |
+| startAt | Date | Start time of event |
+| endAt | Date | End time of event (optional)
+| venue | Object | Name, Address, latitude, and longitude of the event |
 | ageLimit | Number | Age limit of the event |
 | price | Number | Price of admision for the event |
 | tags | [String] | All tags related to the event |
+| isPromoted | Boolean | Featured event |
+| isPublished | Boolean |
 | imageUrl | String | An URL to an image for the event |
 | eventUrl | String | An URL to the event website |
 
 
+##### Venue
+
+| Name | Type | Description |
+|------|------|-------------|
+| name | String | Name of the location | 
+| address | String | The locations address |
+| latitude | Number | Latitude |
+| longitude | Number | Longitude |
+
 | Auth required? |
 |----------------|
 |  Yes           |
+
 
 ### Removing an event
 
@@ -125,7 +138,7 @@ GET /api/users/:user_id
 |  Yes           |
 
 
-### Removing  a user
+### Removing a user
 
 ```
 DELETE /api/users/:user_id
