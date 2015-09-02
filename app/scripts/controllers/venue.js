@@ -8,9 +8,9 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp')
-  .controller('VenueCtrl', function ($scope) {
+  .controller('VenueCtrl', function ($scope, Venue, $location, notify) {
 
-    $scope.venue = {};
+    $scope.venue = new Venue();
     $scope.clicked = false;
 
     $scope.clickedMarker = {
@@ -56,7 +56,14 @@ angular.module('barteguidenMarkedsWebApp')
     };
 
     $scope.submit = function() {
-      console.log("Success");
+      $scope.venue.$save(function () {
+        notify({message: 'Stedet er lagret!', classes: 'alert-success'});
+        $location.path('/');
+      }, function () {
+        // failure
+        notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
+      });
+
     };
 
 
