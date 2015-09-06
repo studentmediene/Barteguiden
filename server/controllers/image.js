@@ -1,5 +1,6 @@
 var path = require('path'),
     fs = require('fs');
+    im = require('imagemagick-stream');
 
 var FOLDERNAME = './uploads/'
 
@@ -16,7 +17,8 @@ exports.postImage = function(req, res){
         var fname = genFilename() + path.extname(filename);
         fstream = fs.createWriteStream(path.resolve(FOLDERNAME +
                     fname));
-        file.pipe(fstream);
+        var resize = im().resize('x350').quality('80');
+        file.pipe(resize).pipe(fstream);
         fstream.on('close', function() {
             var port = req.app.settings.port || '';
             var url = path.join(req.get('host'),

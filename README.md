@@ -5,7 +5,7 @@ A webapp and server that lets the event planners control which events that show 
 
 ##Setup
 
-You'll need `npm`, `grunt`, `bower`, `mongodb`, and `compass`. More info on installing can be found [here](http://www.google.com).
+You'll need `Node`, `grunt`, `bower`, `mongodb`,`imagemagick` and `compass`. More info on installing can be found [here](http://www.google.com).
 
 Clone the repo with
 
