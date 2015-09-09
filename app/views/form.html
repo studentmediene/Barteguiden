@@ -14,6 +14,8 @@
 ~ limitations under the License.
 -->
 
+<button type="button" class="btn btn-success" ng-click="addVenue()">Legg til sted</button>
+
 <div class="form-group has-feedback"  ng-class="{'has-error': form.Title.$invalid, 'has-success': form.Title.$valid}">
   <label class="col-sm-2 control-label">Tittel</label>
   <div class="col-sm-10">
@@ -21,22 +23,20 @@
   </div>
 </div>
 
-<div class="form-group has-feedback" ng-class="{'has-error': form.Place.$invalid, 'has-success': form.Place.$valid}">
-  <label class="col-sm-2 control-label">Velg sted</label>
-  <div class="col-sm-10">
-    <input type="text" ng-minlength="2" class="form-control" name="Place" ng-model="event.venue.name"  placeholder="Sted" required>
-  </div>
+<div class="form-group has-feedback"  ng-class="{'has-error':  form.Title.$dirty && form.Title.$invalid , 'has-success':form.Title.$valid }">
+<label class="col-sm-2 control-label">Velg sted</label>
+  <div class="btn-group" dropdown is-open="status.isopen">
+  <button id="single-button" type="button" class="btn btn-primary" dropdown-toggle ng-disabled="disabled">
+    {{event.venue.name}} <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+    <li ng-repeat="venue in venues" role="menuitem">
+      <a ng-click="setVenue(venue._id)">{{venue.name}}</a>
+    </li>
+  </ul>
+</div>
 </div>
 
-<button type="button" class="btn btn-success" ng-click="addVenue()">Legg til sted</button>
-<!--- TODO Finn måte å fikse adresser på. Og koordinatar. -->
-
-<div class="form-group" ng-class="{'has-error': form.Address.$invalid, 'has-success': form.Address.$valid}">
-  <label class="col-sm-2 control-label">Adresse</label>
-  <div class="col-sm-10">
-    <input type="text" name="Address" class="form-control" placeholder="Adresse" ng-model="event.venue.address">
-  </div>
-</div>
 
 <div class="form-group" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">
   <label class="col-sm-2 control-label">Starttidspunkt</label>
