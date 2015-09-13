@@ -28,12 +28,12 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.datepicker = {};
     $scope.event = new Event();
-    console.log($scope.event)
     $scope.image = {};
-    $scope.venue = {};
 
     var venues = Venue.query(function() {
-      $scope.venues = venues;
+      $scope.venues = _.map(venues,function(venue){
+        return _.omit(venue, ['_id', '__v']);
+      });
     });
 
     $scope.uploadImage = function($event) {
@@ -51,19 +51,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       }, function () {
         // failure
         notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
-      });
-
-    };
-
-
-
-    $scope.setVenue = function(id) {
-      $scope.venue = Venue.get({id: id}, function() {
-
-        $scope.event.venue.name = $scope.venue.name;
-        $scope.event.venue.address = $scope.venue.address;
-        $scope.event.venue.latitude = $scope.venue.latitude;
-        $scope.event.venue.longitude = $scope.venue.longitude;
       });
 
     };

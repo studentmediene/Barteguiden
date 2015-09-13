@@ -23,20 +23,9 @@
   </div>
 </div>
 
-<div class="form-group has-feedback"  ng-class="{'has-error':  form.Title.$dirty && form.Title.$invalid , 'has-success':form.Title.$valid }">
-<label class="col-sm-2 control-label">Velg sted</label>
-  <div class="btn-group" dropdown is-open="status.isopen">
-  <button id="single-button" type="button" class="btn btn-primary" dropdown-toggle ng-disabled="disabled">
-    {{event.venue.name}} <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-    <li ng-repeat="venue in venues" role="menuitem">
-      <a ng-click="setVenue(venue._id)">{{venue.name}}</a>
-    </li>
-  </ul>
-</div>
-</div>
-
+<select name="mySelect" id="mySelect"
+        ng-options="venue as venue.name for venue in venues"
+        ng-model="event.venue"></select>
 
 <div class="form-group" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">
   <label class="col-sm-2 control-label">Starttidspunkt</label>
