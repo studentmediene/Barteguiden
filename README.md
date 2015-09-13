@@ -15,7 +15,7 @@ Clone the repo with
 
     npm install
     bower install
-    grunt serve
+    grunt
 
 This might take some time. Now, the site should be available at `http://localhost:9000/`
 
