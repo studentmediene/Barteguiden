@@ -9,11 +9,15 @@ exports.sync = function(events) {
             query,
             function(err, doc) {
                 if(!doc){
-			Event.create(evt , function(err, doc){
-				if(err){console.log("Something went wrong in creating new event");}});
-		}
+                    Event.create(evt , function(err, doc){
+                        if(err){
+                            console.log("Something went wrong in creating new event");
+                        }
+                    }
+                );}
+                
             }
         );
+
     });
 }
-
