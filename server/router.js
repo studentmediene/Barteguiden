@@ -15,6 +15,9 @@ router.route('/events/:event_id')
     .put(eventController.putEvent)
     .delete(eventController.deleteEvent);
 
+router.route('/v1/events')
+    .get(eventController.oldEvents);
+
 router.route('/users')
     .post(auth, userController.postUser)
     .get(auth, userController.getUsers);

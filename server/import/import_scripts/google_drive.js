@@ -123,7 +123,7 @@ var mapping = {
         key: "description"
     },
     "11": {
-        key: "isRecommended",
+        key: "isPromoted",
         transform: function (value) {
             return (value.toLowerCase() === "yes") ? true: false;
         }
