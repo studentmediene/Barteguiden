@@ -5,19 +5,19 @@ exports.sync = function(events) {
         var query = {
             'eventUrl': evt.eventUrl
         };
-        Event.findOneAndUpdate(
+        Event.findOne(
             query,
-            evt,
-            {upsert: true},
             function(err, doc) {
-                if(err) {
-                    console.log('Something wrong happened: ', evt.title);
-                }
-                else {
-                    console.log('Finished: ', evt.title);
-                }
+                if(!doc){
+                    Event.create(evt , function(err, doc){
+                        if(err){
+                            console.log("Something went wrong in creating new event");
+                        }
+                    }
+                );}
+                
             }
         );
+
     });
 }
-
