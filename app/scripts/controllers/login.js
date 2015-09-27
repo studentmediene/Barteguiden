@@ -23,6 +23,21 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('LoginCtrl', function ($scope) {
-    //Do awesome login stuff
+  .controller('LoginCtrl', function ($scope, $rootScope, Auth) {
+
+    $scope.logout = function() {
+      Auth.logout();
+    };
+
+    $scope.login = function() {
+      Auth.login({
+        username: $scope.user.username,
+        password: $scope.user.password
+      });
+    };
+
+    $scope.isLoggedIn = function() {
+      $scope.currentUser = $rootScope.currentUser;
+      return Auth.isLoggedIn();
+    };
   });

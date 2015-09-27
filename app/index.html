@@ -37,10 +37,12 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/#/">Barteguiden MarkedsWeb</a>
         </div>
+        <div ng-controller="LoginCtrl">
           <form class="navbar-form navbar-right" role="search">
-            <button type="submit" class="btn btn-default">Logg ut</button>
+            <button type="submit" ng-show="isLoggedIn()" ng-click="logout()" class="btn btn-default">Logg ut</button>
           </form>
-        <p class="navbar-text">Logget inn som: </p>
+          <p class="navbar-text" ng-show="isLoggedIn()">Logget inn som: {{currentUser}}</p>
+        </div>
       </div>
     </nav>
   </header>
@@ -62,6 +64,14 @@
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+<script src="bower_components/angular-notify/dist/angular-notify.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-utf8-base64/angular-utf8-base64.js"></script>
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
@@ -74,14 +84,7 @@
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-<script src="bower_components/angular-resource/angular-resource.js"></script>
-<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<script src="bower_components/angular-notify/dist/angular-notify.js"></script>
 <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js"></script>
-<script src="bower_components/lodash/lodash.js"></script>
-<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -96,6 +99,7 @@
 <script src="scripts/services/imageservice.js"></script>
 <script src="scripts/controllers/venue.js"></script>
 <script src="scripts/services/venueservice.js"></script>
+<script src="scripts/services/authservice.js"></script>
 <!-- endbuild -->
 </body>
 </html>

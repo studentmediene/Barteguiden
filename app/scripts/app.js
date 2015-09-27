@@ -42,8 +42,8 @@ angular
     'barteguidenMarkedsWebApp.services',
     'barteguidenMarkedsWebApp.directives',
     'cgNotify',
-    'uiGmapgoogle-maps'
-
+    'uiGmapgoogle-maps',
+    'ab-base64'
   ])
   .config(function ($routeProvider) {
 
@@ -51,25 +51,40 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        access: {
+          requiresLogin: true
+        }
       })
       .when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        access: {
+          requiresLogin: false
+        }
       })
       .when('/edit/:id', {
         templateUrl: 'views/edit.html',
-        controller: 'EditCtrl'
+        controller: 'EditCtrl',
+        access: {
+          requiresLogin: true
+        }
       })
       .when('/new', {
         templateUrl: 'views/new.html',
-        controller: 'NewCtrl'
+        controller: 'NewCtrl',
+        access: {
+          requiresLogin: true
+        }
       }).when('/venue', {
         templateUrl: 'views/venue.html',
         controller: 'VenueCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/',
+        access: {
+          requiresLogin: true
+        }
       });
   })
   .run(function (notify) {
@@ -102,4 +117,18 @@ angular
     var date = new Date();
     date.setFullYear(date.getFullYear() + 1);
     return date;
+  })
+  .config(function($locationProvider, $httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+  })
+
+  .run(function ($rootScope, $location, Auth) {
+    $rootScope.currentUser = null;
+    Auth.setUserFromCookie();
+    // Redirect to login if route requires auth and you're not logged in
+    $rootScope.$on('$routeChangeStart', function (event, next) {
+      if(!Auth.isLoggedIn() && next.access.requiresLogin) {
+        $location.path('/login');
+      }
+    });
   });
