@@ -34,6 +34,10 @@ router.route('/images')
 router.route('/images/*')
     .get(imageController.getImage);
 
+router.route('/venues')
+  .post(venueController.postVenues)
+  .get(venueController.getVenues);
+
 router.route('/venues/:venue_id')
   .get(venueController.getVenue)
   .put(venueController.putVenue)
