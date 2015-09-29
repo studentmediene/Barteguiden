@@ -13,6 +13,9 @@
 ~ See the License for the specific language governing permissions and
 ~ limitations under the License.
 -->
+<div class="row">
+  <button type="button" class="btn btn-success" ng-click="addVenue()">Legg til sted</button>
+</div>
 
 <div class="form-group has-feedback"  ng-class="{'has-error': form.Title.$invalid, 'has-success': form.Title.$valid}">
   <label class="col-sm-2 control-label">Tittel</label>
@@ -21,20 +24,14 @@
   </div>
 </div>
 
-<div class="form-group has-feedback" ng-class="{'has-error': form.Place.$invalid, 'has-success': form.Place.$valid}">
-  <label class="col-sm-2 control-label">Navn på sted</label>
+<div class="form-group" ng-class="{'has-error': form.Place.$invalid, 'has-success': form.Place.$valid}">
+  <label class="col-sm-2 control-label">Sted</label>
   <div class="col-sm-10">
-    <input type="text" ng-minlength="2" class="form-control" name="Place" ng-model="event.venue.name"  placeholder="Sted" required>
-  </div>
-</div>
-
-<!--- TODO Finn måte å fikse adresser på. Og koordinatar. -->
-
-<div class="form-group" ng-class="{'has-error': form.Address.$invalid, 'has-success': form.Address.$valid}">
-  <label class="col-sm-2 control-label">Adresse</label>
-  <div class="col-sm-10">
-    <input type="text" name="Address" class="form-control" placeholder="Adresse" ng-model="event.venue.address">
-  </div>
+    <select name="Place" id="mySelect"
+            required
+            ng-options="venue as venue.name for venue in venues"
+            ng-model="event.venue"><option value = "">Velg sted</option></select>
+ </div>
 </div>
 
 <div class="form-group" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">

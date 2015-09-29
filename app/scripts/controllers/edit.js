@@ -24,10 +24,16 @@
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event, $location,
-     notify, categoryOptions, dateOptions, timeOptions, minDate, maxDate) {
+     notify, categoryOptions, dateOptions, timeOptions, minDate, maxDate, Venue) {
 
     $scope.datepicker = {};
     $scope.event = Event.get({id: $routeParams.id});
+
+    var venues = Venue.query(function() {
+      $scope.venues = _.map(venues,function(venue){
+        return _.omit(venue, ['_id', '__v']);
+      });
+    });
 
     $scope.update = function() {
       $scope.event.$update({id:$routeParams.id }, function() {

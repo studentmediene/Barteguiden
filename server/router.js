@@ -4,6 +4,7 @@ var eventController = require('./controllers/event');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 var imageController = require('./controllers/image');
+var venueController = require('./controllers/venue');
 var auth = authController.isAuthenticated;
 
 router.route('/events')
@@ -32,6 +33,15 @@ router.route('/images')
 
 router.route('/images/*')
     .get(imageController.getImage);
+
+router.route('/venues')
+  .post(venueController.postVenues)
+  .get(venueController.getVenues);
+
+router.route('/venues/:venue_id')
+  .get(venueController.getVenue)
+  .put(venueController.putVenue)
+  .delete(venueController.deleteVenue);
 
 module.exports = router;
 

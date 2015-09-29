@@ -23,12 +23,18 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('NewCtrl', function ($scope, Event, $location, notify,
+  .controller('NewCtrl', function ($scope, Event, Venue, $location, notify,
     Imageservice, dateOptions, timeOptions, categoryOptions, minDate, maxDate) {
 
     $scope.datepicker = {};
     $scope.event = new Event();
     $scope.image = {};
+
+    var venues = Venue.query(function() {
+      $scope.venues = _.map(venues,function(venue){
+        return _.omit(venue, ['_id', '__v']);
+      });
+    });
 
     $scope.uploadImage = function($event) {
       $event.preventDefault();
@@ -62,5 +68,9 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.categoryOptions = categoryOptions;
     $scope.minDate = minDate;
     $scope.maxDate = maxDate;
+
+    $scope.addVenue = function(){
+      $location.path('/venue');
+    }
 
   });
