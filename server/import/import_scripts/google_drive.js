@@ -37,8 +37,6 @@ function parseEvents (eventData, callback) {
                 return;
             }
 
-            console.log(row);
-
             var externalID = (index + 1).toString();
             var imageUrl = "http://barteguiden.no/v1/images/" + externalID + ".jpg";
 

@@ -4,6 +4,7 @@ var request = require("request");
 var mapper = require("object-mapper");
 var extend = require("xtend");
 var serverSync = require("../server_sync");
+var _ = require('lodash');
 
 
 var externalURL = "https://www.uka.no/program/?format=json";
@@ -24,6 +25,33 @@ exports.insertEvents = function getEventsFromExternalSource () {
 
 function parseEventsWithData (eventsSource) {
     var outputEvents = [];
+    var dedupe = {};
+
+    eventsSource.forEach(function (evt) {
+        var key = evt.title;
+
+        if (dedupe.hasOwnProperty(key)) {
+            dedupe[key].showings = dedupe[key].showings.concat(evt.showings);
+        }
+        else {
+            dedupe[key] = evt;
+        }
+    });
+
+    eventsSource = _.values(dedupe).forEach(function(evt) {
+        var dedupe_showings = {}
+
+        evt.showings.forEach(function (showing) {
+            var today = new Date();
+            var showDate = new Date(showing.date);
+            if (today < showDate) {
+                dedupe_showings[showing.date] = showing;
+            }
+        });
+        evt.showings = _.values(dedupe_showings);
+    });
+
+    eventsSource = _.values(dedupe);
 
     eventsSource.forEach(function (eventSource) {
         var baseEvent = mapper.merge(eventSource, {
