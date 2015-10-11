@@ -3,7 +3,8 @@ var Event = require('../models/Event.js');
 exports.sync = function(events) {
     events.map(function(evt) {
         var query = {
-            'eventUrl': evt.eventUrl
+            'title': evt.title,
+            'startAt': evt.startAt
         };
         Event.findOne(
             query,
@@ -15,7 +16,7 @@ exports.sync = function(events) {
                         }
                     }
                 );}
-                
+
             }
         );
 
