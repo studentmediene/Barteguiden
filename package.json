@@ -8,7 +8,7 @@
     "body-parser": "~1.13.0",
     "busboy": "~0.2.9",
     "connect-busboy": "~0.0.2",
-    "cors": "~2.5.3",
+    "cors": "~2.7.1",
     "cron": "~1.0.9",
     "csv": "~0.3.5",
     "express": "~4.13.0",

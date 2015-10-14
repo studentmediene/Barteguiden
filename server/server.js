@@ -8,11 +8,15 @@ var cors = require('cors')
 var busboy = require('connect-busboy');
 var jobs = require('./import/jobs');
 
+var WHITELIST = [
+    'http://localhost:9000',
+    /\.barteguiden\.no$/
+];
 
 app.use(bodyParser.json());
 app.use(busboy());
 app.use(passport.initialize());
-app.use(cors({origin: 'http://localhost:9000'}));
+app.use(cors({origin: WHITELIST}));
 
 port = process.env.PORT || 4004;
 mongoose.connect('mongodb://127.0.0.1:27018/eventdb');
