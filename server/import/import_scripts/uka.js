@@ -63,7 +63,9 @@ function parseEventsWithData (eventsSource) {
             var showingEvent = mapper.merge(showing, {}, showingMapping);
             var outputEvent = extend(baseEvent, showingEvent);
 
-            outputEvents.push(outputEvent);
+            if(outputEvent.title !== "Inngang Studentersamfundet"){
+              outputEvents.push(outputEvent);
+            }
         });
     });
 
