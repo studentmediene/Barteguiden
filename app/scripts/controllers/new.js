@@ -58,19 +58,17 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       evt.preventDefault();
       evt.stopPropagation();
 
-      var eventcopy = $scope.event;
-      console.log($scope.event);
-      delete eventcopy['_id'];
-      delete eventcopy['__v'];
-      $scope.event.$save(function() {
-        console.log($scope.event);
-        $scope.event = new Event(eventcopy);
+      delete $scope.event['_id'];
+      delete $scope.event['__v'];
 
+      var eventcopy = $scope.event;
+
+      $scope.event.$save(function() {
         notify({message: 'En kopi av dette arrangementet er lagret!', classes:'alert-success'});
       }, function() {
         notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
       });
-
+      $scope.event = new Event(eventcopy);
     };
 
     $scope.open = function($event, elementOpened) {
