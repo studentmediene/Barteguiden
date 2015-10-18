@@ -7,6 +7,7 @@ var passport = require('passport');
 var cors = require('cors')
 var busboy = require('connect-busboy');
 var jobs = require('./import/jobs');
+var fixtures = require('./models/fixtures.js');
 
 var WHITELIST = [
     'http://localhost:9000',
@@ -23,8 +24,8 @@ mongoose.connect('mongodb://127.0.0.1:27018/eventdb');
 
 app.use('/api', router);
 
-
 app.listen(port, function() {
     console.log("Serving on port " + port);
     jobs.start();
+    fixtures.addTestUsers();
 });
