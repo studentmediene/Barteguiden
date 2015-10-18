@@ -8,13 +8,13 @@ var venueController = require('./controllers/venue');
 var auth = authController.isAuthenticated;
 
 router.route('/events')
-    .post(eventController.postEvents)
+    .post(auth, eventController.postEvents)
     .get(eventController.getEvents);
 
 router.route('/events/:event_id')
     .get(eventController.getEvent)
-    .put(eventController.putEvent)
-    .delete(eventController.deleteEvent);
+    .put(auth, eventController.putEvent)
+    .delete(auth, eventController.deleteEvent);
 
 router.route('/v1/events')
     .get(eventController.oldEvents);
@@ -29,7 +29,7 @@ router.route('/users/:user_id')
     .delete(auth, userController.deleteUser);
 
 router.route('/images')
-    .post(imageController.postImage);
+    .post(auth, imageController.postImage);
 
 router.route('/images/*')
     .get(imageController.getImage);
@@ -42,6 +42,9 @@ router.route('/venues/:venue_id')
   .get(venueController.getVenue)
   .put(venueController.putVenue)
   .delete(venueController.deleteVenue);
+
+router.route('/login', userController.getUser)
+    .get(auth, authController.login);
 
 module.exports = router;
 
