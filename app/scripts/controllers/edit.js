@@ -45,6 +45,23 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       });
     };
 
+    $scope.saveAndContinue = function(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      
+      delete $scope.event['_id'];
+      delete $scope.event['__v'];
+
+      var eventcopy = $scope.event;
+
+      $scope.event.$save(function() {
+        notify({message: 'En kopi av dette arrangementet er lagret!', classes:'alert-success'});
+      }, function() {
+        notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
+      });
+      $scope.event = new Event(eventcopy);
+    }
+
     $scope.open = function($event, elementOpened) {
       $event.preventDefault();
       $event.stopPropagation();
