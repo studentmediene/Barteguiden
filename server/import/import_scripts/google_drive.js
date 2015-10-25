@@ -58,7 +58,10 @@ function parseEvents (eventData, callback) {
 
 var mapping = {
     "0": {
-        key: "title"
+        key: "title",
+        transform: function(value) {
+            return trimString(value);
+        }
     },
     "1": {
         key: "startAt",
@@ -118,7 +121,10 @@ var mapping = {
         }
     },
     "9": {
-        key: "description"
+        key: "description",
+        transform: function(value) {
+            return trimString(value);
+        }
     },
     "11": {
         key: "isPromoted",
