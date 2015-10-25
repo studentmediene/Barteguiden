@@ -63,6 +63,12 @@ function parseEventsWithData (eventsSource) {
             var showingEvent = mapper.merge(showing, {}, showingMapping);
             var outputEvent = extend(baseEvent, showingEvent);
 
+            if(!(outputEvent.hasOwnProperty('tags'))){
+              outputEvent.tags = ['UKA'];
+            }else if(outputEvent.tags.indexOf('UKA')==-1){
+              outputEvents.tags.push('UKA');
+            }
+
             if(outputEvent.title !== "Inngang Studentersamfundet"){
               outputEvents.push(outputEvent);
             }
