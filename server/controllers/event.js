@@ -77,7 +77,10 @@ exports.oldEvents = function(req, res) {
                     "ageLimit": evt.ageLimit,
                     "price": evt.price,
                     "categoryID": evt.category,
-                    "descriptions": [{"language":"nb", "text": evt.description}],
+                    "descriptions": [{
+                        "language":"nb",
+                        "text": evt.description.replace(/\s+/g, " ")
+                    }],
                     "isRecommended": evt.isPromoted || false,
                     "imageURL": evt.imageUrl,
                     "eventURL": evt.eventUrl
