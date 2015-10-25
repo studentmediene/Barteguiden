@@ -80,6 +80,13 @@ angular
         templateUrl: 'views/venue.html',
         controller: 'VenueCtrl'
       })
+      .when('/admin', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminCtrl',
+        access: {
+          requiresLogin: true
+        }
+      })
       .otherwise({
         redirectTo: '/',
         access: {
