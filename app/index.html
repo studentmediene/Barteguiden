@@ -46,6 +46,10 @@
       </div>
     </nav>
   </header>
+  <ul class="nav nav-tabs" ng-controller="MenuCtrl">
+    <li role="presentation" ng-class="{'active':isCurrentView('/')}"><a href="/#/">Hjem</a></li>
+    <li role="presentation" ng-class="{'active':isCurrentView('/admin')}"><a href="/#/admin">Administrator</a></li>
+  </ul>
   <ng-view></ng-view>
 </div>
 
@@ -100,6 +104,8 @@
 <script src="scripts/controllers/venue.js"></script>
 <script src="scripts/services/venueservice.js"></script>
 <script src="scripts/services/authservice.js"></script>
+<script src="scripts/controllers/admin.js"></script>
+<script src="scripts/controllers/menu.js"></script>
 <!-- endbuild -->
 </body>
 </html>

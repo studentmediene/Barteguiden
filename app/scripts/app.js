@@ -83,6 +83,13 @@ angular
           requiresLogin: true
         }
       })
+      .when('/admin', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminCtrl',
+        access: {
+          requiresLogin: true
+        }
+      })
       .otherwise({
         redirectTo: '/',
         access: {
