@@ -78,7 +78,10 @@ angular
         }
       }).when('/venue', {
         templateUrl: 'views/venue.html',
-        controller: 'VenueCtrl'
+        controller: 'VenueCtrl',
+        access: {
+          requiresLogin: true
+        }
       })
       .otherwise({
         redirectTo: '/',
