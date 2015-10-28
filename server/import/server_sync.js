@@ -6,6 +6,7 @@ exports.sync = function(events) {
             'title': evt.title,
             'startAt': evt.startAt
         };
+        
         Event.findOne(
             query,
             function(err, doc) {
@@ -14,8 +15,12 @@ exports.sync = function(events) {
                         if(err){
                             console.log("Something went wrong in creating new event");
                         }
-                    }
-                );}
+                    });
+                }else{
+                  var newevt = new Event(evt);
+                  doc.remove();
+                  newevt.save();
+                }
 
             }
         );
