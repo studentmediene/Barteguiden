@@ -1,13 +1,14 @@
 var Event = require('../models/Event.js');
+var Venue = require('../models/Venue.js');
 
 exports.sync = function(events) {
     events.map(function(evt) {
-        var query = {
+        var eventquery = {
             'title': evt.title,
             'startAt': evt.startAt
         };
         Event.findOne(
-            query,
+            eventquery,
             function(err, doc) {
                 if(!doc){
                     Event.create(evt , function(err, doc){
@@ -19,6 +20,25 @@ exports.sync = function(events) {
 
             }
         );
-
+        var venuequery = {
+            'name': evt.venue.name
+        };
+        Venue.findOne(
+            venuequery,
+            function(err, doc) {
+                if(!doc){
+                    var venue = new Venue();
+                    venue.name = evt.venue.name;
+                    venue.address = evt.venue.address;
+                    venue.latitude = evt.venue.latitude;
+                    venue.longitude = evt.venue.longitude;
+                    venue.save(function(err, doc){
+                            if(err){
+                                console.log("Something went wrong in creating new event");
+                            }
+                        }
+                    );}
+            }
+        );
     });
-}
+};
