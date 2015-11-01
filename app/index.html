@@ -46,7 +46,7 @@
       </div>
     </nav>
   </header>
-  <ul class="nav nav-tabs" ng-controller="MenuCtrl">
+  <ul class="nav nav-tabs" ng-show="isLoggedIn()" ng-controller="MenuCtrl">
     <li role="presentation" ng-class="{'active':isCurrentView('/')}"><a href="/#/">Hjem</a></li>
     <li role="presentation" ng-class="{'active':isCurrentView('/admin')}"><a href="/#/admin">Administrator</a></li>
   </ul>
