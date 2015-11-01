@@ -31,6 +31,9 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.reverse3 = false;
     $scope.reverse4 = false;
 
+    $scope.pageSize = 15;
+    $scope.currentPage = 1;
+
     var events = Event.query(function() {
       $scope.events = events;
     });
