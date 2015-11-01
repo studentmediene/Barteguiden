@@ -41,7 +41,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search) | limitTo: pageSize * currentPage | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
+    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search)
+      | limitTo: pageSize * currentPage
+      | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
       <td>
         {{event.title | limitTo: 30}}
       </td>
@@ -62,10 +64,14 @@
   </table>
 
   <section>
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <pagination total-items="userEvents.length" ng-model="currentPage" items-per-page="pageSize" previous-text="Forrige" next-text="Neste" max-size="isLargerThan(420) ? 3 : 0" boundary-links="true" first-text="Første" last-text="Siste" rotate="false" ng-change="scroll()" resize></pagination>
-        </div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <pagination total-items="userEvents.length" ng-model="currentPage"
+          items-per-page="pageSize" previous-text="Forrige" next-text="Neste"
+          boundary-links="true" first-text="Første" last-text="Siste"
+          rotate="false">
+        </pagination>
       </div>
-    </section>
+    </div>
+  </section>
 </div>
