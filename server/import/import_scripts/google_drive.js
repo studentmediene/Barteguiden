@@ -44,6 +44,7 @@ function parseEvents (eventData, callback) {
                 imageUrl: imageUrl
             }, mapping);
 
+
             if(new Date(Date.parse(event.startAt)) > new Date()) {
                 events.push(event);
             }
@@ -67,6 +68,8 @@ var mapping = {
         key: "startAt",
         transform: function (value) {
             var date = new Date(Date.parse(value));
+            if (date == 'Invalid Date')
+                return new Date().toISOString();
             return date.toISOString();
         }
     },
