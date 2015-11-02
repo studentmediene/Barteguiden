@@ -76,9 +76,24 @@ angular
         access: {
           requiresLogin: true
         }
-      }).when('/venue', {
+      })
+      .when('/venue', {
         templateUrl: 'views/venue.html',
         controller: 'VenueCtrl',
+        access: {
+          requiresLogin: true
+        }
+      })
+      .when('/venue/:id', {
+        templateUrl: 'views/venue.html',
+        controller: 'VenueCtrl',
+        access: {
+          requiresLogin: true
+        }
+      })
+      .when('/venues', {
+        templateUrl: 'views/venues.html',
+        controller: 'VenuesCtrl',
         access: {
           requiresLogin: true
         }
