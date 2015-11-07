@@ -106,7 +106,7 @@ var mapping = {
         key: "ageLimit",
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
-            return (!isNaN(ageLimit)) ? ageLimit : undefined;
+            return (!isNaN(ageLimit)) ? ageLimit : 0;
         }
     },
     "7": {
@@ -114,7 +114,7 @@ var mapping = {
         transform: function (value) {
             var cleanValue = value.replace("kr", "");
             var price = parseInt(cleanValue, 10);
-            return (!isNaN(price)) ? price : undefined;
+            return (!isNaN(price)) ? price : 0;
         }
     },
     "8": {
