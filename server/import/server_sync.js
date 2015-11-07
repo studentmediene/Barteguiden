@@ -9,35 +9,34 @@ exports.sync = function(events) {
         };
         Event.findOne(
             eventquery,
-            function(err, doc) {
-                if(!doc){
-                    Event.create(evt , function(err, doc){
-                        if(err){
-                            console.log("Something went wrong in creating new event");
+            function (err, doc) {
+                if (!doc) {
+                    Event.create(evt, function (err, doc) {
+                            if (err) {
+                                console.log("Something went wrong in creating new event");
+                            }
                         }
-                    }
-                );}
+                    );
+                }
 
             }
         );
         var venuequery = {
             'name': evt.venue.name
         };
-        Venue.findOne(
+        var venue = {};
+        venue.name = evt.venue.name;
+        venue.address = evt.venue.address;
+        venue.latitude = evt.venue.latitude;
+        venue.longitude = evt.venue.longitude;
+        Venue.findOneAndUpdate(
             venuequery,
+            venue,
+            {'upsert': true},
             function(err, doc) {
-                if(!doc){
-                    var venue = new Venue();
-                    venue.name = evt.venue.name;
-                    venue.address = evt.venue.address;
-                    venue.latitude = evt.venue.latitude;
-                    venue.longitude = evt.venue.longitude;
-                    venue.save(function(err, doc){
-                            if(err){
-                                console.log("Something went wrong in creating new event");
-                            }
-                        }
-                    );}
+                if (err) {
+                    console.log("Something went wrong in creating new event");
+                }
             }
         );
     });
