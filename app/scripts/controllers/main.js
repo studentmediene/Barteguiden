@@ -49,8 +49,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     };
 
     $scope.open = function (id) {
-
+      var scope = $scope.$new(true);
+      scope.params = {elementType: 'Arrangementet'};
       var modalInstance = $modal.open({
+        scope: scope,
         templateUrl: 'views/modal.html',
         controller: 'MainCtrl',
         size: 'sm'
