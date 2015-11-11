@@ -8,10 +8,13 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp')
-  .controller('VenueCtrl', function ($scope, Venue, $location, notify, $routeParams) {
+  .controller('VenueCtrl', function ($scope, Venue, Event, $location, notify, $routeParams) {
 
     $scope.clicked = false;
     $scope.newVenue = Object.keys($routeParams).length === 0;
+    var events = Event.query(function(){
+      $scope.events = events;
+    });
 
     $scope.clickedMarker = {
       id:0
@@ -61,7 +64,14 @@ angular.module('barteguidenMarkedsWebApp')
         $scope.clickedMarker.latitude = venue.latitude;
         $scope.clicked = true; // allow saving existing venue
         loadMap(venue.latitude, venue.longitude); // center map around existing pin
+        $scope.originalVenue = {
+          name : venue.name,
+          address: venue.address,
+          longitude: venue.longitude,
+          latitude: venue.latitude
+        };
       });
+
     }
 
     $scope.hasClicked = function(){
@@ -81,6 +91,33 @@ angular.module('barteguidenMarkedsWebApp')
       else {
         $scope.venue.$update({id: $routeParams.id}, function () {
           notify({message: 'Endringen er lagret!', classes: 'alert-success'});
+
+          var count = 0;
+          console.dir($scope.originalVenue);
+          console.dir($scope.events.length);
+          for(var i = 0; i<$scope.events.length; i++){
+            var venue = $scope.events[i].venue;
+            console.log(venue);
+            if(venue.name === $scope.originalVenue.name
+              &&venue.address === $scope.originalVenue.address
+              &&venue.latitude === $scope.originalVenue.latitude
+              &&venue.longitude === $scope.originalVenue.longitude
+            ){
+                console.dir($scope.originalVenue);
+                console.dir("Before:");
+                console.dir(venue);
+                for(var n in $scope.events[i].venue){
+                  $scope.events[i].venue[n] = $scope.venue[n];
+                }
+                console.dir("After:");
+                console.dir($scope.events[i].venue);
+                $scope.events[i].$update({id: $scope.events[i].id})
+                count++;
+              }
+
+          }
+          notify({message: count.toString()+ (count==1 ? ' arrangement' : ' arrangementer') + ' ble oppdatert'});
+
           $location.path('/venues');
         }, function () {
           // failure
