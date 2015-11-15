@@ -16,9 +16,14 @@
 <h3>Dine arrangementer</h3>
 
 <div class="input-group row">
-  <div class="col-lg-4">
+  <div class="col-lg-3">
     <button ng-click="createEvent()" class="btn btn-md btn-info">
       <span class="glyphicon glyphicon-plus"></span> Legg til arrangement
+    </button>
+  </div>
+  <div class="col-lg-3">
+    <button ng-click="deleteMultipleEvents()" class="btn btn-md btn-danger" ng-disabled="disableDeleteButton()">
+      <span class="glyphicon glyphicon-minus" ></span> Slett valgte arrangement
     </button>
   </div>
     <div class="col-lg-3">
@@ -37,7 +42,7 @@
   <table class="table table-striped">
     <thead>
     <tr ng-model="orderProperty">
-      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'startAt' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th>
+      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'startAt' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th><th>Markér</th>
     </tr>
     </thead>
     <tbody>
@@ -59,9 +64,15 @@
        <td>
         <button ng-click="open(event._id)" class="btn btn-xs btn-danger">Slett</button>
       </td>
+      <td>
+        <input
+          type="checkbox" name="selectedEvents" value="{{value}}" ng-click="toggleSelection(event)" ng-checked="false">
+      </td>
     </tr>
     </tbody>
   </table>
+
+
 
   <section>
     <div class="row">
