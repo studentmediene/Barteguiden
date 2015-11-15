@@ -44,6 +44,7 @@ function parseEvents (eventData, callback) {
                 imageUrl: imageUrl
             }, mapping);
 
+
             if(new Date(Date.parse(event.startAt)) > new Date()) {
                 events.push(event);
             }
@@ -67,6 +68,8 @@ var mapping = {
         key: "startAt",
         transform: function (value) {
             var date = new Date(Date.parse(value));
+            if (date == 'Invalid Date')
+                return new Date().toISOString();
             return date.toISOString();
         }
     },
@@ -103,7 +106,7 @@ var mapping = {
         key: "ageLimit",
         transform: function (value) {
             var ageLimit = parseInt(value, 10);
-            return (!isNaN(ageLimit)) ? ageLimit : undefined;
+            return (!isNaN(ageLimit)) ? ageLimit : 0;
         }
     },
     "7": {
@@ -111,7 +114,7 @@ var mapping = {
         transform: function (value) {
             var cleanValue = value.replace("kr", "");
             var price = parseInt(cleanValue, 10);
-            return (!isNaN(price)) ? price : undefined;
+            return (!isNaN(price)) ? price : 0;
         }
     },
     "8": {

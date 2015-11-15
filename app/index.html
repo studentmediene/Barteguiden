@@ -46,7 +46,7 @@
       </div>
     </nav>
   </header>
-  <ul class="nav nav-tabs" ng-controller="MenuCtrl">
+  <ul class="nav nav-tabs" ng-show="isLoggedIn()" ng-controller="MenuCtrl">
     <li role="presentation" ng-class="{'active':isCurrentView('/')}"><a href="/#/">Hjem</a></li>
     <li role="presentation" ng-class="{'active':isCurrentView('/admin')}"><a href="/#/admin">Administrator</a></li>
   </ul>
@@ -106,6 +106,7 @@
 <script src="scripts/services/authservice.js"></script>
 <script src="scripts/controllers/admin.js"></script>
 <script src="scripts/controllers/menu.js"></script>
+<script src="scripts/controllers/venues.js"></script>
 <!-- endbuild -->
 </body>
 </html>

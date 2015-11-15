@@ -31,6 +31,20 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.reverse3 = false;
     $scope.reverse4 = false;
 
+    $scope.pageSize = 15;
+    $scope.currentPage = 1;
+
+    $scope.eventSelection = [];
+
+    $scope.toggleSelection = function(event){
+      var ind = $scope.eventSelection.indexOf(event);
+      if(ind>-1){
+        $scope.eventSelection.splice(ind, 1);
+      }else{
+        $scope.eventSelection.push(event);
+      }
+    }
+
     var events = Event.query(function() {
       $scope.events = events;
     });
@@ -46,8 +60,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     };
 
     $scope.open = function (id) {
-
+      var scope = $scope.$new(true);
+      scope.params = {elementType: 'Arrangementet'};
       var modalInstance = $modal.open({
+        scope: scope,
         templateUrl: 'views/modal.html',
         controller: 'MainCtrl',
         size: 'sm'
@@ -60,6 +76,33 @@ angular.module('barteguidenMarkedsWebApp.controllers')
         }
       });
     };
+
+    $scope.deleteMultipleEvents = function () {
+      $scope.numDelete = $scope.eventSelection.length;
+      var scope = $scope.$new(true);
+      scope.params = {elementType: $scope.numDelete + ' arrangement'};
+      var modalInstance = $modal.open({
+        scope: scope,
+        templateUrl: 'views/modal.html',
+        controller: 'MainCtrl',
+        size: 'sm'
+      });
+
+      modalInstance.result.then(function (result) {
+        if(result === 'ok'){
+          var l = $scope.eventSelection.length;
+          for(var i = 0; i<l; i++){
+            Event.delete({id: $scope.eventSelection[0]._id});
+            $scope.events.splice($scope.events.indexOf($scope.eventSelection[0]), 1);
+            $scope.eventSelection.splice(0, 1);
+          }
+        }
+      });
+    };
+
+    $scope.disableDeleteButton = function(){
+      return $scope.eventSelection.length === 0;
+    }
 
     $scope.ok = function () {
       $scope.$close('ok');

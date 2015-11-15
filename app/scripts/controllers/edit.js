@@ -37,7 +37,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.update = function() {
       $scope.event.$update({id:$routeParams.id }, function() {
-        notify({message: 'Endingen er lagret!', classes: 'alert-success'});
+        notify({message: 'Endringen er lagret!', classes: 'alert-success'});
         $location.path('/');
       }, function () {
         // failure
@@ -48,7 +48,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.saveAndContinue = function(evt) {
       evt.preventDefault();
       evt.stopPropagation();
-      
+
       delete $scope.event['_id'];
       delete $scope.event['__v'];
 

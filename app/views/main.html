@@ -1,24 +1,29 @@
-<!-- 
-~ Copyright 2015 Studentmediene i Trondheim AS 
-~ 
-~ Licensed under the Apache License, Version 2.0 (the "License"); 
-~ you may not use this file except in compliance with the License. 
-~ You may obtain a copy of the License at 
-~ 
-~ http://www.apache.org/licenses/LICENSE-2.0 
-~ 
-~ Unless required by applicable law or agreed to in writing, software 
-~ distributed under the License is distributed on an "AS IS" BASIS, 
-~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-~ See the License for the specific language governing permissions and 
-~ limitations under the License. 
+<!--
+~ Copyright 2015 Studentmediene i Trondheim AS
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~ http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
 -->
 <h3>Dine arrangementer</h3>
 
 <div class="input-group row">
-  <div class="col-lg-4">
+  <div class="col-lg-3">
     <button ng-click="createEvent()" class="btn btn-md btn-info">
       <span class="glyphicon glyphicon-plus"></span> Legg til arrangement
+    </button>
+  </div>
+  <div class="col-lg-3">
+    <button ng-click="deleteMultipleEvents()" class="btn btn-md btn-danger" ng-disabled="disableDeleteButton()">
+      <span class="glyphicon glyphicon-minus" ></span> Slett valgte arrangement
     </button>
   </div>
     <div class="col-lg-3">
@@ -37,11 +42,13 @@
   <table class="table table-striped">
     <thead>
     <tr ng-model="orderProperty">
-      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'startAt' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th>
+      <th><a href="" ng-click="orderProperty = 'title' ; reverse=reverse2 ; reverse2 = !reverse2 ; reverse3 = false; reverse4 = false">Tittel</a></th><th><a href="" ng-click="orderProperty = 'startAt' ; reverse=reverse3 ; reverse3 = !reverse3; reverse2 = false; reverse4 = false">Tid</a></th><th><a href="" ng-click="orderProperty = 'venue.name' ; reverse=reverse4 ; reverse4 = !reverse4; reverse3 = false; reverse2 = false">Sted</a></th><th>Endre</th><th>Slett</th><th>Markér</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search)">
+    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search)
+      | limitTo: pageSize * currentPage
+      | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
       <td>
         {{event.title | limitTo: 30}}
       </td>
@@ -57,7 +64,25 @@
        <td>
         <button ng-click="open(event._id)" class="btn btn-xs btn-danger">Slett</button>
       </td>
+      <td>
+        <input
+          type="checkbox" name="selectedEvents" value="{{value}}" ng-click="toggleSelection(event)" ng-checked="false">
+      </td>
     </tr>
     </tbody>
   </table>
+
+
+
+  <section>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <pagination total-items="userEvents.length" ng-model="currentPage"
+          items-per-page="pageSize" previous-text="Forrige" next-text="Neste"
+          boundary-links="true" first-text="Første" last-text="Siste"
+          rotate="false">
+        </pagination>
+      </div>
+    </div>
+  </section>
 </div>

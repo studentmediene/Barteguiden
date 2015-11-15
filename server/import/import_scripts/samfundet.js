@@ -117,6 +117,12 @@ var mapping = {
     "description.0": {
         key: "description"
     },
+    "isPromoted.0": {
+        key: "isPromoted",
+        transform: function () {
+            return false;
+        }
+    },
     "link.0": {
         key: "eventUrl"
     },

@@ -3,7 +3,7 @@
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('AdminCtrl', function ($scope, $location) {
-    $scope.addVenue = function() {
-      $location.path('/venue')
+    $scope.showVenues = function() {
+      $location.path('/venues')
     }
   });
