@@ -79,12 +79,12 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.deleteMultipleEvents = function () {
       $scope.numDelete = $scope.eventSelection.length;
+      var scope = $scope.$new(true);
+      scope.params = {elementType: $scope.numDelete + ' arrangement'};
       var modalInstance = $modal.open({
-        templateUrl: 'views/modalDeleteMultiple.html',
-        controller: 'DeleteMultipleCtrl',
-        resolve: {
-          numdelete : $scope.numDelete
-        },
+        scope: scope,
+        templateUrl: 'views/modal.html',
+        controller: 'MainCtrl',
         size: 'sm'
       });
 
