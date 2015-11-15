@@ -8,10 +8,14 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp')
-  .controller('VenueCtrl', function ($scope, Venue, $location, notify, $routeParams) {
+  .controller('VenueCtrl', function ($scope, Venue, $location, notify, $routeParams, Event) {
 
     $scope.clicked = false;
     $scope.newVenue = Object.keys($routeParams).length === 0;
+
+    var events = Event.query(function() {
+      $scope.events = events;
+    });
 
     $scope.clickedMarker = {
       id:0
@@ -61,7 +65,12 @@ angular.module('barteguidenMarkedsWebApp')
         $scope.clickedMarker.latitude = venue.latitude;
         $scope.clicked = true; // allow saving existing venue
         loadMap(venue.latitude, venue.longitude); // center map around existing pin
+
+        $scope.originalVenue = {};//Used for updating events after updating venue
+        angular.copy($scope.venue, $scope.originalVenue);
+        $scope.oldvenue = $scope.venue;
       });
+
     }
 
     $scope.hasClicked = function(){
@@ -78,9 +87,25 @@ angular.module('barteguidenMarkedsWebApp')
           notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
         });
       }
-      else {
+      else {//Update events refering to this venue
+        $scope.updatedvenue = {};//Used to preserve venue changes
+        angular.copy($scope.venue, $scope.updatedvenue);
+
         $scope.venue.$update({id: $routeParams.id}, function () {
           notify({message: 'Endringen er lagret!', classes: 'alert-success'});
+          var count = 0;
+          for(var i = 0; i<$scope.events.length; i++){
+            var venue = $scope.events[i].venue;
+            $scope.originalVenue = _.omit($scope.originalVenue, ['$promise', '$resolved','__v', '_id']);
+            if(angular.equals($scope.originalVenue, venue)
+            ){
+                $scope.events[i].venue = $scope.updatedvenue;
+                $scope.events[i].$update({id: $scope.events[i]._id})
+                count++;
+              }
+
+          }
+          notify({message: count.toString()+ (count==1 ? ' arrangement' : ' arrangementer') + ' ble oppdatert'});
           $location.path('/venues');
         }, function () {
           // failure
