@@ -12,6 +12,13 @@ angular.module('barteguidenMarkedsWebApp')
 
     $scope.clicked = false;
     $scope.newVenue = Object.keys($routeParams).length === 0;
+    var events = Event.query(function(){
+      $scope.events = events;
+    });
+
+    var events = Event.query(function() {
+      $scope.events = events;
+    });
 
     var events = Event.query(function() {
       $scope.events = events;
@@ -65,10 +72,15 @@ angular.module('barteguidenMarkedsWebApp')
         $scope.clickedMarker.latitude = venue.latitude;
         $scope.clicked = true; // allow saving existing venue
         loadMap(venue.latitude, venue.longitude); // center map around existing pin
+<<<<<<< HEAD
 
         $scope.originalVenue = {};//Used for updating events after updating venue
         angular.copy($scope.venue, $scope.originalVenue);
         $scope.oldvenue = $scope.venue;
+=======
+        $scope.originalVenue = {};//Used for updating events after updating venue
+        angular.copy($scope.venue, $scope.originalVenue);
+>>>>>>> 4c540117b1193ebca2563ca178e08c1e9fef924f
       });
 
     }
@@ -96,7 +108,10 @@ angular.module('barteguidenMarkedsWebApp')
           var count = 0;
           for(var i = 0; i<$scope.events.length; i++){
             var venue = $scope.events[i].venue;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4c540117b1193ebca2563ca178e08c1e9fef924f
             if(venue.name === $scope.originalVenue.name
               &&venue.address === $scope.originalVenue.address
               &&venue.latitude === $scope.originalVenue.latitude

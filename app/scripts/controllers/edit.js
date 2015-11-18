@@ -28,6 +28,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.datepicker = {};
     $scope.event = Event.get({id: $routeParams.id});
+    console.log($scope.event);
 
     var venues = Venue.query(function() {
       $scope.venues = _.map(venues,function(venue){
