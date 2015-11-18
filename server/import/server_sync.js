@@ -7,6 +7,7 @@ exports.sync = function(events) {
             'title': evt.title,
             'startAt': evt.startAt
         };
+
         Event.findOne(
             eventquery,
             function (err, doc) {
@@ -16,6 +17,7 @@ exports.sync = function(events) {
                                 console.log("Something went wrong in creating new event");
                             }
                         }
+
                     );
                 }
 
