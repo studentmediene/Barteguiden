@@ -14,7 +14,18 @@
 ~ limitations under the License.
 -->
 <h2>Steder</h2>
-<button class="btn btn-md btn-success col-md-4" ng-click="addVenue()">Legg til sted</button>
+<div class="input-group row">
+  <div class="col-md-4">
+    <button class="btn btn-md btn-success" ng-click="addVenue()">
+      <span class="glyphicon glyphicon-plus"></span> Legg til sted
+    </button>
+  </div>
+  <div class="col-md-6">
+    <div class="input-group">
+      <input ng-model="search.name" type="text" class="form-control" aria-label="..." placeholder="Søk på sted">
+    </div>
+  </div>
+</div>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -23,7 +34,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="venue in venues | orderBy : venue.name">
+    <tr ng-repeat="venue in venues | orderBy : 'name' | filter : search">
       <td>
         {{venue.name}}
       </td>
