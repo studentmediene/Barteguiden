@@ -16,7 +16,7 @@
 <h2>Steder</h2>
 <div class="input-group row">
   <div class="col-md-4">
-    <button class="btn btn-md btn-success" ng-click="addVenue()">
+    <button class="btn btn-md btn-info" ng-click="addVenue()">
       <span class="glyphicon glyphicon-plus"></span> Legg til sted
     </button>
   </div>
@@ -30,11 +30,11 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>Navn</th><th>Adresse</th><th>Endre</th><th>Slett</th>
+      <th><a href="" ng-click="orderProperty = 'name'; reverse=reverse1; reverse1=!reverse1 ; reverse2=false">Navn</a></th><th><a href="" ng-click="orderProperty = 'address'; reverse=reverse2; reverse2=!reverse2 ; reverse1=false">Adresse</a></th><th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="venue in venues | orderBy : 'name' | filter : search">
+    <tr ng-repeat="venue in venues | orderBy : orderProperty : reverse | filter : search">
       <td>
         {{venue.name}}
       </td>

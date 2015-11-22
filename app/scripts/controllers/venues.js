@@ -2,6 +2,12 @@
 
 angular.module('barteguidenMarkedsWebApp')
   .controller('VenuesCtrl', function ($scope, Venue, $modal, $window, $location) {
+
+    $scope.orderProperty = 'name';
+    $scope.reverse = false;
+    $scope.reverse1 = true;
+    $scope.reverse2 = false;
+
     var venues = Venue.query(function() {
       $scope.venues = venues;
     });
