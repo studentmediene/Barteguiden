@@ -28,7 +28,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.orderProperty = 'startAt';
     $scope.reverse = false;
     $scope.reverse2 = false;
-    $scope.reverse3 = false;
+    $scope.reverse3 = true;
     $scope.reverse4 = false;
 
     $scope.pageSize = 15;
