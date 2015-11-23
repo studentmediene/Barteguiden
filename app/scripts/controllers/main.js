@@ -27,9 +27,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.orderProperty = 'startAt';
     $scope.reverse = false;
-    $scope.reverse2 = false;
-    $scope.reverse3 = false;
-    $scope.reverse4 = false;
 
     $scope.pageSize = 15;
     $scope.currentPage = 1;
@@ -43,7 +40,12 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       }else{
         $scope.eventSelection.push(event);
       }
-    }
+    };
+
+    $scope.order = function(orderProperty){
+      $scope.reverse = ($scope.orderProperty === orderProperty) ? !$scope.reverse : false;
+      $scope.orderProperty = orderProperty;
+    };
 
     var events = Event.query(function() {
       $scope.events = events;
