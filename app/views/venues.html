@@ -30,7 +30,13 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th><a href="" ng-click="orderProperty = 'name'; reverse=reverse1; reverse1=!reverse1 ; reverse2=false">Navn</a></th><th><a href="" ng-click="orderProperty = 'address'; reverse=reverse2; reverse2=!reverse2 ; reverse1=false">Adresse</a></th><th>Endre</th><th>Slett</th>
+      <th>
+        <a href="" ng-click="order('name')">Navn</a>
+      </th>
+      <th>
+        <a href="" ng-click="order('address')">Adresse</a>
+      </th>
+      <th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>

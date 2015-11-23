@@ -5,8 +5,11 @@ angular.module('barteguidenMarkedsWebApp')
 
     $scope.orderProperty = 'name';
     $scope.reverse = false;
-    $scope.reverse1 = true;
-    $scope.reverse2 = false;
+
+    $scope.order = function(orderProperty){
+      $scope.reverse = ($scope.orderProperty === orderProperty) ? !$scope.reverse : false;
+      $scope.orderProperty = orderProperty;
+    };
 
     var venues = Venue.query(function() {
       $scope.venues = venues;
