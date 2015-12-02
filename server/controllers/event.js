@@ -1,5 +1,6 @@
 var Event = require('../models/Event');
 var _ = require('lodash');
+var moment = require('moment');
 
 // POST /api/events
 exports.postEvents = function(req, res){
@@ -15,7 +16,7 @@ exports.postEvents = function(req, res){
 
 // GET /api/events
 exports.getEvents = function(req, res){
-    var time = new Date().getTime();
+    var time = moment().subtract(6, 'hours').valueOf();
     Event.find()
     .where('startAt').gt(time)
     .exec(function(err, events) {
