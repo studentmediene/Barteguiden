@@ -20,6 +20,6 @@ var EventSchema = new mongoose.Schema({
     eventUrl: {type: String, trim: true},
     isPromoted: {type: Boolean, default: false},
     isPublished: {type: Boolean, default: false}
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Event', EventSchema);
