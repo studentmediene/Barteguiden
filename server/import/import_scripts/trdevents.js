@@ -36,7 +36,9 @@ function parseEvents (externalEvents) {
     var outputEvents = [];
 
     externalEvents.forEach(function(event) {
-        var event = mapper.merge(event, {}, mapping);
+        var event = mapper.merge(event, {
+            isPublished: false
+        }, mapping);
         if (event.category !== 'REMOVE' && event.venue.name !== 'Studentersamfundet') {
             outputEvents.push(event);
         }
@@ -47,10 +49,7 @@ function parseEvents (externalEvents) {
 
 var mapping = {
     "title.0": {
-        key: "title",
-        transform: function (value) {
-            return value.trim();
-        }
+        key: "title"
     },
     "ev:tribeEventMeta.0.ev:startdate.0": {
         key: "startAt",
@@ -108,22 +107,13 @@ var mapping = {
         key: "eventUrl"
     },
     "ev:tribeEventMeta.0.ev:picture.0": {
-        key: "imageUrl",
-        transform: function (value) {
-            return value.trim();
-        }
+        key: "imageUrl"
     },
     "ev:tribeEventMeta.0.ev:venueName.0": {
-        key: "venue.name",
-        transform: function (value) {
-            return value.trim();
-        }
+        key: "venue.name"
     },
     "ev:tribeEventMeta.0.ev:venueStreet.0": {
-        key: "venue.address",
-        transform: function (value) {
-            return value.trim();
-        }
+        key: "venue.address"
     },
     "ev:tribeEventMeta.0.ev:venueLat.0": {
         key: "venue.latitude",
