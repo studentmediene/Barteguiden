@@ -59,7 +59,7 @@
       | limitTo: pageSize * currentPage
       | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
       <td>
-        {{event.title | limitTo: 30}}
+        <a href="" ng-click="editEvent(event._id)">{{event.title | limitTo: 30}}</a>
       </td>
       <td>
         {{event.startAt | date:'dd/MM/yy HH:mm'}}
