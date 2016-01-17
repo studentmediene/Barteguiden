@@ -51,7 +51,7 @@
       <th>
         <a href="" ng-click="order('venue.name')">Sted</a>
       </th>
-      <th>Endre</th><th>Slett</th><th>Markér</th>
+      <th>Publisert</th><th>Endre</th><th>Slett</th><th>Markér</th>
     </tr>
     </thead>
     <tbody>
@@ -66,6 +66,9 @@
       </td>
       <td>
         {{event.venue.name}}
+      </td>
+      <td>
+        <input type="checkbox" name="published" value="{{value}}" ng-click="togglePublished(event._id)" ng-checked="{{event.isPublished}}">
       </td>
       <td>
         <button ng-click="editEvent(event._id)" class="btn btn-xs btn-info">Endre</button>
