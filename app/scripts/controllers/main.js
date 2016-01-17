@@ -23,7 +23,7 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('MainCtrl', ['$scope', 'Event', '$location', '$modal', '$window', function ($scope, Event, $location,$modal, $window) {
+  .controller('MainCtrl', ['$scope', 'Event', 'notify', '$location', '$modal', '$window', function ($scope, Event, notify, $location,$modal, $window) {
 
     $scope.orderProperty = 'startAt';
     $scope.reverse = false;
@@ -32,6 +32,17 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.currentPage = 1;
 
     $scope.eventSelection = [];
+
+    $scope.togglePublished = function(id){
+      $scope.ev = Event.get({id : id}, function(){
+        $scope.ev.isPublished = !$scope.ev.isPublished;
+        $scope.ev.$update({id: id}, function(res) {
+          notify({message: 'Endringen er lagret!', classes: 'alert-success'});
+        }, function () {
+          notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
+        });
+      });
+    };
 
     $scope.toggleSelection = function(event){
       var ind = $scope.eventSelection.indexOf(event);
