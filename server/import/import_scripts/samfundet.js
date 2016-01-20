@@ -88,10 +88,7 @@ function findPrice($) {
 
 var mapping = {
     "title.0": {
-        key: "title",
-        transform: function (value) {
-            return value.trim();
-        }
+        key: "title"
     },
     "pubDate.0": {
         key: "startAt",

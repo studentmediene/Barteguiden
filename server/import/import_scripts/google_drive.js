@@ -148,7 +148,9 @@ var mapping = {
     "13": {
         key: "isPublished",
         transform: function (value) {
-            return (value.toLowerCase() === "yes") ? true: false;
+            if (value.toLowerCase() === 'yes' || !value)
+                return true;
+            return false;
         }
     }
 };
