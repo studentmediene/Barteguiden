@@ -27,7 +27,8 @@
             required
             ng-options="venue as venue.name for venue in venues"
             ng-model="event.venue"><option value = "">Velg sted</option></select>
- </div>
+    <p>Du har valgt: {{ event.venue.name }}</p>
+  </div>
 </div>
 
 <div class="form-group" ng-class="{'has-error': form.startDatePicker.$invalid, 'has-success': form.startDatePicker.$valid}">
