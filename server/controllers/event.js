@@ -17,13 +17,26 @@ exports.postEvents = function(req, res){
 // GET /api/events
 exports.getEvents = function(req, res){
     var time = moment().subtract(6, 'hours').valueOf();
-    Event.find()
-    .where('startAt').gt(time)
-    .exec(function(err, events) {
-        if(err)
-            res.send(err);
-        res.json(events);
-    });
+    var findEvents = Event.find().where('startAt').gt(time);
+
+    if (req.query.published === 'all') {
+        findEvents
+            .exec(function(err, events) {
+                if(err)
+                    res.send(err);
+                res.json(events);
+            });
+    }
+    else {
+        findEvents
+            .where('isPublished').equals(true)
+            .exec(function(err, events) {
+                if(err)
+                    res.send(err);
+                res.json(events);
+            });
+    }
+
 };
 
 // GET /api/events/:event_id

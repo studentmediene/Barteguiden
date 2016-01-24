@@ -30,7 +30,8 @@ angular.module('barteguidenMarkedsWebApp.services')
       },
       query: {
         method: 'GET',
-        isArray: true
+        isArray: true,
+        params: { published: 'all' }
       }
     });
   });
