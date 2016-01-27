@@ -27,6 +27,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.orderProperty = 'startAt';
     $scope.reverse = false;
+    $scope.showPublished = 'A';
 
     $scope.pageSize = 15;
     $scope.currentPage = 1;
@@ -71,6 +72,17 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.deleteEvent = function(id) {
       Event.delete({id: id});
     };
+
+    $scope.filterPublished = function(ev, index, array) {
+      console.log($scope.showPublished);
+      //console.log(array);
+      if($scope.showPublished === "A"
+        ||($scope.showPublished === "P" && ev.isPublished)
+        ||($scope.showPublished === "U"&& !ev.isPublished)){
+        return true;
+      }
+      return false;
+    }
 
     $scope.open = function (id) {
       var scope = $scope.$new(true);
