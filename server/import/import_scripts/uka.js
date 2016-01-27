@@ -5,6 +5,7 @@ var mapper = require("object-mapper");
 var extend = require("xtend");
 var serverSync = require("../server_sync");
 var _ = require('lodash');
+var categoryMapping = require('./category_mapping.js');
 
 
 var externalURL = "https://www.uka.no/program/?format=json";
@@ -148,14 +149,6 @@ var mapping = {
         key: "imageUrl",
         transform: addUKAPrefix
     },
-};
-
-var categoryMapping = {
-    "Dagens bedrift": "PRESENTATIONS",
-    "Fest og moro": "NIGHTLIFE",
-    "Konsert": "MUSIC",
-    "Kurs og events": "PRESENTATIONS",
-    "Revy og teater": "PERFORMANCES",
 };
 
 var placeMapping = {

@@ -6,6 +6,7 @@ var xml2js = require("xml2js");
 var mapper = require("object-mapper");
 var jsdom = require("jsdom");
 var serverSync = require("../server_sync");
+var categoryMapping = require('./category_mapping.js');
 
 var parser = new xml2js.Parser();
 
@@ -59,13 +60,11 @@ function updateEventsWithPrices (events, callback) {
         var promise_link = function () {
             var deferred = Q.defer();
 
-            console.log("Finding price for event: " + event.title);
             jsdom.env({
                 url: event.eventUrl,
                 scripts: ['http://code.jquery.com/jquery.js'],
                 done: function (err, window) {
                     event.price = findPrice(window.$);
-                    console.log("Found price: " + event.price);
 
                     deferred.resolve();
                 }
@@ -129,21 +128,4 @@ var mapping = {
             return value.replace("/large/", "/medium/");
         }
     }
-};
-
-var categoryMapping = {
-    "Konsert": "MUSIC",
-    "Film": "PRESENTATIONS",
-    "Møte": "DEBATE",
-    "Happening": "NIGHTLIFE",
-    "Samfundsmøte": "DEBATE",
-    "Excenteraften": "DEBATE",
-    "Temafest": "NIGHTLIFE",
-    "Bokstavelig talt": "DEBATE",
-    "Quiz": "OTHER",
-    "Kurs": "OTHER",
-    "Show": "PERFORMANCES",
-    "Fotballkamp": "SPORT",
-    "DJ": "MUSIC",
-    "Teater": "PERFORMANCES"
 };

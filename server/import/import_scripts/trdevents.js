@@ -2,6 +2,7 @@ var request = require("request");
 var xml2js = require("xml2js");
 var mapper = require("object-mapper");
 var serverSync = require("../server_sync");
+var categoryMapping = require('./category_mapping.js');
 
 var parser = new xml2js.Parser();
 
@@ -129,12 +130,3 @@ var mapping = {
     }
 };
 
-var categoryMapping = {
-    "Konsert": "MUSIC",
-    "Foredrag": "PRESENTATIONS",
-    "Møte": "DEBATE",
-    "Happening": "NIGHTLIFE",
-    "Kurs": "OTHER",
-    "Show": "PERFORMANCES",
-    "Fotballkamp": "SPORT",
-};
