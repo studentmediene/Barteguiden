@@ -22,6 +22,9 @@
  * # EditCtrl
  * Controller of the barteguidenMarkedsWebApp
  */
+
+/* globals _: false */
+
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('EditCtrl', function ($scope, $routeParams, Event, $location,
      notify, categoryOptions, dateOptions, timeOptions, minDate, maxDate, Venue) {
@@ -49,8 +52,8 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       evt.preventDefault();
       evt.stopPropagation();
 
-      delete $scope.event['_id'];
-      delete $scope.event['__v'];
+      delete $scope.event._id;
+      delete $scope.event.__v;
 
       var eventcopy = $scope.event;
 
@@ -60,7 +63,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
         notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
       });
       $scope.event = new Event(eventcopy);
-    }
+    };
 
     $scope.open = function($event, elementOpened) {
       $event.preventDefault();

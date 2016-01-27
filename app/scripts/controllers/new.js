@@ -22,6 +22,9 @@
  * # NewCtrl
  * Controller of the barteguidenMarkedsWebApp
  */
+
+/* globals _: false */
+
 angular.module('barteguidenMarkedsWebApp.controllers')
   .controller('NewCtrl', function ($scope, Event, Venue, $location, notify,
     Imageservice, dateOptions, timeOptions, categoryOptions, minDate, maxDate) {
@@ -58,8 +61,8 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       evt.preventDefault();
       evt.stopPropagation();
 
-      delete $scope.event['_id'];
-      delete $scope.event['__v'];
+      delete $scope.event._id;
+      delete $scope.event.__v;
 
       var eventcopy = $scope.event;
 
@@ -87,6 +90,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.addVenue = function(){
       $location.path('/venue');
-    }
+    };
 
   });

@@ -36,7 +36,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.togglePublished = function(id){
       $scope.ev = Event.get({id : id}, function(){
         $scope.ev.isPublished = !$scope.ev.isPublished;
-        $scope.ev.$update({id: id}, function(res) {
+        $scope.ev.$update({id: id}, function() {
           notify({message: 'Endringen er lagret!', classes: 'alert-success'});
         }, function () {
           notify({message: 'Noe gikk galt!', classes: 'alert-danger'});
@@ -115,7 +115,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.disableDeleteButton = function(){
       return $scope.eventSelection.length === 0;
-    }
+    };
 
     $scope.ok = function () {
       $scope.$close('ok');

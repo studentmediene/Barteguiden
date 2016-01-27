@@ -7,6 +7,10 @@
  * # VenueCtrl
  * Controller of the barteguidenMarkedsWebApp
  */
+
+/* globals google: false */
+/* globals _: false */
+
 angular.module('barteguidenMarkedsWebApp')
   .controller('VenueCtrl', function ($scope, Venue, $location, notify, $routeParams, Event) {
 
@@ -30,10 +34,10 @@ angular.module('barteguidenMarkedsWebApp')
         },
         zoom: 13,
         events: {
-          tilesloaded: function (map, eventName, originalEventArgs) {
+          tilesloaded: function() {
             //map is truly ready then this callback is hit
           },
-          click: function (mapModel, eventName, originalEventArgs) {
+          click: function(mapModel, eventName, originalEventArgs) {
 
             var e = originalEventArgs[0];
             var lat = e.latLng.lat(),
@@ -56,11 +60,11 @@ angular.module('barteguidenMarkedsWebApp')
 
     if($scope.newVenue) {
       $scope.venue = new Venue(); // create empty venue
-      $scope.venueAction = "Legg til"; // change header text in view
+      $scope.venueAction = 'Legg til'; // change header text in view
       loadMap(63.43,10.39);
     }
     else { // editing existing venue
-      $scope.venueAction = "Endre"; // change header text in view
+      $scope.venueAction = 'Endre'; // change header text in view
       $scope.venue = Venue.get({id: $routeParams.id}, function(venue) {
         $scope.clickedMarker.longitude = venue.longitude;
         $scope.clickedMarker.latitude = venue.latitude;
@@ -101,12 +105,12 @@ angular.module('barteguidenMarkedsWebApp')
             if(angular.equals($scope.originalVenue, venue)
             ){
                 $scope.events[i].venue = $scope.updatedvenue;
-                $scope.events[i].$update({id: $scope.events[i]._id})
+                $scope.events[i].$update({id: $scope.events[i]._id});
                 count++;
               }
 
           }
-          notify({message: count.toString()+ (count==1 ? ' arrangement' : ' arrangementer') + ' ble oppdatert'});
+          notify({message: count.toString() + (count === 1 ? ' arrangement' : ' arrangementer') + ' ble oppdatert'});
           $location.path('/venues');
         }, function () {
           // failure
@@ -126,7 +130,7 @@ angular.module('barteguidenMarkedsWebApp')
         query: address
       };
       var service = new google.maps.places.PlacesService(searchmap);
-      service.textSearch(request, function callback(results, status) {
+      service.textSearch(request, function callback(results) {
         var place = results[0];
         if(place){
           var lat = place.geometry.location.lat();
@@ -143,9 +147,5 @@ angular.module('barteguidenMarkedsWebApp')
           notify({message: 'Fant ingen resultater!', classes: 'alert-danger'});
         }
       });
-
-    }
-
-
-
+    };
   });

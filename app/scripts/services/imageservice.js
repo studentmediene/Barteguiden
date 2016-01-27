@@ -33,5 +33,5 @@ angular.module('barteguidenMarkedsWebApp')
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         });
-    }
+    };
   });
