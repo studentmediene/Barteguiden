@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 var EventSchema = new mongoose.Schema({
     title: {type: String, trim: true},
+    externalId: Number,
     description: {type: String, trim: true},
     startAt: Date,
     endAt: Date,
