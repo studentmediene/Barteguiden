@@ -127,6 +127,12 @@ var mapping = {
         transform: function (value) {
             return Number(value.trim());
         }
+    },
+    "ev:id": {
+        key: "externalId",
+        transform: function (id) {
+            return parseInt(id.trim());
+        }
     }
 };
 

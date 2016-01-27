@@ -127,5 +127,11 @@ var mapping = {
         transform: function(value) {
             return value.replace("/large/", "/medium/");
         }
+    },
+    "guid": {
+        key: "externalId",
+        transform: function(link) {
+            return parseInt(link.replace("https://www.samfundet.no/arrangement/", "").split("-", 1)[0]);
+        }
     }
 };
