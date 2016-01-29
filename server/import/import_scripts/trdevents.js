@@ -128,7 +128,7 @@ var mapping = {
             return Number(value.trim());
         }
     },
-    "ev:id": {
+    "ev:tribeEventMeta.0.ev:id.0": {
         key: "externalId",
         transform: function (id) {
             return parseInt(id.trim());

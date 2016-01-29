@@ -128,7 +128,7 @@ var mapping = {
             return value.replace("/large/", "/medium/");
         }
     },
-    "guid": {
+    "guid.0": {
         key: "externalId",
         transform: function(link) {
             return parseInt(link.replace("https://www.samfundet.no/arrangement/", "").split("-", 1)[0]);
