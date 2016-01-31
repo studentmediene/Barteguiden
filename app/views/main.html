@@ -73,7 +73,7 @@
         {{event.venue.name}}
       </td>
       <td>
-        <input type="checkbox" name="published" value="{{value}}" ng-click="togglePublished(event._id)" ng-checked="{{event.isPublished}}">
+        <input type="checkbox" name="published" value="{{value}}" ng-click="togglePublished(event._id);event.isPublished=!event.isPublished;" ng-checked="{{event.isPublished}}">
       </td>
       <td>
         <button ng-click="editEvent(event._id)" class="btn btn-xs btn-info">Endre</button>

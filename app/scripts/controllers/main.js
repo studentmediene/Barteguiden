@@ -35,7 +35,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.eventSelection = [];
 
     $scope.togglePublished = function(id){
-      $scope.ev = Event.get({id : id}, function(){
+      $scope.ev = Event.get({id: id}, function(){
         $scope.ev.isPublished = !$scope.ev.isPublished;
         $scope.ev.$update({id: id}, function(res) {
           notify({message: 'Endringen er lagret!', classes: 'alert-success'});
@@ -74,11 +74,9 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     };
 
     $scope.filterPublished = function(ev, index, array) {
-      console.log($scope.showPublished);
-      //console.log(array);
-      if($scope.showPublished === "A"
-        ||($scope.showPublished === "P" && ev.isPublished)
-        ||($scope.showPublished === "U"&& !ev.isPublished)){
+      if($scope.showPublished === 'A'
+        ||($scope.showPublished === 'P' && ev.isPublished)
+        ||($scope.showPublished === 'U' && !ev.isPublished)){
         return true;
       }
       return false;
