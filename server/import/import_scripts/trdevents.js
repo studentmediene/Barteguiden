@@ -40,7 +40,7 @@ function parseEvents (externalEvents) {
         var event = mapper.merge(event, {
             isPublished: false
         }, mapping);
-        if (event.category !== 'REMOVE' && event.venue.name !== 'Studentersamfundet') {
+        if (event.category !== 'REMOVE' && event.venue.name.trim() !== 'Studentersamfundet') {
             outputEvents.push(event);
         }
     });
