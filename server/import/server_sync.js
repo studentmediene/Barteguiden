@@ -3,39 +3,58 @@ var Venue = require('../models/Venue.js');
 
 exports.sync = function(events) {
     events.map(function(evt) {
-        var eventquery = {
-            'title': evt.title,
-            'startAt': evt.startAt
-        };
-        Event.findOne(
-            eventquery,
-            function (err, doc) {
-                if (!doc) {
-                    Event.create(evt, function (err, doc) {
-                            if (err) {
-                                console.log("Something went wrong in creating new event");
-                            }
-                        }
-                    );
-                }
 
-            }
-        );
+        if (evt.externalId) {
+            Event.findOneAndUpdate(
+                {'externalId': evt.externalId},
+                evt,
+                {'upsert': true},
+                function(err, doc) {
+                    if (err) {
+                        console.error("Event error: ", err);
+                    }
+                }
+            );
+        }
+
+        else {
+            Event.findOne(
+                {
+                'title': evt.title,
+                'startAt': evt.startAt
+                },
+                function (err, doc) {
+                    if (!doc) {
+                        Event.create(evt, function (err, doc) {
+                                if (err) {
+                                    console.error("Event error: ", err);
+                                }
+                            }
+                        );
+                    }
+
+                }
+            );
+        }
+
+
         var venuequery = {
             'name': evt.venue.name
         };
-        var venue = {};
-        venue.name = evt.venue.name;
-        venue.address = evt.venue.address;
-        venue.latitude = evt.venue.latitude;
-        venue.longitude = evt.venue.longitude;
+        var venue = {
+            'name': evt.venue.name,
+            'address': evt.venue.address,
+            'latitude': evt.venue.latitude,
+            'longitude': evt.venue.longitude
+        };
+
         Venue.findOneAndUpdate(
             venuequery,
             venue,
             {'upsert': true},
             function(err, doc) {
                 if (err) {
-                    console.log("Something went wrong in creating new event");
+                    console.error("Venue error: ", err);
                 }
             }
         );
