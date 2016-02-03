@@ -39,6 +39,11 @@
 </div>
 
 <div class="table-responsive">
+  </br>
+    <input type="radio" name="showPub" value="A" checked="true" ng-model="showPublished">Vis alle
+    <input type="radio" name="showPub" value="P" checked="false" ng-model="showPublished">Vis publiserte
+    <input type="radio" name="showPub" value="U" checked="false" ng-model="showPublished">Vis upubliserte
+  </br>
   <table class="table table-striped">
     <thead>
     <tr ng-model="orderProperty">
@@ -55,7 +60,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search)
+    <tr ng-repeat="event in userEvents = (events | orderBy : orderProperty:reverse | filter:search | filter : filterPublished)
       | limitTo: pageSize * currentPage
       | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
       <td>
@@ -68,7 +73,7 @@
         {{event.venue.name}}
       </td>
       <td>
-        <input type="checkbox" name="published" value="{{value}}" ng-click="togglePublished(event._id)" ng-checked="{{event.isPublished}}">
+        <input type="checkbox" name="published" value="{{value}}" ng-click="togglePublished(event._id);event.isPublished=!event.isPublished;" ng-checked="{{event.isPublished}}">
       </td>
       <td>
         <button ng-click="editEvent(event._id)" class="btn btn-xs btn-info">Endre</button>

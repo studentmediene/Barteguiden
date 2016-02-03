@@ -27,6 +27,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     $scope.orderProperty = 'startAt';
     $scope.reverse = false;
+    $scope.showPublished = 'A';
 
     $scope.pageSize = 15;
     $scope.currentPage = 1;
@@ -34,7 +35,7 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.eventSelection = [];
 
     $scope.togglePublished = function(id){
-      $scope.ev = Event.get({id : id}, function(){
+      $scope.ev = Event.get({id: id}, function(){
         $scope.ev.isPublished = !$scope.ev.isPublished;
         $scope.ev.$update({id: id}, function() {
           notify({message: 'Endringen er lagret!', classes: 'alert-success'});
@@ -71,6 +72,15 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.deleteEvent = function(id) {
       Event.delete({id: id});
     };
+
+    $scope.filterPublished = function(ev, index, array) {
+      if($scope.showPublished === 'A'
+        ||($scope.showPublished === 'P' && ev.isPublished)
+        ||($scope.showPublished === 'U' && !ev.isPublished)){
+        return true;
+      }
+      return false;
+    }
 
     $scope.open = function (id) {
       var scope = $scope.$new(true);
