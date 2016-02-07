@@ -17,7 +17,13 @@ module.exports = {
     "Bokstavelig talt": "DEBATE",
     "Quiz": "OTHER",
     "DJ": "MUSIC",
-    "Teater": "PERFORMANCES"
+    "Teater": "PERFORMANCES",
+    "Annet": "OTHER",
+    "Kurs": "PRESENTATIONS",
+    "Omvising": "PRESENTATIONS",
+    "Samfunn": "DEBATE",
+    "Festival": "PERFORMANCES",
+    "Sport": "SPORT"
 };
 
 
