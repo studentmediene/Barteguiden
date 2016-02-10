@@ -19,6 +19,9 @@ Clone the repo with
 
 This might take some time. Now, the site should be available at `http://localhost:9000/`
 
+To add a test user with the username and password `test`
+Run `export NODE_ENV='development'` before  running `grunt`
+
 The server uses MongoDB, which it assumes runs on port __27018__ (note, not _27017_!).
 
 ## Build
