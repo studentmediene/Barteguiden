@@ -62,9 +62,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     var events = Event.query(function() {
       $scope.events = events;
     });
-    $scope.editEvent = function(id) {
-      $location.path('/edit/' + id);
-    };
     $scope.createEvent = function() {
       $location.path('/new');
     };

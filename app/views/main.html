@@ -64,7 +64,7 @@
       | limitTo: pageSize * currentPage
       | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
       <td>
-        <a href="" ng-click="editEvent(event._id)">{{event.title | limitTo: 30}}</a>
+        <a ng-href="#/edit/{{event._id}}"> {{event.title | limitTo: 30}} </a>
       </td>
       <td>
         {{event.startAt | date:'dd/MM/yy HH:mm'}}
@@ -76,7 +76,7 @@
         <input type="checkbox" name="published" value="{{value}}" ng-click="togglePublished(event._id);event.isPublished=!event.isPublished;" ng-checked="{{event.isPublished}}">
       </td>
       <td>
-        <button ng-click="editEvent(event._id)" class="btn btn-xs btn-info">Endre</button>
+        <a ng-href="#/edit/{{event._id}}" class="btn btn-xs btn-info">Endre</a>
       </td>
        <td>
         <button ng-click="open(event._id)" class="btn btn-xs btn-danger">Slett</button>
