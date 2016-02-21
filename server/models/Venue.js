@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 
 var VenueSchema = new mongoose.Schema({
-    name: String,
-    address: String,
+    name: {type: String, trim: true},
+    address: {type: String, trim: true},
     latitude: Number,
     longitude: Number
 })
