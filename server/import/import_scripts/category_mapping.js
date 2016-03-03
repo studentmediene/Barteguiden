@@ -23,7 +23,8 @@ module.exports = {
     "Omvising": "PRESENTATIONS",
     "Samfunn": "DEBATE",
     "Festival": "PERFORMANCES",
-    "Sport": "SPORT"
+    "Sport": "SPORT",
+    "Forestilling": "PERFORMANCES"
 };
 
 
