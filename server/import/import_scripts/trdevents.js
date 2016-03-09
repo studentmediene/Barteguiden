@@ -90,13 +90,15 @@ var mapping = {
 
             if (category === 'Barn' || category === 'Familie') {
                 return 'REMOVE';
-
             }
             return categoryMapping[category] || 'OTHER';
         }
     },
     "description.0": {
-        key: "description"
+        key: "description",
+        transform: function(value){
+            return String(value.trim());
+	    }
     },
     "isPromoted.0": {
         key: "isPromoted",
@@ -108,13 +110,24 @@ var mapping = {
         key: "eventUrl"
     },
     "ev:tribeEventMeta.0.ev:picture.0": {
-        key: "imageUrl"
+        key: "imageUrl",
+        transform: function(value){
+            return String(value.trim());
+	    }
+ 
     },
     "ev:tribeEventMeta.0.ev:venueName.0": {
-        key: "venue.name"
+        key: "venue.name",
+        transform: function(value){
+            return String(value.trim());
+	    }
+	
     },
     "ev:tribeEventMeta.0.ev:venueStreet.0": {
-        key: "venue.address"
+        key: "venue.address",
+        transform: function(value){
+            return String(value.trim());
+	    }
     },
     "ev:tribeEventMeta.0.ev:venueLat.0": {
         key: "venue.latitude",
