@@ -37,9 +37,7 @@ function parseEvents (externalEvents) {
     var outputEvents = [];
 
     externalEvents.forEach(function(event) {
-        var event = mapper.merge(event, {
-            isPublished: false
-        }, mapping);
+        var event = mapper.merge(event, {}, mapping);
         if (event.category !== 'REMOVE' && event.venue.name.trim() !== 'Studentersamfundet') {
             outputEvents.push(event);
         }
