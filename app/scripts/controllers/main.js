@@ -23,15 +23,13 @@
  * Controller of the barteguidenMarkedsWebApp
  */
 angular.module('barteguidenMarkedsWebApp.controllers')
-  .controller('MainCtrl', ['$scope', 'Event', 'notify', '$location', '$modal', '$window', function ($scope, Event, notify, $location,$modal, $window) {
+  .controller('MainCtrl', ['$scope', '$rootScope','Event', 'notify', '$location', '$modal', '$window', function ($scope, $rootScope, Event, notify, $location,$modal, $window) {
 
     $scope.orderProperty = 'startAt';
     $scope.reverse = false;
     $scope.showPublished = 'A';
 
     $scope.pageSize = 15;
-    $scope.currentPage = 1;
-
     $scope.eventSelection = [];
 
     $scope.togglePublished = function(id){
@@ -61,7 +59,9 @@ angular.module('barteguidenMarkedsWebApp.controllers')
 
     var events = Event.query(function() {
       $scope.events = events;
+      $scope.currentPage = $rootScope.currentPage ? $rootScope.currentPage : 1;
     });
+
     $scope.createEvent = function() {
       $location.path('/new');
     };
@@ -131,4 +131,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     $scope.cancel = function () {
       $scope.$dismiss('cancel');
     };
+
+    $scope.paginationChanged = function() {
+      if($scope.currentPage != 1) {
+        $rootScope.currentPage = $scope.currentPage;
+      }
+    }
   }]);
