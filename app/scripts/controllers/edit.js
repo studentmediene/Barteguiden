@@ -30,7 +30,10 @@ angular.module('barteguidenMarkedsWebApp.controllers')
      notify, categoryOptions, dateOptions, timeOptions, minDate, maxDate, Venue) {
 
     $scope.datepicker = {};
-    $scope.event = Event.get({id: $routeParams.id});
+    $scope.event = Event.get({id: $routeParams.id},
+      function() {
+        $scope.event.imageUrl = $scope.event.imageUrl.trim(); // Trim bad imageUrls from TrdEvents
+      });
 
     var venues = Venue.query(function() {
       $scope.venues = _.map(venues,function(venue){
