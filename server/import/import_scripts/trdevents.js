@@ -107,21 +107,22 @@ var mapping = {
         }
     },
     "link.0": {
-        key: "eventUrl"
+        key: "eventUrl",
+        transform: function(value) {
+            return String(value.trim());
+        }
     },
     "ev:tribeEventMeta.0.ev:picture.0": {
         key: "imageUrl",
         transform: function(value){
             return String(value.trim());
 	    }
- 
     },
     "ev:tribeEventMeta.0.ev:venueName.0": {
         key: "venue.name",
         transform: function(value){
             return String(value.trim());
 	    }
-	
     },
     "ev:tribeEventMeta.0.ev:venueStreet.0": {
         key: "venue.address",

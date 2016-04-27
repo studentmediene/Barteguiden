@@ -51,6 +51,9 @@
         <a href="" ng-click="order('title')">Tittel</a>
       </th>
       <th>
+        Kategori
+      </th>
+      <th>
         <a href="" ng-click="order('startAt')">Tid</a>
       </th>
       <th>
@@ -65,6 +68,9 @@
       | limitTo: pageSize * currentPage < userEvents.length ? -pageSize : -(pageSize - (pageSize * currentPage - userEvents.length))">
       <td>
         <a ng-href="#/edit/{{event._id}}"> {{event.title | limitTo: 30}} </a>
+      </td>
+      <td>
+        <img class="category-img" ng-src="images/{{event.category}}.png" title="event.category" alt="event.category">
       </td>
       <td>
         {{event.startAt | date:'dd/MM/yy HH:mm'}}
@@ -97,7 +103,7 @@
         <pagination total-items="userEvents.length" ng-model="currentPage"
           items-per-page="pageSize" previous-text="Forrige" next-text="Neste"
           boundary-links="true" first-text="Første" last-text="Siste"
-          rotate="false">
+          rotate="false" ng-change="paginationChanged(page)">
         </pagination>
       </div>
     </div>
