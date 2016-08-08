@@ -10,8 +10,7 @@ var OPTIONS = {fields: ['id', 'cover', 'category', 'description', 'end_time', 's
                 'name', 'ticket_uri', 'type', 'updated_time', 'place', 'attending_count',
                 'interested_count', 'owner', 'parent_group'
 ]};
-var PLACES = ['standuptrondheim', 'brukbar.blaest', 'antikvarene', 'ByscenenTrondheim',
-              'familientrondheim'];
+var PLACES = ['standuptrondheim', 'brukbar.blaest', 'antikvarene', 'ByscenenTrondheim'];
 
 var FACEBOOK_EVENT = 'https://facebook.com/events/';
 
