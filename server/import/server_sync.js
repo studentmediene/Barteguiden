@@ -5,18 +5,33 @@ exports.sync = function(events) {
     events.map(function(evt) {
 
         if (evt.externalId) {
-            Event.findOneAndUpdate(
-                {'externalId': evt.externalId},
-                evt,
-                {'upsert': true},
-                function(err, doc) {
-                    if (err) {
-                        console.error("Event error: ", err);
-                    }
+            Event.findOne({'externalId': evt.externalId}, function(err, doc) {
+                if (!doc) {
+                    Event.findOneAndUpdate(
+                        {'externalId': evt.externalId},
+                        evt,
+                        {'upsert': true},
+                        function(err, doc) {
+                            if (err) {
+                                console.error("Event error: ", err);
+                            }
+                        }
+                    );
                 }
-            );
+                else {
+                    delete evt.category;
+                    Event.findOneAndUpdate(
+                        {'externalId': evt.externalId},
+                        evt,
+                        function(err, doc) {
+                            if (err) {
+                                console.error("Event error: ", err);
+                            }
+                        }
+                    );
+                }
+            });
         }
-
         else {
             Event.findOne(
                 {
