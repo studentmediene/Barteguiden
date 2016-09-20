@@ -1,26 +1,25 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-
-var EventSchema = new mongoose.Schema({
-    title: {type: String, trim: true},
+const EventSchema = new mongoose.Schema({
+    title: { type: String, trim: true },
     externalId: Number,
-    description: {type: String, trim: true},
+    description: { type: String, trim: true },
     startAt: Date,
     endAt: Date,
     venue: {
-        name: {type: String, trim: true},
-        address: {type: String, trim: true},
+        name: { type: String, trim: true },
+        address: { type: String, trim: true },
         longitude: Number,
-        latitude: Number
+        latitude: Number,
     },
     ageLimit: Number,
     price: Number,
-    category: {type: String, trim: true},
+    category: { type: String, trim: true },
     tags: [String],
-    imageUrl: {type: String, trim: true},
-    eventUrl: {type: String, trim: true},
-    isPromoted: {type: Boolean, default: false},
-    isPublished: {type: Boolean, default: false}
-}, {timestamps: true})
+    imageUrl: { type: String, trim: true },
+    eventUrl: { type: String, trim: true },
+    isPromoted: { type: Boolean, default: false },
+    isPublished: { type: Boolean, default: false },
+}, { timestamps: true });
 
-module.exports = mongoose.model('Event', EventSchema);
+export default mongoose.model('Event', EventSchema);

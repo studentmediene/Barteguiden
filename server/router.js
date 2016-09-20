@@ -1,50 +1,53 @@
-var express = require('express');
-var router = express.Router();
-var eventController = require('./controllers/event');
-var userController = require('./controllers/user');
-var authController = require('./controllers/auth');
-var imageController = require('./controllers/image');
-var venueController = require('./controllers/venue');
-var auth = authController.isAuthenticated;
+import express from 'express';
+import { postEvents, getEvent, getEvents,
+  putEvent, deleteEvent, oldEvents } from './controllers/event';
+import { postUser, getUser, putUser, deleteUser, getUsers } from './controllers/user';
+import { isAuthenticated, login } from './controllers/auth';
+import { postImage, getImage } from './controllers/image';
+import { postVenues, getVenues, getVenue,
+  putVenue, deleteVenue } from './controllers/venue';
+
+const auth = isAuthenticated;
+const router = express.Router();
+
 
 router.route('/events')
-    .post(auth, eventController.postEvents)
-    .get(eventController.getEvents);
+    .post(auth, postEvents)
+    .get(getEvents);
 
 router.route('/events/:event_id')
-    .get(eventController.getEvent)
-    .put(auth, eventController.putEvent)
-    .delete(auth, eventController.deleteEvent);
+    .get(getEvent)
+    .put(auth, putEvent)
+    .delete(auth, deleteEvent);
 
 router.route('/v1/events')
-    .get(eventController.oldEvents);
+    .get(oldEvents);
 
 router.route('/users')
-    .post(auth, userController.postUser)
-    .get(auth, userController.getUsers);
+    .post(auth, postUser)
+    .get(auth, getUsers);
 
 router.route('/users/:user_id')
-    .put(auth, userController.putUser)
-    .get(auth, userController.getUser)
-    .delete(auth, userController.deleteUser);
+    .put(auth, putUser)
+    .get(auth, getUser)
+    .delete(auth, deleteUser);
 
 router.route('/images')
-    .post(auth, imageController.postImage);
+    .post(auth, postImage);
 
 router.route('/images/*')
-    .get(imageController.getImage);
+    .get(getImage);
 
 router.route('/venues')
-  .post(venueController.postVenues)
-  .get(venueController.getVenues);
+  .post(postVenues)
+  .get(getVenues);
 
 router.route('/venues/:venue_id')
-  .get(venueController.getVenue)
-  .put(venueController.putVenue)
-  .delete(venueController.deleteVenue);
+  .get(getVenue)
+  .put(putVenue)
+  .delete(deleteVenue);
 
-router.route('/login', userController.getUser)
-    .get(auth, authController.login);
+router.route('/login', getUser)
+    .get(auth, login);
 
-module.exports = router;
-
+export default router;

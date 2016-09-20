@@ -1,11 +1,10 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-
-var VenueSchema = new mongoose.Schema({
-    name: {type: String, trim: true},
-    address: {type: String, trim: true},
+const VenueSchema = new mongoose.Schema({
+    name: { type: String, trim: true },
+    address: { type: String, trim: true },
     latitude: Number,
-    longitude: Number
-})
+    longitude: Number,
+});
 
-module.exports = mongoose.model('Venue', VenueSchema);
+export default mongoose.model('Venue', VenueSchema);

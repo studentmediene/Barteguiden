@@ -1,109 +1,109 @@
-var Event = require('../models/Event');
-var _ = require('lodash');
-var moment = require('moment');
+import _ from 'lodash';
+import moment from 'moment';
+import Event from '../models/Event';
 
 // POST /api/events
-exports.postEvents = function(req, res){
-    var evnt = new Event(req.body);
+export const postEvents = (req, res) => {
+    const evnt = new Event(req.body);
 
-    evnt.save(function(err){
-        if (err)
+    evnt.save((err) => {
+        if (err) {
             res.send(err);
-
-        res.json({message: 'Event added.', data: evnt});
-    })
-}
+        }
+        res.json({ message: 'Event added.', data: evnt });
+    });
+};
 
 // GET /api/events
-exports.getEvents = function(req, res){
-    var time = moment().subtract(6, 'hours').valueOf();
-    var findEvents = Event.find().where('startAt').gt(time);
+export const getEvents = (req, res) => {
+    const time = moment().subtract(6, 'hours').valueOf();
+    const findEvents = Event.find().where('startAt').gt(time);
 
     if (req.query.published === 'all') {
         findEvents
-            .exec(function(err, events) {
-                if(err)
+            .exec((err, events) => {
+                if (err) {
                     res.send(err);
+                }
                 res.json(events);
             });
-    }
-    else {
+    } else {
         findEvents
             .where('isPublished').equals(true)
-            .exec(function(err, events) {
-                if(err)
+            .exec((err, events) => {
+                if (err) {
                     res.send(err);
+                }
                 res.json(events);
             });
     }
-
 };
 
 // GET /api/events/:event_id
-exports.getEvent = function(req, res){
-    Event.findById(req.params.event_id, function(err, evnt){
-        if(err)
+export const getEvent = (req, res) => {
+    Event.findById(req.params.event_id, (err, evnt) => {
+        if (err) {
             res.send(err);
+        }
         res.json(evnt);
     });
 };
 
 // PUT /api/events/:event_id
-exports.putEvent = function(req, res){
-    Event.update({_id:req.params.event_id},
+export const putEvent = (req, res) => {
+    Event.update({ _id: req.params.event_id },
                   req.body,
-         function(err, raw){
-             if (err)
+         (err) => {
+             if (err) {
                  res.send(err);
-
-             res.json({message: 'Event updated.'});
+             }
+             res.json({ message: 'Event updated.' });
          });
 };
 
 // DELETE /api/events/:event_id
-exports.deleteEvent = function(req, res){
-    Event.remove({_id: req.params.event_id},
-        function(err){
-            if (err)
+export const deleteEvent = (req, res) => {
+    Event.remove({ _id: req.params.event_id },
+        (err) => {
+            if (err) {
                 res.send(err);
-            res.json({message: 'Event removed.'});
+            }
+            res.json({ message: 'Event removed.' });
         });
 };
 
 // GET /api/v1/events
-exports.oldEvents = function(req, res) {
-   var time = new Date().getTime();
-   Event.find()
-    .where('startAt').gt(time)
-    .exec(function(err, events) {
-        if(err)
-            res.send(err);
-        var events_old =
-            _.map(events, function(evt) {
-                return {
-                    "eventID": evt._id,
-                    "title": evt.title,
-                    "startAt": evt.startAt,
-                    "placeName": evt.venue.name,
-                    "address": evt.venue.address,
-                    "latitude": evt.venue.latitude,
-                    "longitude": evt.venue.longitude,
-                    "ageLimit": evt.ageLimit,
-                    "price": evt.price,
-                    "categoryID": evt.category,
-                    "descriptions": [{
-                        "language":"nb",
-                        "text": Boolean(evt.description) ? evt.description.replace(/\s+/g, " ")
-                            : ""
-                    }],
-                    "isRecommended": evt.isPromoted || false,
-                    "imageURL": evt.imageUrl,
-                    "eventURL": evt.eventUrl
-                };
-            });
-        res.json({
-            "events": events_old
-        });
-    });
-
-}
+export const oldEvents = (req, res) => {
+    const time = new Date().getTime();
+    Event.find()
+      .where('startAt').gt(time)
+      .exec((err, events) => {
+          if (err) {
+              res.send(err);
+          }
+          const eventsOld =
+              _.map(events, evt => ({
+                  eventID: evt._id,
+                  title: evt.title,
+                  startAt: evt.startAt,
+                  placeName: evt.venue.name,
+                  address: evt.venue.address,
+                  latitude: evt.venue.latitude,
+                  longitude: evt.venue.longitude,
+                  ageLimit: evt.ageLimit,
+                  price: evt.price,
+                  categoryID: evt.category,
+                  descriptions: [{
+                      language: 'nb',
+                      text: Boolean(evt.description) ? evt.description.replace(/\s+/g, ' ')
+                        : '',
+                  }],
+                  isRecommended: evt.isPromoted || false,
+                  imageURL: evt.imageUrl,
+                  eventURL: evt.eventUrl,
+              }));
+          res.json({
+              events: eventsOld,
+          });
+      });
+};
