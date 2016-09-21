@@ -30,3 +30,5 @@ app.listen(port, () => {
     jobs.start();
     addTestUsers();
 });
+
+export default app;
