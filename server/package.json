@@ -2,7 +2,7 @@
   "name": "Barteguiden-Server",
   "version": "0.0.5",
   "description": "Barteguiden server",
-  "main": "server.js",
+  "main": "src/server.js",
   "dependencies": {
     "body-parser": "~1.13.0",
     "busboy": "~0.2.9",
@@ -40,9 +40,9 @@
     "node": ">=5.0.0"
   },
   "scripts": {
-    "start": "nodemon server.js --exec babel-node",
+    "start": "nodemon src/server.js --exec babel-node",
     "build": "rm -rf dist/ && babel . --out-dir dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
   },
   "private": true,
   "author": "Studentmediene i Trondheim AS",
