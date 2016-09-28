@@ -24,8 +24,6 @@ module.exports = {
     "Samfunn": "DEBATE",
     "Festival": "PERFORMANCES",
     "Sport": "SPORT",
-    "Forestilling": "PERFORMANCES"
+    "Forestilling": "PERFORMANCES",
+    "Utstilling" : "EXHIBITIONS"
 };
-
-
-
