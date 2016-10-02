@@ -25,5 +25,6 @@ module.exports = {
     "Festival": "PERFORMANCES",
     "Sport": "SPORT",
     "Forestilling": "PERFORMANCES",
-    "Utstilling" : "EXHIBITIONS"
+    "Utstilling" : "EXHIBITIONS",
+    "Festmøte" : "DEBATE"
 };
