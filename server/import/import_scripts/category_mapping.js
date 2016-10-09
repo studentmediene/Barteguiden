@@ -26,5 +26,6 @@ module.exports = {
     "Sport": "SPORT",
     "Forestilling": "PERFORMANCES",
     "Utstilling" : "EXHIBITIONS",
-    "Festmøte" : "DEBATE"
+    "Festmøte" : "DEBATE",
+    "Onsdagsdebatt" : "DEBATE"
 };
