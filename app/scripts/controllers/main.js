@@ -136,5 +136,9 @@ angular.module('barteguidenMarkedsWebApp.controllers')
       if($scope.currentPage != 1) {
         $rootScope.currentPage = $scope.currentPage;
       }
-    }
+    };
+
+    $scope.isValidEvent = function(evt) {
+      return evt.price && evt.ageLimit && evt.title && evt.venue.name;
+    };
   }]);
