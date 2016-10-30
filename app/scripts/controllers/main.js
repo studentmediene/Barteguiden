@@ -139,6 +139,6 @@ angular.module('barteguidenMarkedsWebApp.controllers')
     };
 
     $scope.isValidEvent = function(evt) {
-      return evt.price && evt.ageLimit && evt.title && evt.venue.name;
+      return typeof evt.price === 'number' && evt.ageLimit && evt.title && evt.venue.name;
     };
   }]);
