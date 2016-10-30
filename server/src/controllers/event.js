@@ -95,7 +95,7 @@ export const oldEvents = (req, res) => {
                   categoryID: evt.category,
                   descriptions: [{
                       language: 'nb',
-                      text: Boolean(evt.description) ? evt.description.replace(/\s+/g, ' ')
+                      text: evt.description ? evt.description.replace(/\s+/g, ' ')
                         : '',
                   }],
                   isRecommended: evt.isPromoted || false,
