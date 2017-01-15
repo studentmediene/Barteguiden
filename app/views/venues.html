@@ -17,13 +17,20 @@
 <div class="input-group row">
   <div class="col-md-4">
     <button class="btn btn-md btn-info" ng-click="addVenue()">
-      <span class="glyphicon glyphicon-plus"></span> Legg til sted
+      Legg til sted
     </button>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="input-group">
       <input ng-model="search.name" type="text" class="form-control" aria-label="..." placeholder="Søk på sted">
     </div>
+  </div>
+  <div class="col-md-4">
+    <button class="btn btn-md btn-warning" ng-click="openModalMergeVenues()"
+      ng-if="numberToMerge > 1"
+      >
+      Slå sammen steder
+    </button>
   </div>
 </div>
 <div class="table-responsive">
@@ -36,7 +43,7 @@
       <th>
         <a href="" ng-click="order('address')">Adresse</a>
       </th>
-      <th>Endre</th><th>Slett</th>
+      <th>Slå sammen</th><th>Endre</th><th>Slett</th>
     </tr>
     </thead>
     <tbody>
@@ -46,6 +53,11 @@
       </td>
       <td>
         {{venue.address}}
+      </td>
+      <td>
+        <input type="checkbox" name="tomerge" value="{{value}}"
+          ng-click="toggleToMerge(venue)"
+          ng-checked="false" ng-model="venue.selectedForMerge">
       </td>
       <td>
         <button ng-click="editVenue(venue._id)" class="btn btn-xs btn-info">Endre</button>

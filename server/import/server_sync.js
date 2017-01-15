@@ -1,6 +1,10 @@
 var Event = require('../models/Event.js');
 var Venue = require('../models/Venue.js');
 
+function escapeString(string){ //Makes string possible to match with regex
+  return string.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&");
+}
+
 exports.sync = function(events) {
     events.map(function(evt) {
 
@@ -52,10 +56,40 @@ exports.sync = function(events) {
             );
         }
 
+        if(evt.venue.name == null)
+          return;
 
+        //Match venues with same name or whose aliases-list contains name,
+        //or venues with same, non-null address
         var venuequery = {
-            'name': evt.venue.name
+          $or: [
+            {'name':
+              { $regex: new RegExp('^' +
+              escapeString(evt.venue.name) +
+              '$', "i")}
+            },
+            {'aliases':
+              { $regex: new RegExp('^' +
+              escapeString(evt.venue.name) +
+              '$', "i")}
+            },
+            { $and: [
+              {
+                'address':
+                evt.venue.address == null ? null :
+                { $regex: new RegExp('^' +
+                escapeString(evt.venue.address) +
+                '$', "i")}
+              },
+              {
+                'address':
+                {$ne: null}
+              }
+              ]
+            }
+          ]
         };
+
         var venue = {
             'name': evt.venue.name,
             'address': evt.venue.address,
@@ -64,14 +98,16 @@ exports.sync = function(events) {
         };
 
         Venue.findOneAndUpdate(
-            venuequery,
-            venue,
-            {'upsert': true},
-            function(err, doc) {
-                if (err) {
-                    console.error("Venue error: ", err);
-                }
+          venuequery,
+          {$setOnInsert: venue},
+          {'upsert': true, 'new': true},
+          function(err, doc){
+            if (err) {
+              console.error("Venue error: ", err);
+            }else if (doc.name) {
+              evt.venue.name = doc.name;
             }
-        );
+          }
+        )
     });
 };
