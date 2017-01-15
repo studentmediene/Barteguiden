@@ -1,0 +1,15 @@
+{
+    "plugins": ["ava"],
+    "extends": ["airbnb-base", "plugin:ava/recommended"],
+    "parser": "babel-eslint",
+    "rules": {
+      "indent": ["error", 4],
+      "new-cap": "off",
+      "array-callback-return": "off",
+      "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+    },
+    "env": {
+        "node": true,
+        "es6": true
+    }
+}
